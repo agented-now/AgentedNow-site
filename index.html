@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>agented.now — Custom GenAI & Agentic Solutions</title>
+    <meta name="description" content="We build custom GenAI & agentic products for companies, to help their teams get more work done, faster, smoother, smarter.">
+    <meta property="og:title" content="agented.now — Custom GenAI & Agentic Solutions">
+    <meta property="og:description" content="We build custom GenAI & agentic products for companies, to help their teams get more work done, faster, smoother, smarter.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-left">
+            <span class="logo">agented<span class="accent">.now</span></span>
+        </div>
+        <div class="nav-center" id="nav-sections">
+            <!-- Section links appear after role is selected -->
+        </div>
+        <div class="nav-right">
+            <a href="https://wa.me/972509567332" target="_blank" class="nav-icon glow" title="WhatsApp">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+            </a>
+            <a href="mailto:business@agented.now" class="nav-icon glow" title="Email">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="M22 4L12 13L2 4"/>
+                </svg>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="terminal">
+            <div class="hero-line" id="hero-slogan">
+                <span class="prompt">&gt;</span>
+                <span class="static-text">Get </span>
+                <span id="hero-rotating" class="highlight"></span>
+                <span class="cursor" id="hero-cursor">&#9614;</span>
+            </div>
+
+            <div class="hero-line hidden" id="hero-subtitle-line">
+                <span class="prompt">&gt;</span>
+                <span id="hero-subtitle" class="subtitle-text"></span>
+            </div>
+
+            <div class="hero-line hidden" id="role-prompt-line">
+                <span class="prompt">&gt;</span>
+                <span id="role-prompt-text"></span>
+            </div>
+
+            <div id="role-selector" class="role-selector hidden">
+                <div class="role-option selected" data-role="ceo" tabindex="0">
+                    <span class="arrow">&#9654;</span>
+                    <span class="role-label">CEO</span>
+                    <span class="role-desc">— business & strategy</span>
+                </div>
+                <div class="role-option" data-role="cto" tabindex="0">
+                    <span class="arrow">&#9654;</span>
+                    <span class="role-label">CTO</span>
+                    <span class="role-desc">— technology & engineering</span>
+                </div>
+                <div class="role-option" data-role="other" tabindex="0">
+                    <span class="arrow">&#9654;</span>
+                    <span class="role-label">Other</span>
+                    <span class="role-desc">— general overview</span>
+                </div>
+                <div class="role-hint">
+                    <span class="desktop-hint">&#8593;&#8595; to navigate &middot; Enter to select</span>
+                    <span class="mobile-hint">Tap to select</span>
+                    <span class="scroll-hint">&middot; or scroll down</span>
+                </div>
+            </div>
+
+            <div class="hero-line hidden" id="role-confirmed-line">
+                <span class="prompt user-prompt">&lt;</span>
+                <span id="role-confirmed-text" class="user-text"></span>
+            </div>
+        </div>
+
+        <div id="scroll-indicator" class="scroll-indicator hidden">
+            <div class="scroll-arrow-container">
+                <span class="scroll-text">scroll to explore</span>
+                <svg class="scroll-arrow" width="16" height="24" viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 4v16M2 14l6 6 6-6"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3D Road Animation Overlay -->
+    <div id="road-overlay" class="road-overlay hidden">
+        <canvas id="road-canvas"></canvas>
+    </div>
+
+    <!-- Offering Section -->
+    <section id="offering" class="content-section hidden">
+        <div class="section-inner">
+            <div class="section-header">
+                <span class="section-marker">#</span>
+                <h2 id="offering-title">Offering</h2>
+            </div>
+            <p class="offering-intro">
+                There are endless generic GenAI &amp; agentic solutions you can't fully customize, trust, control.
+            </p>
+            <p class="offering-highlight">
+                Our solutions can be <strong>tailored for your exact needs</strong>:
+            </p>
+            <div id="offering-lines" class="offering-lines">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="content-section hidden">
+        <div class="section-inner">
+            <div class="section-header">
+                <span class="section-marker">#</span>
+                <h2>Portfolio</h2>
+            </div>
+            <p class="section-subtitle">This section is under construction, but you can check out a few demos:</p>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <h3>Agentic BI Demo</h3>
+                    <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7426239196119527424?collapsed=1" height="400" frameborder="0" allowfullscreen title="Agentic BI Demo" loading="lazy"></iframe>
+                </div>
+                <div class="portfolio-item">
+                    <h3>Agents That Build Agents</h3>
+                    <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7421159582380548096?collapsed=1" height="400" frameborder="0" allowfullscreen title="Agents that build agents" loading="lazy"></iframe>
+                </div>
+                <div class="portfolio-item">
+                    <h3>Podcast Interview</h3>
+                    <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7356602611539570689?collapsed=1" height="400" frameborder="0" allowfullscreen title="Podcast interview" loading="lazy"></iframe>
+                </div>
+                <div class="portfolio-item">
+                    <h3>20-Min Lecture</h3>
+                    <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7344890432822112256?collapsed=1" height="400" frameborder="0" allowfullscreen title="20-min lecture" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="content-section hidden">
+        <div class="section-inner">
+            <div class="section-header">
+                <span class="section-marker">#</span>
+                <h2>About Us</h2>
+            </div>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-photo-wrapper">
+                        <img src="visuals/photos/Oz.png" alt="Oz Livneh" class="team-photo" loading="lazy">
+                    </div>
+                    <h3><a href="https://www.linkedin.com/in/oz-livneh" target="_blank" rel="noopener">Oz Livneh</a></h3>
+                    <p class="team-role">Co-Founder, Co-CEO</p>
+                    <p class="team-bio">Top-tier expert in GenAI &amp; AI agents, 10+ years in AI, ex-PhD &amp; ex-Physicist.</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-photo-wrapper">
+                        <img src="visuals/photos/Ido.png" alt="Ido Livneh" class="team-photo" loading="lazy">
+                    </div>
+                    <h3><a href="https://www.linkedin.com/in/ido-livneh-il/" target="_blank" rel="noopener">Ido Livneh</a></h3>
+                    <p class="team-role">Co-Founder, Co-CEO</p>
+                    <p class="team-bio">Expert in Product &amp; Marketing, Expert in Agentic Development and 6+ years in marketing and sales.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section id="contact" class="content-section hidden">
+        <div class="section-inner">
+            <div class="section-header">
+                <span class="section-marker">#</span>
+                <h2>Let's talk about your needs!</h2>
+            </div>
+            <div class="contact-methods">
+                <a href="https://wa.me/972509567332" target="_blank" rel="noopener" class="contact-btn wa-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                    <span>WhatsApp Us</span>
+                </a>
+                <a href="mailto:business@agented.now" class="contact-btn email-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="4" width="20" height="16" rx="2"/>
+                        <path d="M22 4L12 13L2 4"/>
+                    </svg>
+                    <span>Email Us</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <span class="logo-small">agented<span class="accent">.now</span></span>
+        <span class="footer-copy">&copy; 2025</span>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
