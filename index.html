@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>agented.now — Custom GenAI & Agentic Solutions</title>
-    <meta name="description" content="We build custom GenAI & agentic products for companies, to help their teams get more work done, faster, smoother, smarter.">
-    <meta property="og:title" content="agented.now — Custom GenAI & Agentic Solutions">
-    <meta property="og:description" content="We build custom GenAI & agentic products for companies, to help their teams get more work done, faster, smoother, smarter.">
+    <title>agented.now — Custom GenAI & AI Agent Solutions</title>
+    <meta name="description" content="10x the output. Same team. No new headcount. Half the errors. 3x the speed. Custom AI agents built for you, deployed your way.">
+    <meta property="og:title" content="agented.now — Custom GenAI & AI Agent Solutions">
+    <meta property="og:description" content="10x the output. Same team. No new headcount. Custom AI agents built for you, deployed your way.">
     <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,13 +14,35 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- SEO: Full text content for search engines -->
+    <div class="seo-only" aria-hidden="false">
+        <h1>agented.now — Custom GenAI & AI Agent Solutions</h1>
+        <p>10x the output. Same team. No new headcount. Half the errors. No quality tradeoff. 3x the speed. No added complexity. Custom AI agents. Built for you. Deployed your way.</p>
+        <p>We build custom GenAI & AI Agent solutions to assist employees or automate workflows.</p>
+        <h2>How We Deliver</h2>
+        <p>Most AI tools are black boxes — no customization, no trust, no control. We build differently.</p>
+        <p>Tailored to you: Your data, systems, integrations. Your rules, terminology, compliance. Your teams — engineers, sales, HR, each using it their way.</p>
+        <p>Managed by you: Your infrastructure, your security, your visibility. Cloud, on-prem, or air-gapped. Secure and compliant to your standards. Admin panel, user roles, permissions. Usage monitoring, metrics, KPIs.</p>
+        <h2>Our Clients</h2>
+        <p>Panaya, Natural Intelligence, Kaltura, JOINT, CBS, Ministry of Labor, Yess.ai, Swish.ai, Stampli, Adam Milo, Storywise.ai</p>
+        <h2>About Us</h2>
+        <p>Oz Livneh - Co-Founder, Co-CEO. Top-tier expert in GenAI & AI agents, 10+ years in AI, ex-PhD & ex-Physicist.</p>
+        <p>Ido Livneh - Co-Founder, Co-CEO. Expert in Product & Marketing.</p>
+        <h2>What We've Built</h2>
+        <p>AI outreach product (co-lab.dev). Agentic BI concept product. GenAI products for internal research. Agentic products for system engineers. Agentic products for sales and marketing.</p>
+        <h2>Contact</h2>
+        <p>Let's talk about your needs! WhatsApp: +972509567332. Email: business@agented.now</p>
+    </div>
+
     <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-left">
             <span class="logo">agented<span class="accent">.now</span></span>
         </div>
         <div class="nav-center" id="nav-sections">
-            <!-- Section links appear after role is selected -->
+            <a class="nav-section-link" href="#hero">Hook</a>
+            <a class="nav-section-link" href="#solution">Solution</a>
+            <a class="nav-section-link" href="#proof">Proof</a>
         </div>
         <div class="nav-right">
             <a href="https://wa.me/972509567332" target="_blank" class="nav-icon glow" title="WhatsApp">
@@ -37,58 +59,29 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- ========== SECTION 1: THE HOOK ========== -->
     <section id="hero">
         <div class="terminal">
-            <div class="hero-line" id="hero-slogan">
-                <span class="prompt">&gt;</span>
-                <span class="static-text">Get </span>
-                <span id="hero-rotating" class="highlight"></span>
-                <span class="cursor" id="hero-cursor">&#9614;</span>
-            </div>
-
-            <div class="hero-line hidden" id="hero-subtitle-line">
-                <span class="prompt">&gt;</span>
-                <span id="hero-subtitle" class="subtitle-text"></span>
-            </div>
-
-            <div class="hero-line hidden" id="role-prompt-line">
-                <span class="prompt">&gt;</span>
-                <span id="role-prompt-text"></span>
-            </div>
-
-            <div id="role-selector" class="role-selector hidden">
-                <div class="role-option selected" data-role="ceo" tabindex="0">
-                    <span class="arrow">&#9654;</span>
-                    <span class="role-label">CEO</span>
-                    <span class="role-desc">— business & strategy</span>
+            <div class="hero-stack">
+                <div class="hero-row hero-row-1">
+                    <span class="hero-slot" id="hero-slot1"></span>
                 </div>
-                <div class="role-option" data-role="cto" tabindex="0">
-                    <span class="arrow">&#9654;</span>
-                    <span class="role-label">CTO</span>
-                    <span class="role-desc">— technology & engineering</span>
+                <div class="hero-row hero-row-2">
+                    <span class="hero-static-text">Same team.</span>
                 </div>
-                <div class="role-option" data-role="other" tabindex="0">
-                    <span class="arrow">&#9654;</span>
-                    <span class="role-label">Other</span>
-                    <span class="role-desc">— general overview</span>
-                </div>
-                <div class="role-hint">
-                    <span class="desktop-hint">&#8593;&#8595; to navigate &middot; Enter to select</span>
-                    <span class="mobile-hint">Tap to select</span>
-                    <span class="scroll-hint">&middot; or scroll down</span>
+                <div class="hero-row hero-row-3">
+                    <span class="hero-slot" id="hero-slot2"></span>
                 </div>
             </div>
 
-            <div class="hero-line hidden" id="role-confirmed-line">
-                <span class="prompt user-prompt">&lt;</span>
-                <span id="role-confirmed-text" class="user-text"></span>
+            <div class="hero-closing" id="hero-closing-line">
+                <span class="subtitle-text" id="hero-closing"></span>
             </div>
         </div>
 
         <div id="scroll-indicator" class="scroll-indicator hidden">
             <div class="scroll-arrow-container">
-                <span class="scroll-text">scroll to explore</span>
+                <span class="scroll-text">Scroll to launch</span>
                 <svg class="scroll-arrow" width="16" height="24" viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M8 4v16M2 14l6 6 6-6"/>
                 </svg>
@@ -96,109 +89,196 @@
         </div>
     </section>
 
-    <!-- 3D Road Animation Overlay -->
-    <div id="road-overlay" class="road-overlay hidden">
-        <canvas id="road-canvas"></canvas>
-    </div>
+    <!-- Warp Speed Canvas -->
+    <canvas id="warp-canvas"></canvas>
 
-    <!-- Offering Section -->
-    <section id="offering" class="content-section hidden">
+    <!-- ========== SECTION 2: THE SOLUTION ========== -->
+    <section id="solution" class="content-section">
         <div class="section-inner">
-            <div class="section-header">
-                <span class="section-marker">#</span>
-                <h2 id="offering-title">Offering</h2>
-            </div>
-            <p class="offering-intro">
-                There are endless generic GenAI &amp; agentic solutions you can't fully customize, trust, control.
-            </p>
-            <p class="offering-highlight">
-                Our solutions can be <strong>tailored for your exact needs</strong>:
-            </p>
-            <div id="offering-lines" class="offering-lines">
-                <!-- Populated by JS -->
-            </div>
-        </div>
-    </section>
+            <p class="solution-intro reveal-item">Most AI tools are black boxes &mdash; no customization, no trust, no control. We build differently.</p>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="content-section hidden">
-        <div class="section-inner">
-            <div class="section-header">
-                <span class="section-marker">#</span>
-                <h2>Portfolio</h2>
-            </div>
-            <p class="section-subtitle">This section is under construction, but you can check out a few demos:</p>
-            <div class="portfolio-grid">
-                <div class="portfolio-item">
-                    <h3>Agentic BI Demo</h3>
-                    <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7426239196119527424?collapsed=1" height="400" frameborder="0" allowfullscreen title="Agentic BI Demo" loading="lazy"></iframe>
+            <div class="pillar-split reveal-item">
+                <div class="pillar-header-side">
+                    <h3>Tailored to you</h3>
+                    <p class="pillar-rotating">Your <span class="pillar-slot" id="pillar-slot-1">data</span>.</p>
                 </div>
-                <div class="portfolio-item">
-                    <h3>Agents That Build Agents</h3>
-                    <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7421159582380548096?collapsed=1" height="400" frameborder="0" allowfullscreen title="Agents that build agents" loading="lazy"></iframe>
-                </div>
-                <div class="portfolio-item">
-                    <h3>Podcast Interview</h3>
-                    <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7356602611539570689?collapsed=1" height="400" frameborder="0" allowfullscreen title="Podcast interview" loading="lazy"></iframe>
-                </div>
-                <div class="portfolio-item">
-                    <h3>20-Min Lecture</h3>
-                    <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7344890432822112256?collapsed=1" height="400" frameborder="0" allowfullscreen title="20-min lecture" loading="lazy"></iframe>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Us Section -->
-    <section id="about" class="content-section hidden">
-        <div class="section-inner">
-            <div class="section-header">
-                <span class="section-marker">#</span>
-                <h2>About Us</h2>
-            </div>
-            <div class="team-grid">
-                <div class="team-member">
-                    <div class="team-photo-wrapper">
-                        <img src="visuals/photos/Oz.png" alt="Oz Livneh" class="team-photo" loading="lazy">
+                <div class="pillar-content-side">
+                    <div class="pillar-lines" id="pillar-1-lines">
+                        <div class="pillar-line">
+                            <span class="line-prompt">&gt;</span>
+                            <span>Your data. Your systems. Your integrations.</span>
+                        </div>
+                        <div class="pillar-line">
+                            <span class="line-prompt">&gt;</span>
+                            <span>Your rules. Your terminology. Your compliance.</span>
+                        </div>
+                        <div class="pillar-line">
+                            <span class="line-prompt">&gt;</span>
+                            <span>Your teams &mdash; engineers, sales, HR, each using it their way.</span>
+                        </div>
                     </div>
-                    <h3><a href="https://www.linkedin.com/in/oz-livneh" target="_blank" rel="noopener">Oz Livneh</a></h3>
-                    <p class="team-role">Co-Founder, Co-CEO</p>
-                    <p class="team-bio">Top-tier expert in GenAI &amp; AI agents, 10+ years in AI, ex-PhD &amp; ex-Physicist.</p>
                 </div>
-                <div class="team-member">
-                    <div class="team-photo-wrapper">
-                        <img src="visuals/photos/Ido.png" alt="Ido Livneh" class="team-photo" loading="lazy">
+            </div>
+
+            <div class="pillar-split pillar-split--reverse reveal-item">
+                <div class="pillar-header-side">
+                    <h3>Managed by you</h3>
+                    <p class="pillar-rotating">Your <span class="pillar-slot" id="pillar-slot-2">infrastructure</span>.</p>
+                </div>
+                <div class="pillar-content-side">
+                    <div class="pillar-lines" id="pillar-2-lines">
+                        <div class="pillar-line">
+                            <span class="line-prompt">&gt;</span>
+                            <span>Cloud, on-prem, or air-gapped.</span>
+                        </div>
+                        <div class="pillar-line">
+                            <span class="line-prompt">&gt;</span>
+                            <span>Secure &amp; compliant to your standards.</span>
+                        </div>
+                        <div class="pillar-line">
+                            <span class="line-prompt">&gt;</span>
+                            <span>Admin panel, user roles, permissions.</span>
+                        </div>
+                        <div class="pillar-line">
+                            <span class="line-prompt">&gt;</span>
+                            <span>Usage monitoring, metrics, KPIs.</span>
+                        </div>
                     </div>
-                    <h3><a href="https://www.linkedin.com/in/ido-livneh-il/" target="_blank" rel="noopener">Ido Livneh</a></h3>
-                    <p class="team-role">Co-Founder, Co-CEO</p>
-                    <p class="team-bio">Expert in Product &amp; Marketing, Expert in Agentic Development and 6+ years in marketing and sales.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Us Section -->
-    <section id="contact" class="content-section hidden">
+    <!-- ========== SECTION 3: THE PROOF ========== -->
+    <section id="proof" class="content-section">
         <div class="section-inner">
-            <div class="section-header">
-                <span class="section-marker">#</span>
+
+            <!-- Part A: Clients -->
+            <div class="proof-section reveal-item">
+                <div class="section-header">
+                    <span class="section-marker">#</span>
+                    <h2>Our Clients</h2>
+                </div>
+                <div class="client-runner">
+                    <div class="runner-track">
+                        <img src="visuals/client logos/Panaya.svg" alt="Panaya" loading="lazy">
+                        <img src="visuals/client logos/Natural_Intelligence.png" alt="Natural Intelligence" loading="lazy">
+                        <img src="visuals/client logos/Kaltura.png" alt="Kaltura" loading="lazy">
+                        <img src="visuals/client logos/JDC.png" alt="JOINT" loading="lazy">
+                        <img src="visuals/client logos/הלמס.png" alt="CBS" loading="lazy">
+                        <img src="visuals/client logos/משרד העבודה.png" alt="Ministry of Labor" loading="lazy">
+                        <img src="visuals/client logos/Yess.ai.svg" alt="Yess.ai" loading="lazy">
+                        <img src="visuals/client logos/Swish.ai.webp" alt="Swish.ai" loading="lazy">
+                        <img src="visuals/client logos/Stampli.png" alt="Stampli" loading="lazy">
+                        <img src="visuals/client logos/adam-milo.webp" alt="Adam Milo" loading="lazy">
+                        <img src="visuals/client logos/Storywise.svg" alt="Storywise.ai" loading="lazy">
+                        <!-- Duplicated for seamless loop -->
+                        <img src="visuals/client logos/Panaya.svg" alt="Panaya" loading="lazy">
+                        <img src="visuals/client logos/Natural_Intelligence.png" alt="Natural Intelligence" loading="lazy">
+                        <img src="visuals/client logos/Kaltura.png" alt="Kaltura" loading="lazy">
+                        <img src="visuals/client logos/JDC.png" alt="JOINT" loading="lazy">
+                        <img src="visuals/client logos/הלמס.png" alt="CBS" loading="lazy">
+                        <img src="visuals/client logos/משרד העבודה.png" alt="Ministry of Labor" loading="lazy">
+                        <img src="visuals/client logos/Yess.ai.svg" alt="Yess.ai" loading="lazy">
+                        <img src="visuals/client logos/Swish.ai.webp" alt="Swish.ai" loading="lazy">
+                        <img src="visuals/client logos/Stampli.png" alt="Stampli" loading="lazy">
+                        <img src="visuals/client logos/adam-milo.webp" alt="Adam Milo" loading="lazy">
+                        <img src="visuals/client logos/Storywise.svg" alt="Storywise.ai" loading="lazy">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part B: Who We Are -->
+            <div class="proof-section">
+                <div class="section-header reveal-item">
+                    <span class="section-marker">#</span>
+                    <h2>Who We Are</h2>
+                </div>
+                <div class="team-grid">
+                    <div class="team-member reveal-item">
+                        <div class="team-photo-wrapper">
+                            <img src="visuals/photos/WhatsApp Image 2026-02-19 at 18.40.17.jpeg" alt="Oz Livneh" class="team-photo" loading="lazy">
+                        </div>
+                        <h3><a href="https://www.linkedin.com/in/oz-livneh" target="_blank" rel="noopener">Oz Livneh</a></h3>
+                        <p class="team-role">Co-Founder, Co-CEO</p>
+                        <p class="team-bio">Top-tier expert in GenAI &amp; AI agents, 10+ years in AI, ex-PhD &amp; ex-Physicist.</p>
+                    </div>
+                    <div class="team-member reveal-item">
+                        <div class="team-photo-wrapper">
+                            <img src="visuals/photos/Profile picture of me.jpg" alt="Ido Livneh" class="team-photo" loading="lazy">
+                        </div>
+                        <h3><a href="https://www.linkedin.com/in/ido-livneh-il/" target="_blank" rel="noopener">Ido Livneh</a></h3>
+                        <p class="team-role">Co-Founder, Co-CEO</p>
+                        <p class="team-bio">Expert in Product &amp; Marketing.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part C: What We've Built -->
+            <div class="proof-section">
+                <div class="section-header reveal-item">
+                    <span class="section-marker">#</span>
+                    <h2>What We've Built</h2>
+                </div>
+
+                <p class="proof-subtitle reveal-item">Public products</p>
+                <div class="portfolio-grid reveal-item">
+                    <div class="portfolio-item">
+                        <h3>AI Outreach Product</h3>
+                        <p class="portfolio-desc">Our public &amp; live AI outreach product &mdash; reach out to thousands of factories at the speed of AI!</p>
+                        <div class="portfolio-iframe-wrapper">
+                            <iframe src="https://co-lab.dev/" title="co-lab.dev AI Outreach" loading="lazy"></iframe>
+                            <div class="iframe-overlay">
+                                <a href="https://co-lab.dev/" target="_blank" rel="noopener" class="iframe-link">Open co-lab.dev &rarr;</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-item">
+                        <h3>Agentic BI Concept</h3>
+                        <p class="portfolio-desc">Our agentic BI concept product &mdash; allowing business owners to directly interact with their data with no need for analysts!</p>
+                        <div class="portfolio-iframe-wrapper">
+                            <iframe src="https://www.youtube.com/embed/jtmxXnwVknY" title="Agentic BI Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="proof-subtitle reveal-item">Custom solutions we built for clients</p>
+                <div class="solutions-list">
+                    <div class="solution-card reveal-item">
+                        <span class="solution-prompt">&gt;</span>
+                        <p>GenAI &amp; agentic products for <span class="rotating-word" data-group="sol-0-0">internal research</span>, with <span class="rotating-word" data-group="sol-0-1">RAG</span> semantic search over company materials, according to company <span class="rotating-word" data-group="sol-0-2">workflows</span>.</p>
+                    </div>
+                    <div class="solution-card reveal-item">
+                        <span class="solution-prompt">&gt;</span>
+                        <p>An agentic product assisting system engineers in a complex internal research &mdash; to develop, analyze &amp; troubleshoot the core product.</p>
+                    </div>
+                    <div class="solution-card reveal-item">
+                        <span class="solution-prompt">&gt;</span>
+                        <p>An agentic product assisting sales &amp; marketing in preparing for conferences, presentations etc &mdash; based on company materials &amp; guidelines, web-browsing in competitor URLs, roles, admin control etc.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="cta-block reveal-item">
                 <h2>Let's talk about your needs!</h2>
+                <div class="contact-methods">
+                    <a href="https://wa.me/972509567332" target="_blank" rel="noopener" class="contact-btn wa-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                        <span>WhatsApp Us</span>
+                    </a>
+                    <a href="mailto:business@agented.now" class="contact-btn email-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="4" width="20" height="16" rx="2"/>
+                            <path d="M22 4L12 13L2 4"/>
+                        </svg>
+                        <span>Email Us</span>
+                    </a>
+                </div>
             </div>
-            <div class="contact-methods">
-                <a href="https://wa.me/972509567332" target="_blank" rel="noopener" class="contact-btn wa-btn">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                    </svg>
-                    <span>WhatsApp Us</span>
-                </a>
-                <a href="mailto:business@agented.now" class="contact-btn email-btn">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="4" width="20" height="16" rx="2"/>
-                        <path d="M22 4L12 13L2 4"/>
-                    </svg>
-                    <span>Email Us</span>
-                </a>
-            </div>
+
         </div>
     </section>
 
