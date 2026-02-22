@@ -42,7 +42,7 @@
             </div>
             <div class="nav-sections" id="nav-sections">
                 <a href="#hero" class="nav-link active" data-section="hero">Home</a>
-                <a href="#offering" class="nav-link" data-section="offering">Offering</a>
+                <a href="#solutions" class="nav-link" data-section="solutions">Solutions</a>
                 <a href="#customization" class="nav-link" data-section="customization">Customization</a>
                 <a href="#portfolio" class="nav-link" data-section="portfolio">Portfolio</a>
                 <a href="#about" class="nav-link" data-section="about">About Us</a>
@@ -71,7 +71,7 @@
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
         <a href="#hero" class="mobile-link" data-section="hero">Home</a>
-        <a href="#offering" class="mobile-link" data-section="offering">Offering</a>
+        <a href="#solutions" class="mobile-link" data-section="solutions">Solutions</a>
         <a href="#customization" class="mobile-link" data-section="customization">Customization</a>
         <a href="#portfolio" class="mobile-link" data-section="portfolio">Portfolio</a>
         <a href="#about" class="mobile-link" data-section="about">About Us</a>
@@ -106,12 +106,9 @@
             </div>
         </div>
 
-        <div id="scroll-indicator" class="scroll-indicator hidden">
+        <div id="scroll-indicator" class="scroll-indicator hidden" data-scroll-to="solutions">
             <div class="scroll-arrow-container">
-                <span class="scroll-text">Scroll to launch</span>
-                <svg class="scroll-arrow" width="16" height="24" viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M8 4v16M2 14l6 6 6-6"/>
-                </svg>
+                <span class="terminal-arrow">> continue</span><span class="terminal-cursor" aria-hidden="true">_</span>
             </div>
         </div>
     </section>
@@ -119,8 +116,8 @@
     <!-- Warp Speed Canvas -->
     <canvas id="warp-canvas"></canvas>
 
-    <!-- ========== OFFERING ========== -->
-    <section id="offering" class="content-section">
+    <!-- ========== SOLUTIONS ========== -->
+    <section id="solutions" class="content-section">
         <div class="section-inner">
             <p class="solution-intro reveal-item">We're experts in <u>custom</u> <u>GenAI</u> &amp; <u>AI agents</u>.</p>
 
@@ -183,142 +180,127 @@
         </div>
     </section>
 
-    <!-- ========== PORTFOLIO ========== -->
+    <!-- ========== PORTFOLIO (from Oz) ========== -->
     <section id="portfolio" class="content-section">
         <div class="section-inner">
-
-            <!-- Clients -->
-            <div class="proof-section reveal-item">
-                <div class="section-header">
-                    <span class="section-marker">#</span>
-                    <h2>Our Clients</h2>
+            <div class="section-header reveal-item">
+                <span class="section-marker">#</span>
+                <h2>Portfolio</h2>
+            </div>
+            <p class="proof-subtitle reveal-item">Selected public products</p>
+            <div class="portfolio-grid reveal-item">
+                <div class="portfolio-item">
+                    <h3>AI Outreach Product</h3>
+                    <p class="portfolio-desc">Reach out to thousands of factories in the speed of AI!</p>
+                    <div class="portfolio-iframe-wrapper">
+                        <iframe src="https://co-lab.dev/" title="Co-Lab AI Outreach" loading="lazy"></iframe>
+                        <div class="iframe-overlay">
+                            <a href="https://co-lab.dev/" target="_blank" rel="noopener" class="iframe-link">Open in new tab</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="logo-runner">
-                    <div class="logo-track" id="proofLogoTrack">
-                        <div class="logo-item"><img src="visuals/client logos/Panaya.svg" alt="Panaya" loading="lazy"></div>
-                        <div class="logo-item"><img src="visuals/client logos/Natural_Intelligence.png" alt="Natural Intelligence" loading="lazy"></div>
-                        <div class="logo-item"><img src="visuals/client logos/Kaltura.png" alt="Kaltura" loading="lazy"></div>
-                        <div class="logo-item"><img src="visuals/client logos/JDC.png" alt="JOINT" loading="lazy"></div>
-                        <div class="logo-item"><img src="visuals/client logos/הלמס.png" alt="CBS" loading="lazy"></div>
-                        <div class="logo-item"><img src="visuals/client logos/משרד העבודה.png" alt="Ministry of Labor" loading="lazy"></div>
-                        <div class="logo-item"><img src="visuals/client logos/Yess.ai.svg" alt="Yess.ai" loading="lazy"></div>
-                        <div class="logo-item"><img src="visuals/client logos/Swish.ai.webp" alt="Swish.ai" loading="lazy"></div>
-                        <div class="logo-item"><img src="visuals/client logos/Stampli.png" alt="Stampli" loading="lazy"></div>
-                        <div class="logo-item"><img src="visuals/client logos/adam-milo.webp" alt="Adam Milo" loading="lazy"></div>
-                        <div class="logo-item"><img src="visuals/client logos/Storywise.svg" alt="Storywise.ai" loading="lazy"></div>
+                <div class="portfolio-item">
+                    <h3>Agentic BI Concept</h3>
+                    <p class="portfolio-desc">Allowing business owners to directly interact with their data with no need for analysts!</p>
+                    <div class="portfolio-iframe-wrapper">
+                        <iframe src="https://www.youtube.com/embed/jtmxXnwVknY" title="Agentic BI Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                     </div>
                 </div>
             </div>
 
-            <!-- What We've Built -->
-            <div class="proof-section">
-                <div class="section-header reveal-item">
-                    <span class="section-marker">#</span>
-                    <h2>What We've Built</h2>
-                </div>
-
-                <p class="proof-subtitle reveal-item">Public products</p>
-                <div class="portfolio-grid reveal-item">
-                    <div class="portfolio-item">
-                        <h3>AI Outreach Product</h3>
-                        <p class="portfolio-desc">Our public &amp; live AI outreach product &mdash; reach out to thousands of factories at the speed of AI!</p>
-                        <div class="portfolio-iframe-wrapper">
-                            <iframe src="https://co-lab.dev/" title="co-lab.dev AI Outreach" loading="lazy"></iframe>
-                            <div class="iframe-overlay">
-                                <a href="https://co-lab.dev/" target="_blank" rel="noopener" class="iframe-link">Open co-lab.dev &rarr;</a>
-                            </div>
+            <p class="proof-subtitle reveal-item">Selected custom solutions for clients</p>
+            <div class="solutions-grid reveal-item">
+                <div class="solution-card">
+                    <div class="solution-card-header">
+                        <div class="solution-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                            </svg>
                         </div>
+                        <h4>GenAI &amp; Agentic Research Products</h4>
                     </div>
-                    <div class="portfolio-item">
-                        <h3>Agentic BI Concept</h3>
-                        <p class="portfolio-desc">Our agentic BI concept product &mdash; allowing business owners to directly interact with their data with no need for analysts!</p>
-                        <div class="portfolio-iframe-wrapper">
-                            <iframe src="https://www.youtube.com/embed/jtmxXnwVknY" title="Agentic BI Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-                        </div>
+                    <p class="solution-preview">Internal research &amp; data analysis solutions...</p>
+                    <div class="solution-details">
+                        <p>GenAI &amp; agentic products for internal research and data analysis, with RAG/improved RAG/agentic semantic search over company materials, according to company workflows, guidelines, and output specs.</p>
                     </div>
                 </div>
-
-                <p class="proof-subtitle reveal-item">Custom solutions we built for clients</p>
-                <div class="solutions-grid reveal-item">
-                    <div class="solution-card">
-                        <div class="solution-card-header">
-                            <div class="solution-icon">
-                                <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
-                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                                </svg>
-                            </div>
-                            <h4>GenAI &amp; Agentic Research Products</h4>
+                <div class="solution-card">
+                    <div class="solution-card-header">
+                        <div class="solution-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+                                <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
+                            </svg>
                         </div>
-                        <p class="solution-preview">Internal research &amp; data analysis solutions...</p>
-                        <div class="solution-details">
-                            <p>GenAI &amp; agentic products for internal research and data analysis, with RAG / improved RAG / agentic semantic search over company materials, according to company workflows, guidelines, and output specs.</p>
-                        </div>
+                        <h4>System Engineering Assistant</h4>
                     </div>
-
-                    <div class="solution-card">
-                        <div class="solution-card-header">
-                            <div class="solution-icon">
-                                <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
-                                    <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
-                                </svg>
-                            </div>
-                            <h4>System Engineering Assistant</h4>
-                        </div>
-                        <p class="solution-preview">Complex internal research tool...</p>
-                        <div class="solution-details">
-                            <p>An agentic product assisting system engineers in complex internal research &mdash; to develop, analyze &amp; troubleshoot the core product.</p>
-                        </div>
+                    <p class="solution-preview">Complex internal research tool...</p>
+                    <div class="solution-details">
+                        <p>An agentic product assisting system engineers in complex internal research - to develop, analyze &amp; troubleshoot the core product.</p>
                     </div>
-
-                    <div class="solution-card">
-                        <div class="solution-card-header">
-                            <div class="solution-icon">
-                                <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
-                                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-                                </svg>
-                            </div>
-                            <h4>Sales &amp; Marketing Assistant</h4>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-card-header">
+                        <div class="solution-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+                                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                            </svg>
                         </div>
-                        <p class="solution-preview">Conference &amp; presentation preparation...</p>
-                        <div class="solution-details">
-                            <p>An agentic product assisting sales &amp; marketing in preparing for conferences, presentations etc &mdash; based on company materials &amp; guidelines, web-browsing in competitor URLs, roles, admin control etc.</p>
-                        </div>
+                        <h4>Sales &amp; Marketing Assistant</h4>
+                    </div>
+                    <p class="solution-preview">Conference &amp; presentation preparation...</p>
+                    <div class="solution-details">
+                        <p>An agentic product assisting sales &amp; marketing in preparing for conferences, presentations etc - based on company materials &amp; guidelines, web-browsing in competitor URLs, roles, admin control etc.</p>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- ========== ABOUT US ========== -->
+    <!-- ========== ABOUT US (from Oz) ========== -->
     <section id="about" class="content-section">
         <div class="section-inner">
             <div class="section-header reveal-item">
                 <span class="section-marker">#</span>
-                <h2>Who We Are</h2>
+                <h2>About Us</h2>
             </div>
             <div class="team-grid">
                 <div class="team-member reveal-item">
                     <div class="team-photo-wrapper">
-                        <img src="visuals/photos/WhatsApp Image 2026-02-19 at 18.40.17.jpeg" alt="Oz Livneh" class="team-photo" loading="lazy">
+                        <img src="visuals/photos/Oz.jpeg" alt="Oz Livneh" class="team-photo" loading="lazy">
                     </div>
-                    <h3><a href="https://www.linkedin.com/in/oz-livneh" target="_blank" rel="noopener">Oz Livneh</a></h3>
-                    <p class="team-role">Co-Founder, Co-CEO</p>
-                    <p class="team-bio">Top-tier expert in GenAI &amp; agentic AI, 10+ years in AI, ex-PhD &amp; ex-Physicist.</p>
+                    <div class="member-info">
+                        <h3>Oz Livneh</h3>
+                        <p class="team-role">Co-Founder, Co-CEO</p>
+                        <p class="team-bio">Top-tier expert in GenAI &amp; AI agents, 10+ years in AI, ex-PhD &amp; ex-Physicist.</p>
+                        <a href="https://www.linkedin.com/in/oz-livneh" target="_blank" rel="noopener" class="linkedin-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                            </svg>
+                            <span>LinkedIn</span>
+                        </a>
+                    </div>
                 </div>
                 <div class="team-member reveal-item">
                     <div class="team-photo-wrapper">
-                        <img src="visuals/photos/Profile picture of me.jpg" alt="Ido Livneh" class="team-photo" loading="lazy">
+                        <img src="visuals/photos/Ido.jpeg" alt="Ido Livneh" class="team-photo" loading="lazy">
                     </div>
-                    <h3><a href="https://www.linkedin.com/in/ido-livneh-il/" target="_blank" rel="noopener">Ido Livneh</a></h3>
-                    <p class="team-role">Co-Founder, Co-CEO</p>
-                    <p class="team-bio">Expert in Product &amp; Marketing.</p>
+                    <div class="member-info">
+                        <h3>Ido Livneh</h3>
+                        <p class="team-role">Co-Founder, Co-CEO</p>
+                        <p class="team-bio">Expert in Product &amp; Marketing.</p>
+                        <a href="https://www.linkedin.com/in/ido-livneh-il/" target="_blank" rel="noopener" class="linkedin-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                            </svg>
+                            <span>LinkedIn</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== CONTACT ========== -->
+    <!-- ========== CONTACT (from Oz) ========== -->
     <section id="contact" class="content-section">
         <div class="section-inner">
             <div class="cta-block reveal-item">
@@ -328,24 +310,22 @@
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                         </svg>
-                        <span>WhatsApp Us</span>
+                        <span>WhatsApp</span>
                     </a>
                     <a href="mailto:business@agented.now" class="contact-btn email-btn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="4" width="20" height="16" rx="2"/>
-                            <path d="M22 4L12 13L2 4"/>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                         </svg>
-                        <span>Email Us</span>
+                        <span>Email</span>
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer (from Oz) -->
     <footer>
-        <span class="logo-small">agented<span class="logo-dot">.</span><span class="accent">now</span></span>
-        <span class="footer-copy">&copy; 2025</span>
+        <span class="footer-copy">&copy; 2026 <span class="logo-small">agented<span class="accent">.now</span></span>. All rights reserved.</span>
     </footer>
 
     <script src="script.js"></script>

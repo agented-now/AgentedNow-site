@@ -6,6 +6,50 @@
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
 
+// ============ URL ROUTING (path per section) ============
+// Base path for when site is in a subfolder (e.g. GitHub Pages: /repo-name). Set to '' if at root.
+const BASE_PATH = (() => {
+    const p = location.pathname;
+    if (p === '/' || p === '/index.html' || p === '' || p.endsWith('/')) return '';
+    const parts = p.replace(/^\//, '').split('/');
+    parts.pop(); // remove index.html or last segment
+    return parts.length ? '/' + parts.join('/') : '';
+})();
+
+const SECTION_TO_PATH = {
+    hero: '',
+    solutions: '/solutions',
+    customization: '/customization',
+    portfolio: '/portfolio',
+    about: '/about-us',
+    contact: '/contact'
+};
+
+const PATH_TO_SECTION = Object.fromEntries(
+    Object.entries(SECTION_TO_PATH).map(([k, v]) => {
+        const path = BASE_PATH + (v || '/');
+        const key = path.replace(/\/$/, '') || '/';
+        return [key, k];
+    })
+);
+
+function getPathForSection(sectionId) {
+    const seg = SECTION_TO_PATH[sectionId];
+    return BASE_PATH + (seg || '/');
+}
+
+function getSectionFromPath(pathname) {
+    const normalized = pathname.replace(/\/$/, '') || '/';
+    return PATH_TO_SECTION[normalized] || PATH_TO_SECTION[BASE_PATH + '/'] || 'hero';
+}
+
+function updateUrlForSection(sectionId, replace) {
+    const path = getPathForSection(sectionId);
+    const url = path === BASE_PATH + '/' ? (BASE_PATH || '/') : path;
+    const method = replace ? 'replaceState' : 'pushState';
+    history[method]({ section: sectionId }, '', url);
+}
+
 // ============ TYPEWRITER UTILITIES ============
 function typeText(element, text, speed = 40) {
     return new Promise(resolve => {
@@ -386,9 +430,9 @@ function endWarpAnimation() {
 
     document.body.style.overflow = '';
 
-    const offering = document.getElementById('offering');
-    if (offering) {
-        offering.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const solutions = document.getElementById('solutions');
+    if (solutions) {
+        solutions.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     setTimeout(() => {
@@ -401,8 +445,12 @@ function endWarpAnimation() {
 // ============ WARP SCROLL TRIGGER ============
 function setupWarpTrigger() {
     let scrollLocked = false;
+    const warpCanvasEl = document.getElementById('warp-canvas');
 
     function handleScroll(e) {
+        // When space animation is hidden via CSS, allow normal smooth scroll (don't intercept)
+        if (warpCanvasEl && getComputedStyle(warpCanvasEl).visibility === 'hidden') return;
+
         const hero = document.getElementById('hero');
         if (!hero) return;
         const rect = hero.getBoundingClientRect();
@@ -733,20 +781,27 @@ function revealSectionItems(section) {
 
 }
 
-// ============ NAVIGATION (Oz-style) ============
+// ============ NAVIGATION (Oz-style) + URL routing ============
 function initNavigation() {
     const navLinks = $$('.nav-link, .mobile-link');
     const sections = $$('section[id]');
 
-    // Smooth scroll for nav links
+    // Set href to path URLs (shareable, works on direct load)
+    navLinks.forEach(link => {
+        const sectionId = link.getAttribute('data-section');
+        if (sectionId) link.setAttribute('href', getPathForSection(sectionId) || '/');
+    });
+
+    // Smooth scroll + update URL when nav link clicked
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
+            const sectionId = link.getAttribute('data-section');
+            if (!sectionId) return;
             e.preventDefault();
-            const targetId = link.getAttribute('href').substring(1);
-            const target = document.getElementById(targetId);
+            const target = document.getElementById(sectionId);
             if (target) {
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                // Close mobile menu
+                updateUrlForSection(sectionId, false);
                 const mobileMenu = document.getElementById('mobileMenu');
                 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
                 if (mobileMenu) mobileMenu.classList.remove('active');
@@ -755,7 +810,26 @@ function initNavigation() {
         });
     });
 
-    // Active link tracking on scroll
+    // On load: set history state from URL and scroll to section if not home
+    const initialSection = getSectionFromPath(location.pathname);
+    history.replaceState({ section: initialSection }, '');
+    if (initialSection !== 'hero') {
+        const el = document.getElementById(initialSection);
+        if (el) {
+            requestAnimationFrame(() => {
+                el.scrollIntoView({ behavior: 'auto', block: 'start' });
+            });
+        }
+    }
+
+    // Back/forward: scroll to section for current URL
+    window.addEventListener('popstate', () => {
+        const sectionId = (history.state && history.state.section) || getSectionFromPath(location.pathname);
+        const el = document.getElementById(sectionId);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // When scroll reveals a section, update URL (replace so back doesn’t step through every section)
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -768,6 +842,7 @@ function initNavigation() {
                         link.classList.remove('active');
                     }
                 });
+                updateUrlForSection(sectionId, true);
             }
         });
     }, {
@@ -807,6 +882,16 @@ document.addEventListener('DOMContentLoaded', () => {
     initLogoRunner();
     initOfferingInteraction();
     initCustomizationInteraction();
+
+    // "> continue" scroll indicator: smooth scroll to section
+    const scrollIndicator = document.getElementById('scroll-indicator');
+    if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', () => {
+            const targetId = scrollIndicator.getAttribute('data-scroll-to');
+            const target = targetId ? document.getElementById(targetId) : null;
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    }
 
     // Start hero animation, then arm warp trigger
     setTimeout(() => {
