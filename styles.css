@@ -90,7 +90,8 @@ main {
 }
 
 /* Section container: fill section height, center contents vertically only; text left-aligned (hero overrides) */
-.section > .container {
+/* Apply vertical centering only to sections after hero */
+.section:not(.hero-section) > .container {
     display: flex;
     flex-direction: column;
     justify-content: center;
