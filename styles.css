@@ -336,16 +336,20 @@ main {
 .section {
     width: 100%;
     min-height: 100vh;
+    min-height: 100dvh;
     padding: var(--section-padding) 0;
+    padding-top: calc(var(--nav-height) + var(--section-padding));
+    padding-bottom: var(--section-padding);
     display: flex;
     flex-direction: column;
     justify-content: center;
     box-sizing: border-box;
 }
 
-/* Hero section needs nav-height offset since it's at the top */
+/* Hero section - centered content */
 .hero-section {
     padding-top: calc(var(--nav-height) + var(--section-padding));
+    padding-bottom: var(--section-padding);
 }
 
 /* Hero Section */
@@ -835,8 +839,9 @@ main {
 /* Offering Section - same line width as other sections regardless of selection */
 .offering-section {
     background: var(--bg-secondary);
-    padding-top: calc(var(--nav-height) + 0.5rem);
-    justify-content: flex-start;
+    min-height: auto;
+    padding-top: calc(var(--nav-height) + var(--section-padding));
+    padding-bottom: var(--section-padding);
 }
 
 .offering-section .container {
@@ -944,8 +949,9 @@ main {
 /* Customization Section */
 .customization-section {
     background: var(--bg-primary);
-    padding-top: calc(var(--nav-height) + 1.5rem);
-    justify-content: flex-start;
+    min-height: auto;
+    padding-top: calc(var(--nav-height) + var(--section-padding));
+    padding-bottom: var(--section-padding);
 }
 
 .section-intro {
@@ -955,6 +961,9 @@ main {
 /* Portfolio Section */
 .portfolio-section {
     background: var(--bg-secondary);
+    min-height: auto;
+    padding-top: calc(var(--nav-height) + var(--section-padding));
+    padding-bottom: var(--section-padding);
 }
 
 .portfolio-subtitle {
@@ -965,11 +974,15 @@ main {
     margin-bottom: 1.5rem;
 }
 
+.portfolio-subtitle--spaced {
+    margin-top: 3rem;
+}
+
 .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 0;
 }
 
 .portfolio-item {
@@ -1112,6 +1125,9 @@ main {
 /* About Section */
 .about-section {
     background: var(--bg-primary);
+    min-height: auto;
+    padding-top: calc(var(--nav-height) + var(--section-padding));
+    padding-bottom: var(--section-padding);
 }
 
 .team-grid {
@@ -1195,6 +1211,9 @@ main {
 .contact-section {
     background: var(--bg-secondary);
     text-align: center;
+    min-height: auto;
+    padding-top: calc(var(--nav-height) + var(--section-padding));
+    padding-bottom: var(--section-padding);
 }
 
 .contact-options {
@@ -1239,7 +1258,7 @@ main {
 .footer {
     background: var(--bg-primary);
     border-top: 1px solid var(--border-color);
-    padding: 30px 0;
+    padding: 24px 0;
     text-align: center;
 }
 
@@ -1343,7 +1362,7 @@ main {
 
 @media (max-width: 768px) {
     :root {
-        --section-padding: 60px;
+        --section-padding: 48px;
         --nav-height: 72px;
     }
 
@@ -1364,6 +1383,14 @@ main {
     
     .hero-title {
         font-size: 1.5rem;
+    }
+    
+    .hero-content {
+        margin-bottom: 40px;
+    }
+    
+    .clients-section {
+        margin-bottom: 40px;
     }
     
     .typing-line.indent {
@@ -1404,9 +1431,9 @@ main {
         justify-content: center;
     }
     
-    /* Logo runner: compact on mobile (from OzWiz) */
+    /* Logo runner: larger on mobile */
     .logo-runner {
-        padding: 8.5px 16px 16px;
+        padding: 12px 16px 18px;
         min-height: 0;
         width: 100%;
     }
@@ -1416,15 +1443,24 @@ main {
         animation: scroll var(--logo-speed, 32s) linear infinite;
     }
     .logo-item {
-        width: 100px;
-        height: 31.5px;
-        padding: 2px;
+        width: 140px;
+        height: 70px;
+        padding: 8px;
+    }
+    
+    /* Scroll indicator: smaller on mobile */
+    .scroll-indicator .terminal-arrow {
+        font-size: 1rem;
+    }
+    .scroll-indicator .terminal-cursor {
+        font-size: 1rem;
     }
 }
 
 @media (max-width: 480px) {
     :root {
         --content-padding: 16px;
+        --section-padding: 40px;
     }
     
     .logo-text {
@@ -1439,6 +1475,32 @@ main {
         font-size: 1.25rem;
     }
     
+    .hero-content {
+        margin-bottom: 32px;
+    }
+    
+    .clients-section {
+        margin-bottom: 32px;
+    }
+    
+    /* Logo runner: still decent size on small mobile */
+    .logo-runner {
+        padding: 10px 12px 14px;
+    }
+    .logo-item {
+        width: 120px;
+        height: 55px;
+        padding: 6px;
+    }
+    
+    /* Scroll indicator: even smaller on small mobile */
+    .scroll-indicator .terminal-arrow {
+        font-size: 0.9rem;
+    }
+    .scroll-indicator .terminal-cursor {
+        font-size: 0.9rem;
+    }
+    
     .portfolio-grid {
         grid-template-columns: 1fr;
     }
@@ -1450,6 +1512,19 @@ main {
     .member-photo {
         width: 100px;
         height: 100px;
+    }
+    
+    .section-intro {
+        margin-bottom: 24px;
+    }
+    
+    .team-grid {
+        margin-top: 16px;
+        gap: 24px;
+    }
+    
+    .team-member {
+        padding: 20px;
     }
 }
 
