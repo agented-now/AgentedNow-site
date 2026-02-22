@@ -1,506 +1,541 @@
-/* ============================================
-   agented.now — Interactive Site (Indigo Theme)
-   ============================================ */
+document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    initNavigation();
+    initGlobalTypingAnimation();
+    initOfferingInteraction();
+    initCustomizationInteraction();
+    initScrollIndicator();
+    initLogoRunner();
+    initMobileMenu();
+});
 
-// ============ DOM HELPERS ============
-const $ = (sel) => document.querySelector(sel);
-const $$ = (sel) => document.querySelectorAll(sel);
-
-// ============ URL ROUTING (path per section) ============
-// Base path for when site is in a subfolder (e.g. GitHub Pages: /repo-name). Set to '' if at root.
-const BASE_PATH = (() => {
-    const p = location.pathname;
-    if (p === '/' || p === '/index.html' || p === '' || p.endsWith('/')) return '';
-    const parts = p.replace(/^\//, '').split('/');
-    parts.pop(); // remove index.html or last segment
-    return parts.length ? '/' + parts.join('/') : '';
-})();
-
-const SECTION_TO_PATH = {
-    hero: '',
-    solutions: '/solutions',
-    customization: '/customization',
-    portfolio: '/portfolio',
-    about: '/about-us',
-    contact: '/contact'
-};
-
-const PATH_TO_SECTION = Object.fromEntries(
-    Object.entries(SECTION_TO_PATH).map(([k, v]) => {
-        const path = BASE_PATH + (v || '/');
-        const key = path.replace(/\/$/, '') || '/';
-        return [key, k];
-    })
-);
-
-function getPathForSection(sectionId) {
-    const seg = SECTION_TO_PATH[sectionId];
-    return BASE_PATH + (seg || '/');
-}
-
-function getSectionFromPath(pathname) {
-    const normalized = pathname.replace(/\/$/, '') || '/';
-    return PATH_TO_SECTION[normalized] || PATH_TO_SECTION[BASE_PATH + '/'] || 'hero';
-}
-
-function updateUrlForSection(sectionId, replace) {
-    const path = getPathForSection(sectionId);
-    const url = path === BASE_PATH + '/' ? (BASE_PATH || '/') : path;
-    const method = replace ? 'replaceState' : 'pushState';
-    history[method]({ section: sectionId }, '', url);
-}
-
-// ============ TYPEWRITER UTILITIES ============
-function typeText(element, text, speed = 40) {
-    return new Promise(resolve => {
-        let i = 0;
-        element.textContent = '';
-        const interval = setInterval(() => {
-            if (i < text.length) {
-                element.textContent += text[i];
-                i++;
-            } else {
-                clearInterval(interval);
-                resolve();
-            }
-        }, speed);
-    });
-}
-
-function eraseText(element, speed = 25) {
-    return new Promise(resolve => {
-        const text = element.textContent;
-        let i = text.length;
-        const interval = setInterval(() => {
-            if (i > 0) {
-                element.textContent = text.substring(0, i - 1);
-                i--;
-            } else {
-                clearInterval(interval);
-                resolve();
-            }
-        }, speed);
-    });
-}
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function typewriterSwap(el, newWord, eraseSpeed = 60, typeSpeed = 70) {
-    return new Promise(resolve => {
-        const current = el.textContent;
-        let i = current.length;
-        const eraseInterval = setInterval(() => {
-            if (i > 0) {
-                i--;
-                el.textContent = current.substring(0, i);
-            } else {
-                clearInterval(eraseInterval);
-                let j = 0;
-                const typeInterval = setInterval(() => {
-                    if (j < newWord.length) {
-                        j++;
-                        el.textContent = newWord.substring(0, j);
-                    } else {
-                        clearInterval(typeInterval);
-                        resolve();
-                    }
-                }, typeSpeed);
-            }
-        }, eraseSpeed);
-    });
-}
-
-// ============ HERO SECTION ============
-const HERO_WORDS = ['business', 'team', 'product'];
-let heroRotationActive = false;
-
-async function runHeroAnimation() {
-    const line1 = document.getElementById('hero-line-1');
-    const line2 = document.getElementById('hero-line-2');
-    const line3 = document.getElementById('hero-line-3');
-    const heroLogos = document.querySelector('.hero-logos');
-    const scrollInd = document.getElementById('scroll-indicator');
-
-    // Staggered fade-in
-    await sleep(500);
-    if (line1) line1.classList.add('visible');
-    await sleep(600);
-    if (line2) line2.classList.add('visible');
-    await sleep(750);
-    if (line3) line3.classList.add('visible');
-    await sleep(800);
-
-    // Show logos
-    if (heroLogos) heroLogos.classList.add('visible');
-    await sleep(600);
-
-    // Show scroll indicator
-    if (scrollInd) scrollInd.classList.remove('hidden');
-
-    // Start rotation after a delay
-    await sleep(2000);
-    heroRotationActive = true;
-    runHeroRotation();
-}
-
-async function runHeroRotation() {
-    const slot = document.getElementById('hero-rotating');
-    if (!slot) return;
-    let idx = 1;
-    while (heroRotationActive) {
-        await sleep(3000);
-        if (!heroRotationActive) break;
-        // Fade out
-        slot.classList.add('fade-out');
-        await sleep(500);
-        // Swap text
-        slot.textContent = HERO_WORDS[idx];
-        // Fade in
-        slot.classList.remove('fade-out');
-        idx = (idx + 1) % HERO_WORDS.length;
-    }
-}
-
-// ============ WARP SPEED ANIMATION ============
-const WARP = {
-    STAR_COUNT: 600,
-    BG: '#111118',
-    STAR_COLOR: '#5b5fc7',
-    GLOW_COLOR: '#5b5fc7',
-    GLOW_R: 91,
-    GLOW_G: 95,
-    GLOW_B: 199,
-    DURATION: 2500,
-    FADE_OUT_START: 2000,
-    SPREAD: 1600,
-    Z_DEPTH: 2000,
-    Z_NEAR: 1,
-    TUNNEL_RINGS: 5
-};
-
-let warpCanvas, warpCtx;
-let warpStars = [];
-let warpAnimationId = null;
-let warpTriggered = false;
-
-function createStar() {
-    return {
-        x: (Math.random() - 0.5) * WARP.SPREAD,
-        y: (Math.random() - 0.5) * WARP.SPREAD,
-        z: Math.random() * WARP.Z_DEPTH,
-        pz: 0,
-        speed: 0.8 + Math.random() * 0.4
-    };
-}
-
-function warpSpeedCurve(t) {
-    return Math.max(0.02, Math.sin(Math.PI * t));
-}
-
-function initWarp() {
-    warpCanvas = $('#warp-canvas');
-    if (warpCanvas) {
-        warpCtx = warpCanvas.getContext('2d');
-    }
-}
-
-function startWarpAnimation() {
-    if (warpTriggered || !warpCanvas) return;
-    warpTriggered = true;
-
-    // Read current theme bg for fade-out transition
-    const bgHex = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#fafaf8';
-    let bgR = 250, bgG = 250, bgB = 248;
-    if (bgHex.startsWith('#') && bgHex.length >= 7) {
-        bgR = parseInt(bgHex.slice(1, 3), 16) || 250;
-        bgG = parseInt(bgHex.slice(3, 5), 16) || 250;
-        bgB = parseInt(bgHex.slice(5, 7), 16) || 248;
-    }
-
-    // Size canvas
-    warpCanvas.width = window.innerWidth;
-    warpCanvas.height = window.innerHeight;
-
-    // Create stars
-    warpStars = [];
-    for (let i = 0; i < WARP.STAR_COUNT; i++) {
-        const star = createStar();
-        star.pz = star.z;
-        warpStars.push(star);
-    }
-
-    // Show canvas
-    warpCanvas.classList.add('active');
-
-    // Lock scrolling
-    document.body.style.overflow = 'hidden';
-
-    // Hide scroll indicator
-    const ind = $('#scroll-indicator');
-    if (ind) ind.classList.add('hidden');
-
-    const startTime = performance.now();
-    let lastFrame = startTime;
-
-    // Handle resize during animation
-    function onResize() {
-        warpCanvas.width = window.innerWidth;
-        warpCanvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', onResize);
-
-    function frame(now) {
-        const elapsed = now - startTime;
-        const dt = now - lastFrame;
-        lastFrame = now;
-
-        if (elapsed >= WARP.DURATION) {
-            window.removeEventListener('resize', onResize);
-            endWarpAnimation();
-            return;
-        }
-
-        const t = elapsed / WARP.DURATION;
-        const speedFactor = warpSpeedCurve(t);
-        const w = warpCanvas.width;
-        const h = warpCanvas.height;
-        const cx = w / 2;
-        const cy = h / 2;
-        const focal = Math.max(w, h) * 0.5;
-
-        // Clear
-        warpCtx.fillStyle = WARP.BG;
-        warpCtx.fillRect(0, 0, w, h);
-
-        // Tunnel rings
-        drawTunnelRings(cx, cy, focal, t, speedFactor, w, h);
-
-        // Central glow
-        drawCentralGlow(cx, cy, t, speedFactor, w, h);
-
-        // Stars
-        for (let i = 0; i < warpStars.length; i++) {
-            const star = warpStars[i];
-            star.pz = star.z;
-            star.z -= dt * 2.0 * speedFactor * star.speed;
-
-            if (star.z < WARP.Z_NEAR) {
-                star.x = (Math.random() - 0.5) * WARP.SPREAD;
-                star.y = (Math.random() - 0.5) * WARP.SPREAD;
-                star.z = WARP.Z_DEPTH;
-                star.pz = star.z;
-                continue;
-            }
-
-            const sx = (star.x / star.z) * focal + cx;
-            const sy = (star.y / star.z) * focal + cy;
-            const px = (star.x / star.pz) * focal + cx;
-            const py = (star.y / star.pz) * focal + cy;
-
-            if (sx < -50 || sx > w + 50 || sy < -50 || sy > h + 50) continue;
-
-            drawStarStreak(sx, sy, px, py, star.z, speedFactor);
-        }
-
-        // Brand flash near peak
-        if (t > 0.5 && t < 0.94) {
-            const flashAlpha = Math.sin((t - 0.5) / 0.44 * Math.PI) * 0.6;
-            warpCtx.fillStyle = `rgba(${WARP.GLOW_R}, ${WARP.GLOW_G}, ${WARP.GLOW_B}, ${flashAlpha})`;
-            warpCtx.font = `700 ${28 + speedFactor * 16}px 'JetBrains Mono', monospace`;
-            warpCtx.textAlign = 'center';
-            warpCtx.textBaseline = 'middle';
-            warpCtx.fillText('agented.now', cx, cy);
-        }
-
-        // Fade out (last 500ms) — transition to page bg
-        if (elapsed >= WARP.FADE_OUT_START) {
-            const fadeT = (elapsed - WARP.FADE_OUT_START) / (WARP.DURATION - WARP.FADE_OUT_START);
-            const flashAlpha = fadeT < 0.4 ? fadeT / 0.4 : 1.0;
-            warpCtx.fillStyle = `rgba(${bgR}, ${bgG}, ${bgB}, ${flashAlpha * 0.95})`;
-            warpCtx.fillRect(0, 0, w, h);
-        }
-
-        warpAnimationId = requestAnimationFrame(frame);
-    }
-
-    warpAnimationId = requestAnimationFrame(frame);
-}
-
-function drawStarStreak(sx, sy, px, py, z, speedFactor) {
-    const brightness = Math.min(1, (1 - z / WARP.Z_DEPTH) * 1.5);
-    const dx = sx - px;
-    const dy = sy - py;
-    const streakLen = Math.sqrt(dx * dx + dy * dy);
-    const lineWidth = Math.max(0.5, (1 - z / WARP.Z_DEPTH) * 3.0);
-    const alpha = brightness * Math.min(1, speedFactor * 2);
-
-    warpCtx.save();
-    warpCtx.strokeStyle = WARP.STAR_COLOR;
-    warpCtx.globalAlpha = alpha;
-    warpCtx.lineWidth = lineWidth;
-    warpCtx.lineCap = 'round';
-
-    if (streakLen < 1.5) {
-        warpCtx.beginPath();
-        warpCtx.arc(sx, sy, lineWidth * 0.5, 0, Math.PI * 2);
-        warpCtx.fillStyle = WARP.STAR_COLOR;
-        warpCtx.fill();
+// Theme Management
+function initTheme() {
+    const themeToggle = document.getElementById('themeToggle');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Set initial theme based on system preference or saved preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    } else if (prefersDark.matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
     } else {
-        warpCtx.beginPath();
-        warpCtx.moveTo(px, py);
-        warpCtx.lineTo(sx, sy);
-        warpCtx.stroke();
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+    
+    // Theme toggle click handler
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+    
+    // Listen for system theme changes
+    prefersDark.addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        }
+    });
+}
 
-        if (streakLen > 8) {
-            warpCtx.globalAlpha = alpha * 0.6;
-            warpCtx.lineWidth = lineWidth * 2.5;
-            const hx = px + dx * 0.8;
-            const hy = py + dy * 0.8;
-            warpCtx.beginPath();
-            warpCtx.moveTo(hx, hy);
-            warpCtx.lineTo(sx, sy);
-            warpCtx.stroke();
+// Navigation
+function initNavigation() {
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-link');
+    const sections = document.querySelectorAll('.section');
+    
+    // Smooth scroll for nav links
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+                
+                // Close mobile menu if open
+                const mobileMenu = document.getElementById('mobileMenu');
+                const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+            }
+        });
+    });
+    
+    // Update active nav link on scroll
+    const observerOptions = {
+        root: null,
+        rootMargin: '-50% 0px -50% 0px',
+        threshold: 0
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const sectionId = entry.target.id;
+                updateActiveNavLink(sectionId);
+                updateURL(sectionId);
+            }
+        });
+    }, observerOptions);
+    
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+}
+
+function updateActiveNavLink(sectionId) {
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-link');
+    navLinks.forEach(link => {
+        const linkSection = link.getAttribute('data-section');
+        if (linkSection === sectionId) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+}
+
+function updateURL(sectionId) {
+    const newURL = `#${sectionId}`;
+    if (window.location.hash !== newURL) {
+        history.replaceState(null, null, newURL);
+    }
+}
+
+// Global Typing Animation - Single inline cursor types all lines sequentially
+function initGlobalTypingAnimation() {
+    // Collect all typeable elements in document order
+    const typeableSelectors = [
+        '.typing-line',
+        '.typing-text',
+        '.section-title',
+        '.section-subtitle',
+        '.interaction-prompt'
+    ];
+    
+    // Get all elements and sort by their position in the document
+    const allElements = [];
+    document.querySelectorAll(typeableSelectors.join(', ')).forEach(el => {
+        // Skip elements inside response boxes (they have their own typing)
+        if (el.closest('.response-box') || el.closest('.response-box-content')) return;
+        // Skip elements that are children of other typeable elements (avoid duplicates)
+        if (el.closest('.typing-container') && el.classList.contains('typing-line')) {
+            allElements.push(el);
+        } else if (!el.querySelector('.typing-line')) {
+            allElements.push(el);
+        }
+    });
+    
+    // Store original content and prepare elements
+    const elementsData = allElements.map(el => {
+        const originalHTML = el.innerHTML;
+        const textContent = el.textContent;
+        el.setAttribute('data-original-html', originalHTML);
+        el.innerHTML = '';
+        el.classList.add('typing-ready');
+        return { el, originalHTML, textContent };
+    });
+    
+    // Typing configuration
+    const TYPING_SPEED = 15; // ms per character
+    const LINE_DELAY = 100; // ms delay between lines
+    
+    let hasStartedTyping = new Set();
+    let currentCursors = new Map(); // section -> cursor element
+    
+    // Create an inline cursor for an element
+    function createInlineCursor(el) {
+        const cursor = document.createElement('span');
+        cursor.className = 'global-typing-cursor';
+        cursor.textContent = '|';
+        // Match the line height and font of the parent element
+        const computedStyle = window.getComputedStyle(el);
+        cursor.style.lineHeight = computedStyle.lineHeight;
+        cursor.style.fontSize = computedStyle.fontSize;
+        return cursor;
+    }
+    
+    // Remove cursor for a specific section
+    function removeCursorForSection(section) {
+        const cursor = currentCursors.get(section);
+        if (cursor && cursor.parentNode) {
+            cursor.parentNode.removeChild(cursor);
+        }
+        currentCursors.delete(section);
+    }
+    
+    // Track typing state per section
+    const sectionTypingState = new Map(); // section -> { isTyping, queue }
+    
+    // Get the section an element belongs to
+    function getSection(el) {
+        return el.closest('.section') || el.closest('main') || document.body;
+    }
+    
+    // Get or create typing state for a section
+    function getSectionState(section) {
+        if (!sectionTypingState.has(section)) {
+            sectionTypingState.set(section, { isTyping: false, queue: [] });
+        }
+        return sectionTypingState.get(section);
+    }
+    
+    // Reveal glide-down elements that follow a typed element
+    function revealNextGlideElements(typedEl) {
+        // Find all following siblings that have glide-down-element class
+        let sibling = typedEl.nextElementSibling;
+        let delay = 0;
+        const STAGGER_DELAY = 100; // ms between each element reveal
+        
+        while (sibling) {
+            if (sibling.classList.contains('glide-down-element') && !sibling.classList.contains('revealed')) {
+                // Stagger the reveal
+                const el = sibling;
+                setTimeout(() => {
+                    el.classList.add('revealed');
+                }, delay);
+                delay += STAGGER_DELAY;
+                
+                // If this sibling is also a typeable element, stop here (it will reveal its own siblings)
+                if (sibling.classList.contains('typing-text') || 
+                    sibling.classList.contains('section-title') || 
+                    sibling.classList.contains('interaction-prompt')) {
+                    break;
+                }
+            } else if (!sibling.classList.contains('glide-down-element')) {
+                // If we hit a non-glide element, check its children for glide elements
+                const childGlides = sibling.querySelectorAll('.glide-down-element:not(.revealed)');
+                childGlides.forEach((child, index) => {
+                    setTimeout(() => {
+                        child.classList.add('revealed');
+                    }, delay + index * STAGGER_DELAY);
+                });
+                if (childGlides.length > 0) {
+                    delay += childGlides.length * STAGGER_DELAY;
+                }
+            }
+            sibling = sibling.nextElementSibling;
+        }
+        
+        // Also check parent's next siblings (walk up the tree in case we're nested, e.g. span > h1 > hero-content)
+        let parent = typedEl.parentElement;
+        while (parent && parent !== document.body) {
+            if (parent.classList.contains('section')) break; // don't reveal next section's elements
+            let parentSibling = parent.nextElementSibling;
+            while (parentSibling) {
+                if (parentSibling.classList.contains('glide-down-element') && !parentSibling.classList.contains('revealed')) {
+                    const el = parentSibling;
+                    setTimeout(() => {
+                        el.classList.add('revealed');
+                    }, delay);
+                    delay += STAGGER_DELAY;
+                    
+                    if (parentSibling.classList.contains('typing-text') ||
+                        parentSibling.classList.contains('section-title') ||
+                        parentSibling.classList.contains('interaction-prompt')) {
+                        parentSibling = null;
+                        break;
+                    }
+                } else if (!parentSibling.classList.contains('glide-down-element')) {
+                    const childGlides = parentSibling.querySelectorAll('.glide-down-element:not(.revealed)');
+                    childGlides.forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('revealed');
+                        }, delay + index * STAGGER_DELAY);
+                    });
+                    if (childGlides.length > 0) {
+                        delay += childGlides.length * STAGGER_DELAY;
+                    }
+                }
+                parentSibling = parentSibling.nextElementSibling;
+            }
+            parent = parent.parentElement;
         }
     }
-
-    warpCtx.restore();
-}
-
-function drawTunnelRings(cx, cy, focal, t, speedFactor, w, h) {
-    for (let i = 0; i < WARP.TUNNEL_RINGS; i++) {
-        const phase = ((t * 3) + (i / WARP.TUNNEL_RINGS)) % 1.0;
-        const ringZ = WARP.Z_DEPTH * (1 - phase);
-        if (ringZ < 10) continue;
-
-        const worldRadius = WARP.SPREAD * 0.3;
-        const screenRadius = (worldRadius / ringZ) * focal;
-        const depthNorm = 1 - ringZ / WARP.Z_DEPTH;
-        const ringAlpha = Math.sin(Math.PI * depthNorm) * 0.15 * speedFactor;
-
-        if (ringAlpha < 0.005 || screenRadius < 2) continue;
-
-        warpCtx.save();
-        warpCtx.strokeStyle = WARP.GLOW_COLOR;
-        warpCtx.globalAlpha = ringAlpha;
-        warpCtx.lineWidth = Math.max(1, 3 * depthNorm);
-        warpCtx.beginPath();
-        warpCtx.arc(cx, cy, screenRadius, 0, Math.PI * 2);
-        warpCtx.stroke();
-        warpCtx.restore();
+    
+    // Type a single element with HTML support and inline cursor
+    function typeElement(data, callback) {
+        const { el, originalHTML } = data;
+        const section = getSection(el);
+        el.classList.add('typing-active');
+        
+        // Remove any existing cursor for this section
+        removeCursorForSection(section);
+        
+        // Create new inline cursor for this element
+        const currentCursor = createInlineCursor(el);
+        currentCursors.set(section, currentCursor);
+        
+        // Parse HTML and type character by character
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = originalHTML;
+        
+        // Flatten to typeable segments (text nodes and their parent tags)
+        const segments = [];
+        function extractSegments(node, parentTags = []) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                const text = node.textContent;
+                for (let i = 0; i < text.length; i++) {
+                    segments.push({ char: text[i], tags: [...parentTags] });
+                }
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+                const tagInfo = {
+                    tagName: node.tagName.toLowerCase(),
+                    className: node.className,
+                    id: node.id,
+                    attributes: {}
+                };
+                // Copy relevant attributes
+                for (const attr of node.attributes) {
+                    if (attr.name !== 'class' && attr.name !== 'id') {
+                        tagInfo.attributes[attr.name] = attr.value;
+                    }
+                }
+                const newParentTags = [...parentTags, tagInfo];
+                for (const child of node.childNodes) {
+                    extractSegments(child, newParentTags);
+                }
+            }
+        }
+        
+        for (const child of tempDiv.childNodes) {
+            extractSegments(child);
+        }
+        
+        let charIndex = 0;
+        el.innerHTML = '';
+        
+        // Add cursor at start
+        el.appendChild(currentCursor);
+        
+        function typeNextChar() {
+            if (charIndex >= segments.length) {
+                // Remove cursor when done with this element
+                removeCursorForSection(section);
+                el.classList.remove('typing-active');
+                el.classList.add('typing-complete');
+                // Start rotating words after hero is typed
+                if (el.querySelector('#rotatingWord') || el.querySelector('.rotating-word')) {
+                    startRotatingWords();
+                }
+                if (el.querySelector('#rotatingIndustry') || el.querySelector('.rotating-industry')) {
+                    startRotatingIndustry();
+                }
+                // Reveal next glide-down elements if this element has data-reveal-next (optionally after a delay)
+                if (el.hasAttribute('data-reveal-next')) {
+                    const revealDelay = parseInt(el.getAttribute('data-reveal-delay'), 10) || 0;
+                    const delayAfter = parseInt(el.getAttribute('data-delay-after'), 10) || LINE_DELAY;
+                    const runRevealAndCallback = () => {
+                        revealNextGlideElements(el);
+                        startRotatingIndustry();
+                        if (callback) setTimeout(callback, delayAfter);
+                    };
+                    if (revealDelay > 0) {
+                        setTimeout(runRevealAndCallback, revealDelay);
+                    } else {
+                        runRevealAndCallback();
+                    }
+                    return;
+                }
+                const delayAfter = parseInt(el.getAttribute('data-delay-after'), 10) || LINE_DELAY;
+                if (callback) setTimeout(callback, delayAfter);
+                return;
+            }
+            
+            // Build the HTML up to this point
+            let html = '';
+            const openTags = [];
+            
+            for (let i = 0; i <= charIndex; i++) {
+                const seg = segments[i];
+                
+                // Close tags that are no longer needed
+                while (openTags.length > 0 && 
+                       (seg.tags.length < openTags.length || 
+                        !tagsMatch(seg.tags[openTags.length - 1], openTags[openTags.length - 1]))) {
+                    const closingTag = openTags.pop();
+                    html += `</${closingTag.tagName}>`;
+                }
+                
+                // Open new tags
+                while (openTags.length < seg.tags.length) {
+                    const tagInfo = seg.tags[openTags.length];
+                    let tagHTML = `<${tagInfo.tagName}`;
+                    if (tagInfo.id) tagHTML += ` id="${tagInfo.id}"`;
+                    if (tagInfo.className) tagHTML += ` class="${tagInfo.className}"`;
+                    for (const [attr, val] of Object.entries(tagInfo.attributes)) {
+                        tagHTML += ` ${attr}="${val}"`;
+                    }
+                    tagHTML += '>';
+                    html += tagHTML;
+                    openTags.push(tagInfo);
+                }
+                
+                html += seg.char;
+            }
+            
+            // Close remaining open tags
+            while (openTags.length > 0) {
+                const closingTag = openTags.pop();
+                html += `</${closingTag.tagName}>`;
+            }
+            
+            // Set HTML and re-append cursor at the end
+            el.innerHTML = html;
+            el.appendChild(currentCursor);
+            
+            charIndex++;
+            setTimeout(typeNextChar, TYPING_SPEED);
+        }
+        
+        function tagsMatch(tag1, tag2) {
+            if (!tag1 || !tag2) return false;
+            return tag1.tagName === tag2.tagName && 
+                   tag1.className === tag2.className && 
+                   tag1.id === tag2.id;
+        }
+        
+        typeNextChar();
     }
-}
-
-function drawCentralGlow(cx, cy, t, speedFactor, w, h) {
-    const maxRadius = Math.max(w, h) * 0.4;
-    const radius = 40 + maxRadius * speedFactor;
-    const alpha = 0.12 + 0.3 * speedFactor;
-
-    const grad = warpCtx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-    grad.addColorStop(0, `rgba(${WARP.GLOW_R}, ${WARP.GLOW_G}, ${WARP.GLOW_B}, ${alpha})`);
-    grad.addColorStop(0.2, `rgba(${WARP.GLOW_R}, ${WARP.GLOW_G}, ${WARP.GLOW_B}, ${alpha * 0.5})`);
-    grad.addColorStop(0.5, `rgba(${WARP.GLOW_R}, ${WARP.GLOW_G}, ${WARP.GLOW_B}, ${alpha * 0.1})`);
-    grad.addColorStop(1, `rgba(${WARP.GLOW_R}, ${WARP.GLOW_G}, ${WARP.GLOW_B}, 0)`);
-
-    warpCtx.save();
-    warpCtx.fillStyle = grad;
-    warpCtx.fillRect(0, 0, w, h);
-    warpCtx.restore();
-
-    // Core dot
-    const coreAlpha = 0.5 + 0.5 * Math.sin(t * Math.PI * 8);
-    const coreRadius = 3 + 5 * speedFactor;
-    warpCtx.save();
-    warpCtx.fillStyle = `rgba(255, 255, 255, ${coreAlpha})`;
-    warpCtx.beginPath();
-    warpCtx.arc(cx, cy, coreRadius, 0, Math.PI * 2);
-    warpCtx.fill();
-    warpCtx.restore();
-}
-
-function endWarpAnimation() {
-    if (warpAnimationId) {
-        cancelAnimationFrame(warpAnimationId);
-        warpAnimationId = null;
+    
+    // Process typing queue for a specific section
+    function processQueueForSection(section) {
+        const state = getSectionState(section);
+        if (state.isTyping || state.queue.length === 0) return;
+        
+        state.isTyping = true;
+        const nextData = state.queue.shift();
+        typeElement(nextData, () => {
+            state.isTyping = false;
+            processQueueForSection(section);
+        });
     }
-
-    warpCanvas.classList.remove('active');
-    warpCanvas.classList.add('fade-out');
-
-    document.body.style.overflow = '';
-
-    const solutions = document.getElementById('solutions');
-    if (solutions) {
-        solutions.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    setTimeout(() => {
-        warpCanvas.classList.remove('fade-out');
-        warpCanvas.width = 0;
-        warpCanvas.height = 0;
-    }, 600);
-}
-
-// ============ WARP SCROLL TRIGGER ============
-function setupWarpTrigger() {
-    let scrollLocked = false;
-    const warpCanvasEl = document.getElementById('warp-canvas');
-
-    function handleScroll(e) {
-        // When space animation is hidden via CSS, allow normal smooth scroll (don't intercept)
-        if (warpCanvasEl && getComputedStyle(warpCanvasEl).visibility === 'hidden') return;
-
-        const hero = document.getElementById('hero');
-        if (!hero) return;
-        const rect = hero.getBoundingClientRect();
-
-        if (rect.top > -100 && rect.bottom > window.innerHeight * 0.5) {
-            const isDown = e.type === 'keydown' || e.deltaY > 0 ||
-                           (e.touches && e.touches.length > 0);
-
-            if (isDown && !scrollLocked) {
-                e.preventDefault();
-                scrollLocked = true;
-
-                window.removeEventListener('wheel', handleScroll, { capture: true });
-                window.removeEventListener('touchmove', handleTouchScroll, { capture: true });
-                window.removeEventListener('keydown', handleKeyScroll, { capture: true });
-
-                startWarpAnimation();
+    
+    // Check which elements are visible and should start typing
+    function checkVisibleElements() {
+        // Group elements by section
+        const sectionElements = new Map();
+        
+        for (let i = 0; i < elementsData.length; i++) {
+            const data = elementsData[i];
+            if (hasStartedTyping.has(i)) continue;
+            
+            const section = getSection(data.el);
+            if (!sectionElements.has(section)) {
+                sectionElements.set(section, []);
+            }
+            sectionElements.get(section).push({ index: i, data });
+        }
+        
+        // For each section, check visibility and queue elements in order
+        for (const [section, elements] of sectionElements) {
+            const sectionRect = section.getBoundingClientRect();
+            const sectionVisible = sectionRect.top < window.innerHeight && sectionRect.bottom > 0;
+            
+            if (!sectionVisible) continue;
+            
+            // Get elements in this section that are visible
+            for (const { index, data } of elements) {
+                const rect = data.el.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight - 50 && rect.bottom > 0;
+                
+                if (isVisible) {
+                    // Check if all previous elements IN THIS SECTION have started
+                    let allPreviousInSectionStarted = true;
+                    for (const { index: prevIndex } of elements) {
+                        if (prevIndex < index && !hasStartedTyping.has(prevIndex)) {
+                            allPreviousInSectionStarted = false;
+                            break;
+                        }
+                    }
+                    
+                    if (allPreviousInSectionStarted) {
+                        hasStartedTyping.add(index);
+                        const state = getSectionState(section);
+                        state.queue.push(data);
+                        processQueueForSection(section);
+                    }
+                }
             }
         }
     }
-
-    let touchStartY = 0;
-    window.addEventListener('touchstart', (e) => {
-        touchStartY = e.touches[0].clientY;
+    
+    // Rotating words functionality (starts after typing completes)
+    function startRotatingWords() {
+        const rotatingWord = document.getElementById('rotatingWord');
+        if (!rotatingWord || rotatingWord.dataset.rotating) return;
+        rotatingWord.dataset.rotating = 'true';
+        
+        const words = ['business', 'employees', 'products', 'operations'];
+        let currentIndex = 0;
+        
+        function rotateWord() {
+            currentIndex = (currentIndex + 1) % words.length;
+            let charIndex = 0;
+            const word = words[currentIndex];
+            const typeInterval = setInterval(() => {
+                rotatingWord.textContent = word.substring(0, charIndex + 1);
+                charIndex++;
+                if (charIndex === word.length) {
+                    clearInterval(typeInterval);
+                    setTimeout(rotateWord, 1500);
+                }
+            }, 40);
+        }
+        
+        setTimeout(rotateWord, 2000);
+    }
+    
+    function startRotatingIndustry() {
+        const el = document.getElementById('rotatingIndustry');
+        if (!el || el.dataset.rotating) return;
+        el.dataset.rotating = 'true';
+        
+        const words = ['cyber', 'hi-tech', 'government', 'fin-tech', 'HR-tech', 'med-tech'];
+        let currentIndex = 0;
+        
+        function rotateIndustry() {
+            currentIndex = (currentIndex + 1) % words.length;
+            let charIndex = 0;
+            const word = words[currentIndex];
+            const typeInterval = setInterval(() => {
+                el.textContent = word.substring(0, charIndex + 1);
+                charIndex++;
+                if (charIndex === word.length) {
+                    clearInterval(typeInterval);
+                    setTimeout(rotateIndustry, 1500);
+                }
+            }, 40);
+        }
+        
+        setTimeout(rotateIndustry, 2500);
+    }
+    
+    // Initial check and scroll listener
+    setTimeout(() => {
+        checkVisibleElements();
+    }, 300);
+    
+    window.addEventListener('scroll', () => {
+        checkVisibleElements();
     }, { passive: true });
-
-    function handleTouchScroll(e) {
-        const touchY = e.touches[0].clientY;
-        if (touchStartY - touchY > 30) {
-            handleScroll(e);
-        }
-    }
-
-    function handleKeyScroll(e) {
-        if (['Space', 'PageDown', 'ArrowDown'].includes(e.code)) {
-            handleScroll(e);
-        }
-    }
-
-    window.addEventListener('wheel', handleScroll, { capture: true, passive: false });
-    window.addEventListener('touchmove', handleTouchScroll, { capture: true, passive: false });
-    window.addEventListener('keydown', handleKeyScroll, { capture: true });
+    
+    // Also check on resize
+    window.addEventListener('resize', () => {
+        checkVisibleElements();
+    }, { passive: true });
 }
 
-// ============ SINGLE-LINE TYPE INTO BOX ============
+// Type text into a content box (single box, character-by-character). Returns { promise, abort }.
 function typeIntoBox(containerEl, cursorEl, fullText, options) {
     const speed = (options && options.speed) || 20;
+    const onComplete = (options && options.onComplete) || (() => {});
     if (!containerEl) return { promise: Promise.resolve(), abort: () => {} };
     if (cursorEl) cursorEl.style.visibility = 'visible';
-    containerEl.innerHTML = '';
+    containerEl.textContent = '';
     let timeoutId = null;
     let aborted = false;
     const abort = () => {
@@ -513,11 +548,12 @@ function typeIntoBox(containerEl, cursorEl, fullText, options) {
         function tick() {
             if (aborted) return resolve();
             if (i < fullText.length) {
-                containerEl.textContent = fullText.substring(0, i + 1);
+                containerEl.textContent += fullText[i];
                 i++;
                 timeoutId = setTimeout(tick, speed);
             } else {
                 if (cursorEl) cursorEl.style.visibility = 'hidden';
+                onComplete();
                 resolve();
             }
         }
@@ -526,7 +562,7 @@ function typeIntoBox(containerEl, cursorEl, fullText, options) {
     return { promise, abort };
 }
 
-// ============ OFFERING SECTION ============
+// Offering Section: boxes with icon + title that expand on hover
 const OFFERING_INTRO = {
     employees: "Great, here's how we can help empower your employees/business:",
     products: "Excellent, here's how we can help empower your products/tech:"
@@ -550,52 +586,57 @@ const OFFERING_ICONS = {
     customize: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.04.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>'
 };
 
+function renderOfferingPlaceholder() {
+    const grid = document.getElementById('offeringCardsGrid');
+    const responseBox = document.getElementById('offeringResponseBox');
+    if (responseBox) responseBox.classList.add('is-placeholder');
+    if (grid) grid.innerHTML = '';
+}
+
 const OFFERING_DESC_PREVIEW_LEN = 50;
 
 function renderOfferingCards(key) {
-    const grid = $('#offeringCardsGrid');
+    const grid = document.getElementById('offeringCardsGrid');
     const cards = OFFERING_CARDS[key];
     if (!grid || !cards) return;
     grid.innerHTML = cards.map(card => {
         const desc = card.description || '';
         const preview = desc.length <= OFFERING_DESC_PREVIEW_LEN ? desc : desc.slice(0, OFFERING_DESC_PREVIEW_LEN).trim() + '...';
-        return `<div class="offering-card">
+        return `
+        <div class="offering-card">
             <div class="offering-card-header">
                 <div class="offering-card-icon">${OFFERING_ICONS[card.icon] || OFFERING_ICONS.consulting}</div>
                 <h4 class="offering-card-title">${card.title}</h4>
             </div>
             <p class="offering-card-desc-preview">${preview}</p>
-        </div>`;
+            <p class="offering-card-desc-full" title="${desc.replace(/"/g, '&quot;')}">${desc}</p>
+        </div>
+        `;
     }).join('');
 }
 
 function initOfferingInteraction() {
-    const contentEl = $('#offeringResponseContent');
-    const cursorEl = $('#offeringCursor');
-    const btns = $$('#offeringOptionTitles .option-title-btn');
+    const contentEl = document.getElementById('offeringResponseContent');
+    const cursorEl = document.getElementById('offeringCursor');
+    const responseBox = document.getElementById('offeringResponseBox');
+    const btns = document.querySelectorAll('#offeringOptionTitles .option-title-btn');
     let currentAbort = () => {};
-
+    renderOfferingPlaceholder();
     btns.forEach(btn => {
         btn.addEventListener('click', () => {
             const key = btn.getAttribute('data-offering');
             const intro = OFFERING_INTRO[key];
             if (!intro) return;
-
             currentAbort();
-
+            if (responseBox) responseBox.classList.remove('is-placeholder');
             btns.forEach(b => {
                 b.classList.remove('active');
                 b.setAttribute('aria-pressed', 'false');
             });
             btn.classList.add('active');
             btn.setAttribute('aria-pressed', 'true');
-
             renderOfferingCards(key);
-
-            const placeholder = contentEl && contentEl.querySelector('.response-placeholder');
-            if (placeholder) placeholder.remove();
             if (contentEl) contentEl.textContent = '';
-
             const { promise, abort } = typeIntoBox(contentEl, cursorEl, intro, { speed: 18 });
             currentAbort = abort;
             promise.then(() => { currentAbort = () => {}; });
@@ -603,7 +644,7 @@ function initOfferingInteraction() {
     });
 }
 
-// ============ CUSTOMIZATION SECTION ============
+// Customization Section: each bullet typed as a new line
 const CUSTOMIZATION_CONTENT = {
     security: [
         "Our solutions can be served from our/your cloud (any provider you prefer), on-prem, air-gapped.",
@@ -642,68 +683,16 @@ const CUSTOMIZATION_CONTENT = {
     ]
 };
 
-function initCustomizationInteraction() {
-    const contentEl = $('#customizationResponseContent');
-    const cursorEl = $('#customizationCursor');
-    const btns = $$('#customizationOptionTitles .option-title-btn');
-    let currentAbort = () => {};
-
-    btns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const key = btn.getAttribute('data-custom');
-            const lines = CUSTOMIZATION_CONTENT[key];
-            if (!lines || !contentEl) return;
-
-            currentAbort();
-
-            const placeholder = contentEl.querySelector('.response-placeholder');
-            if (placeholder) placeholder.remove();
-
-            btns.forEach(b => {
-                b.classList.remove('active');
-                b.setAttribute('aria-pressed', 'false');
-            });
-            btn.classList.add('active');
-            btn.setAttribute('aria-pressed', 'true');
-
-            const { promise, abort } = typeLinesIntoBox(contentEl, cursorEl, lines);
-            currentAbort = abort;
-            promise.then(() => { currentAbort = () => {}; });
-        });
-    });
-}
-
-// ============ LOGO RUNNER (OZ-STYLE) ============
-function initLogoRunner() {
-    $$('.logo-track').forEach(track => {
-        if (track.dataset.cloned) return;
-        const items = Array.from(track.children);
-        items.forEach(item => {
-            const clone = item.cloneNode(true);
-            clone.setAttribute('aria-hidden', 'true');
-            track.appendChild(clone);
-        });
-        track.dataset.cloned = 'true';
-
-        track.addEventListener('mouseenter', () => {
-            track.style.animationPlayState = 'paused';
-        });
-        track.addEventListener('mouseleave', () => {
-            track.style.animationPlayState = 'running';
-        });
-    });
-}
-
-// ============ TYPE LINES INTO BOX (response box) ============
-function typeLinesIntoBox(containerEl, cursorEl, lines) {
-    const speed = 16;
-    const lineDelay = 120;
-    if (!containerEl || !lines || !lines.length) return { promise: Promise.resolve(), abort: () => {} };
+// Type multiple lines in parallel: each line prefixed with green "> ", lines start with a little delay between each
+function typeLinesIntoBoxParallel(containerEl, cursorEl, rawLines, options) {
+    const speed = (options && options.speed) || 16;
+    const lineDelay = (options && options.lineDelay) ?? 120;
+    const onComplete = (options && options.onComplete) || (() => {});
+    if (!containerEl || !rawLines || !rawLines.length) return { promise: Promise.resolve(), abort: () => {} };
     if (cursorEl) cursorEl.style.visibility = 'visible';
     containerEl.innerHTML = '';
-
     const textSpans = [];
-    lines.forEach(text => {
+    rawLines.forEach((text) => {
         const lineDiv = document.createElement('div');
         lineDiv.className = 'typed-line';
         const promptSpan = document.createElement('span');
@@ -716,7 +705,6 @@ function typeLinesIntoBox(containerEl, cursorEl, lines) {
         containerEl.appendChild(lineDiv);
         textSpans.push(textSpan);
     });
-
     let intervalId = null;
     let aborted = false;
     const abort = () => {
@@ -724,24 +712,24 @@ function typeLinesIntoBox(containerEl, cursorEl, lines) {
         if (intervalId) clearInterval(intervalId);
         if (cursorEl) cursorEl.style.visibility = 'hidden';
     };
-
-    const promise = new Promise(resolve => {
-        const progress = lines.map(() => 0);
+    const promise = new Promise((resolve) => {
+        const progress = rawLines.map(() => 0);
         const startTime = Date.now();
         function tick() {
             if (aborted) return resolve();
             const elapsed = Date.now() - startTime;
             let anyProgress = false;
-            for (let i = 0; i < lines.length; i++) {
-                if (elapsed >= i * lineDelay && progress[i] < lines[i].length) {
+            for (let i = 0; i < rawLines.length; i++) {
+                if (elapsed >= i * lineDelay && progress[i] < rawLines[i].length) {
                     progress[i]++;
                     anyProgress = true;
                 }
-                textSpans[i].textContent = lines[i].substring(0, progress[i]);
+                textSpans[i].textContent = rawLines[i].substring(0, progress[i]);
             }
-            if (!anyProgress && progress.every((p, i) => p === lines[i].length)) {
+            if (!anyProgress && progress.every((p, i) => p === rawLines[i].length)) {
                 if (intervalId) clearInterval(intervalId);
                 if (cursorEl) cursorEl.style.visibility = 'hidden';
+                onComplete();
                 return resolve();
             }
         }
@@ -750,153 +738,100 @@ function typeLinesIntoBox(containerEl, cursorEl, lines) {
     return { promise, abort };
 }
 
-// ============ SECTION REVEAL ON SCROLL ============
-function setupScrollReveal() {
-    const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const section = entry.target;
-                section.classList.add('visible');
-                revealSectionItems(section);
-                sectionObserver.unobserve(section);
-            }
-        });
-    }, {
-        threshold: 0.08,
-        rootMargin: '0px 0px -40px 0px'
-    });
-
-    $$('.content-section').forEach(section => {
-        sectionObserver.observe(section);
-    });
-}
-
-function revealSectionItems(section) {
-    const items = section.querySelectorAll('.reveal-item');
-    items.forEach((item, i) => {
-        setTimeout(() => {
-            item.classList.add('revealed');
-        }, i * 250);
-    });
-
-}
-
-// ============ NAVIGATION (Oz-style) + URL routing ============
-function initNavigation() {
-    const navLinks = $$('.nav-link, .mobile-link');
-    const sections = $$('section[id]');
-
-    // Set href to path URLs (shareable, works on direct load)
-    navLinks.forEach(link => {
-        const sectionId = link.getAttribute('data-section');
-        if (sectionId) link.setAttribute('href', getPathForSection(sectionId) || '/');
-    });
-
-    // Smooth scroll + update URL when nav link clicked
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            const sectionId = link.getAttribute('data-section');
-            if (!sectionId) return;
-            e.preventDefault();
-            const target = document.getElementById(sectionId);
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                updateUrlForSection(sectionId, false);
-                const mobileMenu = document.getElementById('mobileMenu');
-                const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-                if (mobileMenu) mobileMenu.classList.remove('active');
-                if (mobileMenuBtn) mobileMenuBtn.classList.remove('active');
-            }
-        });
-    });
-
-    // On load: set history state from URL and scroll to section if not home
-    const initialSection = getSectionFromPath(location.pathname);
-    history.replaceState({ section: initialSection }, '');
-    if (initialSection !== 'hero') {
-        const el = document.getElementById(initialSection);
-        if (el) {
-            requestAnimationFrame(() => {
-                el.scrollIntoView({ behavior: 'auto', block: 'start' });
+function initCustomizationInteraction() {
+    const contentEl = document.getElementById('customizationResponseContent');
+    const cursorEl = document.getElementById('customizationCursor');
+    const responseBox = document.getElementById('customizationResponseBox');
+    const btns = document.querySelectorAll('#customizationOptionTitles .option-title-btn');
+    let currentAbort = () => {};
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const key = btn.getAttribute('data-custom');
+            const lines = CUSTOMIZATION_CONTENT[key];
+            if (!lines || !contentEl) return;
+            currentAbort();
+            if (responseBox) responseBox.classList.remove('response-box--empty');
+            btns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
             });
-        }
-    }
-
-    // Back/forward: scroll to section for current URL
-    window.addEventListener('popstate', () => {
-        const sectionId = (history.state && history.state.section) || getSectionFromPath(location.pathname);
-        const el = document.getElementById(sectionId);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-
-    // When scroll reveals a section, update URL (replace so back doesn’t step through every section)
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const sectionId = entry.target.id;
-                navLinks.forEach(link => {
-                    const linkSection = link.getAttribute('data-section');
-                    if (linkSection === sectionId) {
-                        link.classList.add('active');
-                    } else {
-                        link.classList.remove('active');
-                    }
-                });
-                updateUrlForSection(sectionId, true);
-            }
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+            const { promise, abort } = typeLinesIntoBoxParallel(contentEl, cursorEl, lines, {
+                speed: 16,
+                lineDelay: 120
+            });
+            currentAbort = abort;
+            promise.then(() => { currentAbort = () => {}; });
         });
-    }, {
-        root: null,
-        rootMargin: '-50% 0px -50% 0px',
-        threshold: 0
-    });
-
-    sections.forEach(section => observer.observe(section));
-}
-
-// ============ MOBILE MENU ============
-function initMobileMenu() {
-    const btn = document.getElementById('mobileMenuBtn');
-    const menu = document.getElementById('mobileMenu');
-    if (!btn || !menu) return;
-
-    btn.addEventListener('click', () => {
-        btn.classList.toggle('active');
-        menu.classList.toggle('active');
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!btn.contains(e.target) && !menu.contains(e.target)) {
-            btn.classList.remove('active');
-            menu.classList.remove('active');
-        }
     });
 }
 
-// ============ INIT ============
-document.addEventListener('DOMContentLoaded', () => {
-    initWarp();
-    initNavigation();
-    initMobileMenu();
-    setupScrollReveal();
-    initLogoRunner();
-    initOfferingInteraction();
-    initCustomizationInteraction();
-
-    // "> continue" scroll indicator: smooth scroll to section
-    const scrollIndicator = document.getElementById('scroll-indicator');
+// Scroll Indicator
+function initScrollIndicator() {
+    const scrollIndicator = document.getElementById('scrollIndicator');
     if (scrollIndicator) {
         scrollIndicator.addEventListener('click', () => {
             const targetId = scrollIndicator.getAttribute('data-scroll-to');
             const target = targetId ? document.getElementById(targetId) : null;
-            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
         });
     }
+}
 
-    // Start hero animation, then arm warp trigger
-    setTimeout(() => {
-        runHeroAnimation().then(() => {
-            setupWarpTrigger();
+// Logo runner (from OzWiz): seamless loop + hover to pause
+function initLogoRunner() {
+    const logoTrack = document.querySelector('.logo-track');
+    if (!logoTrack) return;
+
+    // Duplicate track content once for seamless infinite scroll
+    if (!logoTrack.dataset.cloned) {
+        const items = Array.from(logoTrack.children);
+        items.forEach(item => {
+            const clone = item.cloneNode(true);
+            clone.setAttribute('aria-hidden', 'true');
+            logoTrack.appendChild(clone);
         });
-    }, 500);
+        logoTrack.dataset.cloned = 'true';
+    }
+
+    // Pause animation on hover, resume on leave
+    logoTrack.addEventListener('mouseenter', () => {
+        logoTrack.style.animationPlayState = 'paused';
+    });
+    logoTrack.addEventListener('mouseleave', () => {
+        logoTrack.style.animationPlayState = 'running';
+    });
+}
+
+// Mobile Menu
+function initMobileMenu() {
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuBtn.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+            mobileMenuBtn.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        }
+    });
+}
+
+// Handle initial hash in URL
+window.addEventListener('load', () => {
+    const hash = window.location.hash;
+    if (hash) {
+        const targetSection = document.querySelector(hash);
+        if (targetSection) {
+            setTimeout(() => {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+    }
 });

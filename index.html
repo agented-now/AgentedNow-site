@@ -3,63 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>agented.now - Custom Agentic AI Solutions</title>
-    <meta name="description" content="Get custom agentic AI solutions to empower your product, team, and business. agented.now — tailored GenAI & agentic AI solutions, deployed your way.">
-    <meta property="og:title" content="agented.now — Custom GenAI & Agentic AI Solutions">
-    <meta property="og:description" content="Get custom agentic AI solutions to empower your product, team, and business.">
+    <meta name="description" content="Agented.Now - Empower your business with custom GenAI & AI agent solutions. Expert consulting and development services.">
+    <meta name="keywords" content="GenAI, AI agents, artificial intelligence, consulting, custom solutions, LangChain, LangGraph">
+    <meta name="author" content="Agented.Now">
+    
+    <!-- Open Graph / Social Preview -->
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://agented.now">
+    <meta property="og:title" content="Agented.Now - Custom GenAI & AI Agent Solutions">
+    <meta property="og:description" content="Empower your business with custom GenAI & AI agent solutions. Expert consulting and development services.">
+    <meta property="og:image" content="/visuals/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="1008">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Agented.Now - Custom GenAI & AI Agent Solutions">
+    <meta name="twitter:description" content="Empower your business with custom GenAI & AI agent solutions.">
+    <meta name="twitter:image" content="/visuals/og-image.svg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/visuals/favicon.svg">
+    <link rel="apple-touch-icon" href="/visuals/apple-touch-icon.svg">
+    
+    <title>Agented.Now - Custom GenAI & AI Agent Solutions</title>
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- SEO: Full text content for search engines -->
-    <div class="seo-only" aria-hidden="false">
-        <h1>agented.now — Custom GenAI & Agentic AI Solutions</h1>
-        <p>Get custom agentic AI solutions to empower your product, team, and business. agented.now builds tailored GenAI & agentic AI solutions, deployed your way.</p>
-        <p>We build custom GenAI & agentic AI solutions to assist employees or automate workflows.</p>
-        <h2>How We Deliver</h2>
-        <p>Most AI tools are black boxes — no customization, no trust, no control. We build differently.</p>
-        <p>Tailored to you: Your data, systems, integrations. Your rules, terminology, compliance. Your teams — engineers, sales, HR, each using it their way.</p>
-        <p>Managed by you: Your infrastructure, your security, your visibility. Cloud, on-prem, or air-gapped. Secure and compliant to your standards. Admin panel, user roles, permissions. Usage monitoring, metrics, KPIs.</p>
-        <h2>Our Clients</h2>
-        <p>Panaya, Natural Intelligence, Kaltura, JOINT, CBS, Ministry of Labor, Yess.ai, Swish.ai, Stampli, Adam Milo, Storywise.ai</p>
-        <h2>About Us</h2>
-        <p>Oz Livneh - Co-Founder, Co-CEO. Top-tier expert in GenAI & agentic AI, 10+ years in AI, ex-PhD & ex-Physicist.</p>
-        <p>Ido Livneh - Co-Founder, Co-CEO. Expert in Product & Marketing.</p>
-        <h2>What We've Built</h2>
-        <p>AI outreach product (co-lab.dev). Agentic BI concept product. GenAI products for internal research. Agentic products for system engineers. Agentic products for sales and marketing.</p>
-        <h2>Contact</h2>
-        <p>Let's talk about your needs! WhatsApp: +972509567332. Email: business@agented.now</p>
-    </div>
-
-    <!-- Navigation (Oz-style) -->
-    <nav id="navbar" class="top-panel">
+    <!-- Top Navigation Panel -->
+    <nav class="top-panel" id="topPanel">
         <div class="nav-container">
             <div class="nav-logo">
-                <span class="logo">agented<span class="logo-dot">.</span><span class="accent">now</span></span>
+                <span class="logo-text brand-green">agented<span class="logo-dot white-dot">.</span>now</span>
             </div>
-            <div class="nav-sections" id="nav-sections">
-                <a href="#hero" class="nav-link active" data-section="hero">Home</a>
-                <a href="#solutions" class="nav-link" data-section="solutions">Solutions</a>
+            
+            <div class="nav-sections">
+                <a href="#home" class="nav-link active" data-section="home">Home</a>
+                <a href="#offering" class="nav-link" data-section="offering">Offering</a>
                 <a href="#customization" class="nav-link" data-section="customization">Customization</a>
                 <a href="#portfolio" class="nav-link" data-section="portfolio">Portfolio</a>
                 <a href="#about" class="nav-link" data-section="about">About Us</a>
                 <a href="#contact" class="nav-link" data-section="contact">Contact</a>
             </div>
+            
             <div class="nav-actions">
-                <a href="https://wa.me/972509567332" target="_blank" class="action-btn glow" aria-label="WhatsApp">
+                <a href="https://wa.me/972509567332" target="_blank" class="action-btn" aria-label="WhatsApp">
                     <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                     </svg>
                 </a>
-                <a href="mailto:business@agented.now" class="action-btn glow glow-email" aria-label="Email">
+                <a href="mailto:business@agented.now" class="action-btn" aria-label="Email">
                     <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
                         <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                     </svg>
                 </a>
+                <div class="theme-toggle">
+                    <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+                        <svg class="sun-icon" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                            <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 000-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+                        </svg>
+                        <svg class="moon-icon" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                            <path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
+            
             <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
                 <span></span>
                 <span></span>
@@ -70,262 +85,274 @@
 
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
-        <a href="#hero" class="mobile-link" data-section="hero">Home</a>
-        <a href="#solutions" class="mobile-link" data-section="solutions">Solutions</a>
+        <a href="#home" class="mobile-link" data-section="home">Home</a>
+        <a href="#offering" class="mobile-link" data-section="offering">Offering</a>
         <a href="#customization" class="mobile-link" data-section="customization">Customization</a>
         <a href="#portfolio" class="mobile-link" data-section="portfolio">Portfolio</a>
         <a href="#about" class="mobile-link" data-section="about">About Us</a>
         <a href="#contact" class="mobile-link" data-section="contact">Contact</a>
     </div>
 
-    <!-- ========== HERO ========== -->
-    <section id="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                <span class="hero-line" id="hero-line-1">Get <u>custom</u> <u>agentic AI</u> solutions</span>
-                <span class="hero-line" id="hero-line-2">to empower your <span class="hero-slot" id="hero-rotating">product</span>.</span>
-                <span class="hero-line hero-line-brand" id="hero-line-3">Get <span class="brand-accent">agented</span>.<span class="brand-accent">now</span></span>
-            </h1>
-        </div>
-
-        <div class="hero-logos">
-            <div class="logo-runner">
-                <div class="logo-track" id="heroLogoTrack">
-                    <div class="logo-item"><img src="visuals/client logos/Panaya.svg" alt="Panaya" loading="lazy"></div>
-                    <div class="logo-item"><img src="visuals/client logos/Natural_Intelligence.png" alt="Natural Intelligence" loading="lazy"></div>
-                    <div class="logo-item"><img src="visuals/client logos/Kaltura.png" alt="Kaltura" loading="lazy"></div>
-                    <div class="logo-item"><img src="visuals/client logos/JDC.png" alt="JOINT" loading="lazy"></div>
-                    <div class="logo-item"><img src="visuals/client logos/הלמס.png" alt="CBS" loading="lazy"></div>
-                    <div class="logo-item"><img src="visuals/client logos/משרד העבודה.png" alt="Ministry of Labor" loading="lazy"></div>
-                    <div class="logo-item"><img src="visuals/client logos/Yess.ai.svg" alt="Yess.ai" loading="lazy"></div>
-                    <div class="logo-item"><img src="visuals/client logos/Swish.ai.webp" alt="Swish.ai" loading="lazy"></div>
-                    <div class="logo-item"><img src="visuals/client logos/Stampli.png" alt="Stampli" loading="lazy"></div>
-                    <div class="logo-item"><img src="visuals/client logos/adam-milo.webp" alt="Adam Milo" loading="lazy"></div>
-                    <div class="logo-item"><img src="visuals/client logos/Storywise.svg" alt="Storywise.ai" loading="lazy"></div>
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="section hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title typing-container">
+                        <span class="typing-line">Get <u>custom</u> <u>GenAI</u> & <u>AI agent</u> solutions</span>
+                        <span class="typing-line indent" data-delay-after="520">to empower your <span class="rotating-word" id="rotatingWord">employees</span>.</span>
+                        <span class="typing-line highlight" data-delay-after="380" data-reveal-next="true" data-reveal-delay="400">Get <span class="slogan-accent">agented</span>.<span class="slogan-accent">now</span></span>
+                    </h1>
                 </div>
-            </div>
-        </div>
-
-        <div id="scroll-indicator" class="scroll-indicator hidden" data-scroll-to="solutions">
-            <div class="scroll-arrow-container">
-                <span class="terminal-arrow">> continue</span><span class="terminal-cursor" aria-hidden="true">_</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Warp Speed Canvas -->
-    <canvas id="warp-canvas"></canvas>
-
-    <!-- ========== SOLUTIONS ========== -->
-    <section id="solutions" class="content-section">
-        <div class="section-inner">
-            <p class="solution-intro reveal-item">We're experts in <u>custom</u> <u>GenAI</u> &amp; <u>AI agents</u>.</p>
-
-            <div class="interaction-block reveal-item">
-                <div class="interaction-prompt">
-                    <span class="prompt-symbol">&gt;</span> I'm interested in:<span class="interaction-cursor" aria-hidden="true">_</span>
-                </div>
-                <div class="option-titles" id="offeringOptionTitles">
-                    <button type="button" class="option-title-btn" data-offering="employees" aria-pressed="false">
-                        <span class="option-btn-header">Empowering our employees/business</span>
-                    </button>
-                    <button type="button" class="option-title-btn" data-offering="products" aria-pressed="false">
-                        <span class="option-btn-header">Empowering our products/tech</span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="response-box reveal-item" id="offeringResponseBox" aria-live="polite">
-                <div class="response-box-inner">
-                    <span class="prompt-symbol">&gt;</span>
-                    <div class="response-box-content" id="offeringResponseContent">
-                        <span class="response-placeholder">Click &#x1F446; for an answer</span>
-                    </div>
-                    <span class="response-cursor" id="offeringCursor" aria-hidden="true">|</span>
-                </div>
-                <div class="offering-cards-grid" id="offeringCardsGrid" aria-live="polite"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== CUSTOMIZATION ========== -->
-    <section id="customization" class="content-section">
-        <div class="section-inner">
-            <p class="solution-intro reveal-item">You can fully <u>customize</u>, <u>control</u> and <u>trust</u> our solutions.</p>
-
-            <div class="interaction-block reveal-item">
-                <div class="interaction-prompt">
-                    <span class="prompt-symbol">&gt;</span> I'm interested in customizing:<span class="interaction-cursor" aria-hidden="true">_</span>
-                </div>
-                <div class="option-titles option-titles-wrap reveal-item" id="customizationOptionTitles">
-                    <button type="button" class="option-title-btn" data-custom="security" aria-pressed="false">Security/compliance</button>
-                    <button type="button" class="option-title-btn" data-custom="workflows" aria-pressed="false">Workflows/tasks</button>
-                    <button type="button" class="option-title-btn" data-custom="data" aria-pressed="false">Data/integrations</button>
-                    <button type="button" class="option-title-btn" data-custom="ui" aria-pressed="false">UI/UX/outputs</button>
-                    <button type="button" class="option-title-btn" data-custom="rules" aria-pressed="false">Rules/terminology/policies</button>
-                    <button type="button" class="option-title-btn" data-custom="roles" aria-pressed="false">Roles/permissions/admin panel/stats</button>
-                    <button type="button" class="option-title-btn" data-custom="performance" aria-pressed="false">Performance/efficiency/cost</button>
-                    <button type="button" class="option-title-btn" data-custom="architecture" aria-pressed="false">Solution architecture</button>
-                </div>
-            </div>
-
-            <div class="response-box reveal-item" id="customizationResponseBox" aria-live="polite">
-                <div class="response-box-inner">
-                    <div class="response-box-content" id="customizationResponseContent">
-                        <span class="response-placeholder">Click &#x1F446; for an answer</span>
-                    </div>
-                    <span class="response-cursor" id="customizationCursor" aria-hidden="true">|</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== PORTFOLIO (from Oz) ========== -->
-    <section id="portfolio" class="content-section">
-        <div class="section-inner">
-            <div class="section-header reveal-item">
-                <span class="section-marker">#</span>
-                <h2>Portfolio</h2>
-            </div>
-            <p class="proof-subtitle reveal-item">Selected public products</p>
-            <div class="portfolio-grid reveal-item">
-                <div class="portfolio-item">
-                    <h3>AI Outreach Product</h3>
-                    <p class="portfolio-desc">Reach out to thousands of factories in the speed of AI!</p>
-                    <div class="portfolio-iframe-wrapper">
-                        <iframe src="https://co-lab.dev/" title="Co-Lab AI Outreach" loading="lazy"></iframe>
-                        <div class="iframe-overlay">
-                            <a href="https://co-lab.dev/" target="_blank" rel="noopener" class="iframe-link">Open in new tab</a>
+                
+                <div class="clients-section">
+                    <p class="clients-title glide-down-element">We've helped many satisfied clients in <span class="rotating-industry" id="rotatingIndustry">cyber</span></p>
+                    <div class="logo-runner glide-down-element">
+                        <div class="logo-track" id="logoTrack">
+                            <div class="logo-item"><img src="visuals/client logos/Panaya.svg" alt="Panaya" loading="lazy"></div>
+                            <div class="logo-item"><img src="visuals/client logos/Kaltura.png" alt="Kaltura" loading="lazy"></div>
+                            <div class="logo-item"><img src="visuals/client logos/Natural_Intelligence.png" alt="Natural Intelligence" loading="lazy"></div>
+                            <div class="logo-item"><img src="visuals/client logos/Stampli.png" alt="Stampli" loading="lazy"></div>
+                            <div class="logo-item"><img src="visuals/client logos/adam-milo.webp" alt="Adam Milo" loading="lazy"></div>
+                            <div class="logo-item"><img src="visuals/client logos/משרד העבודה.png" alt="Ministry of Labor" loading="lazy"></div>
+                            <div class="logo-item"><img src="visuals/client logos/הלמס.png" alt="CBS" loading="lazy"></div>
+                            <div class="logo-item"><img src="visuals/client logos/Yess.ai.svg" alt="Yess.ai" loading="lazy"></div>
+                            <div class="logo-item"><img src="visuals/client logos/Swish.ai.webp" alt="Swish.ai" loading="lazy"></div>
+                            <div class="logo-item"><img src="visuals/client logos/Storywise.svg" alt="Storywise.ai" loading="lazy"></div>
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
-                    <h3>Agentic BI Concept</h3>
-                    <p class="portfolio-desc">Allowing business owners to directly interact with their data with no need for analysts!</p>
-                    <div class="portfolio-iframe-wrapper">
-                        <iframe src="https://www.youtube.com/embed/jtmxXnwVknY" title="Agentic BI Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-                    </div>
+                
+                <div class="scroll-indicator glide-down-element" id="scrollIndicator" data-scroll-to="offering" aria-hidden="true">
+                    <span class="terminal-arrow typing-text">> continue</span><span class="terminal-cursor" aria-hidden="true">_</span>
                 </div>
             </div>
+        </section>
 
-            <p class="proof-subtitle reveal-item">Selected custom solutions for clients</p>
-            <div class="solutions-grid reveal-item">
-                <div class="solution-card">
-                    <div class="solution-card-header">
-                        <div class="solution-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
-                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                            </svg>
-                        </div>
-                        <h4>GenAI &amp; Agentic Research Products</h4>
+        <!-- Offering Section -->
+        <section id="offering" class="section offering-section">
+            <div class="container">
+                <h2 class="section-title typing-text" data-reveal-next="true">We're experts in <u>custom</u> <u>GenAI</u> & <u>AI agents</u>.</h2>
+                
+                <div class="interaction-block glide-down-element">
+                    <div class="interaction-prompt typing-text" data-reveal-next="true">
+                        <span class="prompt-symbol">&gt;</span> I'm interested in:<span class="interaction-cursor" aria-hidden="true">_</span>
                     </div>
-                    <p class="solution-preview">Internal research &amp; data analysis solutions...</p>
-                    <div class="solution-details">
-                        <p>GenAI &amp; agentic products for internal research and data analysis, with RAG/improved RAG/agentic semantic search over company materials, according to company workflows, guidelines, and output specs.</p>
-                    </div>
-                </div>
-                <div class="solution-card">
-                    <div class="solution-card-header">
-                        <div class="solution-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
-                                <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
-                            </svg>
-                        </div>
-                        <h4>System Engineering Assistant</h4>
-                    </div>
-                    <p class="solution-preview">Complex internal research tool...</p>
-                    <div class="solution-details">
-                        <p>An agentic product assisting system engineers in complex internal research - to develop, analyze &amp; troubleshoot the core product.</p>
+                    <div class="option-titles glide-down-element" id="offeringOptionTitles">
+                        <button type="button" class="option-title-btn" data-offering="employees" aria-pressed="false">
+                            <span class="option-title-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                            </span>
+                            Empowering our employees/business
+                        </button>
+                        <button type="button" class="option-title-btn" data-offering="products" aria-pressed="false">
+                            <span class="option-title-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 00-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/></svg>
+                            </span>
+                            Empowering our products/tech
+                        </button>
                     </div>
                 </div>
-                <div class="solution-card">
-                    <div class="solution-card-header">
-                        <div class="solution-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
-                                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-                            </svg>
-                        </div>
-                        <h4>Sales &amp; Marketing Assistant</h4>
+                <div class="response-box response-box--offering glide-down-element" id="offeringResponseBox" aria-live="polite">
+                    <div class="response-box-inner">
+                        <span class="prompt-symbol">&gt;</span>
+                        <div class="response-box-content" id="offeringResponseContent"><span class="response-placeholder">Click 👆 for an answer</span></div>
+                        <span class="response-cursor" id="offeringCursor" aria-hidden="true">|</span>
                     </div>
-                    <p class="solution-preview">Conference &amp; presentation preparation...</p>
-                    <div class="solution-details">
-                        <p>An agentic product assisting sales &amp; marketing in preparing for conferences, presentations etc - based on company materials &amp; guidelines, web-browsing in competitor URLs, roles, admin control etc.</p>
-                    </div>
+                    <div class="offering-cards-grid" id="offeringCardsGrid" aria-live="polite"></div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ========== ABOUT US (from Oz) ========== -->
-    <section id="about" class="content-section">
-        <div class="section-inner">
-            <div class="section-header reveal-item">
-                <span class="section-marker">#</span>
-                <h2>About Us</h2>
-            </div>
-            <div class="team-grid">
-                <div class="team-member reveal-item">
-                    <div class="team-photo-wrapper">
-                        <img src="visuals/photos/Oz.jpeg" alt="Oz Livneh" class="team-photo" loading="lazy">
+        <!-- Customization Section -->
+        <section id="customization" class="section customization-section">
+            <div class="container">
+                <div class="section-intro">
+                    <h2 class="section-title typing-text" data-reveal-next="true">You can fully <u>customize</u>, <u>control</u> and <u>trust</u> our solutions.</h2>
+                </div>
+                
+                <div class="interaction-block glide-down-element">
+                    <div class="interaction-prompt typing-text" data-reveal-next="true">
+                        <span class="prompt-symbol">&gt;</span> I'm interested in customizing:<span class="interaction-cursor" aria-hidden="true">_</span>
                     </div>
-                    <div class="member-info">
-                        <h3>Oz Livneh</h3>
-                        <p class="team-role">Co-Founder, Co-CEO</p>
-                        <p class="team-bio">Top-tier expert in GenAI &amp; AI agents, 10+ years in AI, ex-PhD &amp; ex-Physicist.</p>
-                        <a href="https://www.linkedin.com/in/oz-livneh" target="_blank" rel="noopener" class="linkedin-link">
-                            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
-                            </svg>
-                            <span>LinkedIn</span>
-                        </a>
+                    <div class="option-titles option-titles-wrap glide-down-element" id="customizationOptionTitles">
+                        <button type="button" class="option-title-btn" data-custom="security" aria-pressed="false">Security/compliance</button>
+                        <button type="button" class="option-title-btn" data-custom="workflows" aria-pressed="false">Workflows/tasks</button>
+                        <button type="button" class="option-title-btn" data-custom="data" aria-pressed="false">Data/integrations</button>
+                        <button type="button" class="option-title-btn" data-custom="ui" aria-pressed="false">UI/UX/outputs</button>
+                        <button type="button" class="option-title-btn" data-custom="rules" aria-pressed="false">Rules/terminology/policies</button>
+                        <button type="button" class="option-title-btn" data-custom="roles" aria-pressed="false">Roles/permissions/admin panel/stats</button>
+                        <button type="button" class="option-title-btn" data-custom="performance" aria-pressed="false">Performance/efficiency/cost</button>
+                        <button type="button" class="option-title-btn" data-custom="architecture" aria-pressed="false">Solution architecture</button>
                     </div>
                 </div>
-                <div class="team-member reveal-item">
-                    <div class="team-photo-wrapper">
-                        <img src="visuals/photos/Ido.jpeg" alt="Ido Livneh" class="team-photo" loading="lazy">
-                    </div>
-                    <div class="member-info">
-                        <h3>Ido Livneh</h3>
-                        <p class="team-role">Co-Founder, Co-CEO</p>
-                        <p class="team-bio">Expert in Product &amp; Marketing.</p>
-                        <a href="https://www.linkedin.com/in/ido-livneh-il/" target="_blank" rel="noopener" class="linkedin-link">
-                            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
-                            </svg>
-                            <span>LinkedIn</span>
-                        </a>
+                <div class="response-box response-box--empty response-box--customization glide-down-element" id="customizationResponseBox" aria-live="polite">
+                    <div class="response-box-inner">
+                        <span class="prompt-symbol" aria-hidden="true">&gt;</span>
+                        <div class="response-box-content" id="customizationResponseContent"><span class="response-placeholder">Click 👆 for an answer</span></div>
+                        <span class="response-cursor" id="customizationCursor" aria-hidden="true">|</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ========== CONTACT (from Oz) ========== -->
-    <section id="contact" class="content-section">
-        <div class="section-inner">
-            <div class="cta-block reveal-item">
-                <h2>Let's talk about your needs!</h2>
-                <div class="contact-methods">
-                    <a href="https://wa.me/972509567332" target="_blank" rel="noopener" class="contact-btn wa-btn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="section portfolio-section">
+            <div class="container">
+                <h2 class="section-title typing-text" data-reveal-next="true">Portfolio</h2>
+                <h3 class="portfolio-subtitle typing-text glide-down-element" data-reveal-next="true">Selected public products</h3>
+                
+                <div class="portfolio-grid public-products glide-down-element">
+                    <div class="portfolio-item">
+                        <div class="portfolio-header">
+                            <h4>AI Outreach Product</h4>
+                            <p>Reach out to thousands of factories in the speed of AI!</p>
+                        </div>
+                        <div class="portfolio-preview">
+                            <iframe src="https://co-lab.dev/" title="Co-Lab AI Outreach" loading="lazy"></iframe>
+                            <a href="https://co-lab.dev/" target="_blank" class="preview-overlay">
+                                <span>Open in new tab</span>
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                    <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="portfolio-item">
+                        <div class="portfolio-header">
+                            <h4>Agentic BI Concept</h4>
+                            <p>Allowing business owners to directly interact with their data with no need for analysts!</p>
+                        </div>
+                        <div class="portfolio-preview video">
+                            <iframe src="https://www.youtube.com/embed/jtmxXnwVknY" title="Agentic BI Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="portfolio-subtitle typing-text glide-down-element" style="margin-top: 4rem;" data-reveal-next="true">Selected custom solutions for clients</h3>
+                
+                <div class="portfolio-grid custom-solutions glide-down-element">
+                    <div class="solution-card">
+                        <div class="solution-card-header">
+                            <div class="solution-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                </svg>
+                            </div>
+                            <h4>GenAI & Agentic Research Products</h4>
+                        </div>
+                        <p class="solution-preview">Internal research & data analysis solutions...</p>
+                        <div class="solution-details">
+                            <p>GenAI & agentic products for internal research and data analysis, with RAG/improved RAG/agentic semantic search over company materials, according to company workflows, guidelines, and output specs.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-card">
+                        <div class="solution-card-header">
+                            <div class="solution-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+                                    <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
+                                </svg>
+                            </div>
+                            <h4>System Engineering Assistant</h4>
+                        </div>
+                        <p class="solution-preview">Complex internal research tool...</p>
+                        <div class="solution-details">
+                            <p>An agentic product assisting system engineers in complex internal research - to develop, analyze & troubleshoot the core product.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-card">
+                        <div class="solution-card-header">
+                            <div class="solution-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+                                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                                </svg>
+                            </div>
+                            <h4>Sales & Marketing Assistant</h4>
+                        </div>
+                        <p class="solution-preview">Conference & presentation preparation...</p>
+                        <div class="solution-details">
+                            <p>An agentic product assisting sales & marketing in preparing for conferences, presentations etc - based on company materials & guidelines, web-browsing in competitor URLs, roles, admin control etc.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about" class="section about-section">
+            <div class="container">
+                <h2 class="section-title typing-text" data-reveal-next="true">About Us</h2>
+                
+                <div class="team-grid glide-down-element">
+                    <div class="team-member">
+                        <div class="member-photo">
+                            <img src="visuals/photos/Oz.jpeg" alt="Oz Livneh" loading="lazy">
+                        </div>
+                        <div class="member-info">
+                            <h3>Oz Livneh</h3>
+                            <p class="member-role">Co-Founder, Co-CEO</p>
+                            <p class="member-bio">Top-tier expert in GenAI & AI agents, 10+ years in AI, ex-PhD & ex-Physicist.</p>
+                            <a href="https://www.linkedin.com/in/oz-livneh" target="_blank" class="linkedin-link">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                                </svg>
+                                <span>LinkedIn</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-photo">
+                            <img src="visuals/photos/Ido.jpeg" alt="Ido Livneh" loading="lazy">
+                        </div>
+                        <div class="member-info">
+                            <h3>Ido Livneh</h3>
+                            <p class="member-role">Co-Founder, Co-CEO</p>
+                            <p class="member-bio">Expert in Product & Marketing.</p>
+                            <a href="https://www.linkedin.com/in/ido-livneh-il/" target="_blank" class="linkedin-link">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                                </svg>
+                                <span>LinkedIn</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section contact-section">
+            <div class="container">
+                <h2 class="section-title typing-text" data-reveal-next="true">Let's talk about your needs!</h2>
+                
+                <div class="contact-options glide-down-element">
+                    <a href="https://wa.me/972509567332" target="_blank" class="contact-btn whatsapp">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
                             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                         </svg>
                         <span>WhatsApp</span>
                     </a>
-                    <a href="mailto:business@agented.now" class="contact-btn email-btn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    
+                    <a href="mailto:business@agented.now" class="contact-btn email">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
                             <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                         </svg>
                         <span>Email</span>
                     </a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- Footer (from Oz) -->
-    <footer>
-        <span class="footer-copy">&copy; 2026 <span class="logo-small">agented<span class="accent">.now</span></span>. All rights reserved.</span>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 <span class="logo-text brand-green logo-inline">agented<span class="logo-dot white-dot">.</span>now</span>. All rights reserved.</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>

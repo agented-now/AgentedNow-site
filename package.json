@@ -1,12 +1,17 @@
 {
-  "name": "agented-now-site",
+  "name": "agented-now",
   "version": "1.0.0",
-  "description": "agented.now — Custom GenAI & Agentic Solutions",
+  "description": "Agented.Now - Custom GenAI & AI Agent Solutions",
   "scripts": {
-    "start": "http-server -p 4000 -c-1",
-    "dev": "http-server -p 4000 -c-1 -o"
+    "start": "npx serve",
+    "dev": "npx serve"
   },
-  "dependencies": {
-    "http-server": "^14.1.1"
-  }
+  "keywords": [
+    "genai",
+    "ai-agents",
+    "consulting",
+    "custom-solutions"
+  ],
+  "author": "Agented.Now",
+  "license": "MIT"
 }
