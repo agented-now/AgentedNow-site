@@ -69,68 +69,53 @@ function typewriterSwap(el, newWord, eraseSpeed = 60, typeSpeed = 70) {
 }
 
 // ============ HERO SECTION ============
-const HERO_VARIATIONS = [
-    { slot1: '10\u00D7 the output',   slot2: 'No new headcount' },
-    { slot1: 'Half the errors',       slot2: 'No quality tradeoff' },
-    { slot1: '3\u00D7 the speed',     slot2: 'No added complexity' }
-];
-const HERO_CLOSING = 'Custom AI agents. Built for you. Deployed your way.';
+const HERO_WORDS = ['product', 'team', 'business'];
 let heroRotationActive = false;
 
 async function runHeroAnimation() {
-    const slot1El = $('#hero-slot1');
-    const slot2El = $('#hero-slot2');
-    const row1 = $('.hero-row-1');
-    const row2 = $('.hero-row-2');
-    const row3 = $('.hero-row-3');
-    const closingLine = $('#hero-closing-line');
-    const closingEl = $('#hero-closing');
+    const line1 = document.getElementById('hero-line-1');
+    const line2 = document.getElementById('hero-line-2');
+    const line3 = document.getElementById('hero-line-3');
+    const heroLogos = document.querySelector('.hero-logos');
+    const scrollInd = document.getElementById('scroll-indicator');
 
-    // Set all text upfront so layout space is reserved from the start
-    slot1El.textContent = HERO_VARIATIONS[0].slot1;
-    slot2El.textContent = HERO_VARIATIONS[0].slot2;
-    closingEl.textContent = HERO_CLOSING;
-
-    // Staggered reveal: row 1 → row 2 → row 3
+    // Staggered fade-in
     await sleep(500);
-    row1.classList.add('visible');
+    if (line1) line1.classList.add('visible');
     await sleep(600);
-    row2.classList.add('visible');
+    if (line2) line2.classList.add('visible');
     await sleep(600);
-    row3.classList.add('visible');
+    if (line3) line3.classList.add('visible');
     await sleep(800);
 
-    // Fade in closing line smoothly
-    closingLine.classList.add('visible');
-    await sleep(900);
+    // Show logos
+    if (heroLogos) heroLogos.classList.add('visible');
+    await sleep(600);
 
     // Show scroll indicator
-    $('#scroll-indicator').classList.remove('hidden');
+    if (scrollInd) scrollInd.classList.remove('hidden');
 
-    // Start rotation
+    // Start rotation after a delay
     await sleep(2000);
     heroRotationActive = true;
     runHeroRotation();
 }
 
 async function runHeroRotation() {
-    const slot1El = $('#hero-slot1');
-    const slot2El = $('#hero-slot2');
+    const slot = document.getElementById('hero-rotating');
+    if (!slot) return;
     let idx = 1;
     while (heroRotationActive) {
         await sleep(3000);
         if (!heroRotationActive) break;
-        // Fade out both slots
-        slot1El.classList.add('fade-out');
-        slot2El.classList.add('fade-out');
+        // Fade out
+        slot.classList.add('fade-out');
         await sleep(500);
         // Swap text
-        slot1El.textContent = HERO_VARIATIONS[idx].slot1;
-        slot2El.textContent = HERO_VARIATIONS[idx].slot2;
+        slot.textContent = HERO_WORDS[idx];
         // Fade in
-        slot1El.classList.remove('fade-out');
-        slot2El.classList.remove('fade-out');
-        idx = (idx + 1) % HERO_VARIATIONS.length;
+        slot.classList.remove('fade-out');
+        idx = (idx + 1) % HERO_WORDS.length;
     }
 }
 
@@ -453,38 +438,6 @@ function setupWarpTrigger() {
     window.addEventListener('keydown', handleKeyScroll, { capture: true });
 }
 
-// ============ SOLUTION ROTATIONS ============
-const SOLUTION_ROTATIONS = {
-    'sol-0-0': ['internal research', 'data analysis'],
-    'sol-0-1': ['RAG', 'improved RAG', 'agentic (!)'],
-    'sol-0-2': ['workflows', 'guidelines', 'output specs']
-};
-
-let solutionRotationTimeouts = [];
-
-function startSolutionRotations() {
-    solutionRotationTimeouts.forEach(id => clearTimeout(id));
-    solutionRotationTimeouts = [];
-
-    Object.keys(SOLUTION_ROTATIONS).forEach((group, groupIdx) => {
-        const el = $(`.rotating-word[data-group="${group}"]`);
-        if (!el) return;
-
-        const words = SOLUTION_ROTATIONS[group];
-        let currentIdx = 0;
-
-        async function rotate() {
-            currentIdx = (currentIdx + 1) % words.length;
-            await typewriterSwap(el, words[currentIdx]);
-            const tid = setTimeout(rotate, 3500 + groupIdx * 500);
-            solutionRotationTimeouts.push(tid);
-        }
-
-        const initialId = setTimeout(rotate, 5000 + groupIdx * 800);
-        solutionRotationTimeouts.push(initialId);
-    });
-}
-
 // ============ PILLAR SLOT ROTATIONS ============
 const PILLAR_1_WORDS = ['data', 'rules', 'people'];
 const PILLAR_2_WORDS = ['infrastructure', 'security', 'visibility'];
@@ -512,6 +465,125 @@ function startPillarRotations() {
         slot2.classList.remove('fade-out');
         idx2 = (idx2 + 1) % PILLAR_2_WORDS.length;
     }, 3000);
+}
+
+// ============ LOGO RUNNER (OZ-STYLE) ============
+function initLogoRunner() {
+    $$('.logo-track').forEach(track => {
+        if (track.dataset.cloned) return;
+        const items = Array.from(track.children);
+        items.forEach(item => {
+            const clone = item.cloneNode(true);
+            clone.setAttribute('aria-hidden', 'true');
+            track.appendChild(clone);
+        });
+        track.dataset.cloned = 'true';
+
+        track.addEventListener('mouseenter', () => {
+            track.style.animationPlayState = 'paused';
+        });
+        track.addEventListener('mouseleave', () => {
+            track.style.animationPlayState = 'running';
+        });
+    });
+}
+
+// ============ SOLUTION INTERACTION ============
+const SOLUTION_CONTENT = {
+    tailored: [
+        "Your data. Your systems. Your integrations.",
+        "Your rules. Your terminology. Your compliance.",
+        "Your teams — engineers, sales, HR, each using it their way."
+    ],
+    managed: [
+        "Cloud, on-prem, or air-gapped.",
+        "Secure & compliant to your standards.",
+        "Admin panel, user roles, permissions.",
+        "Usage monitoring, metrics, KPIs."
+    ]
+};
+
+function typeLinesIntoBox(containerEl, cursorEl, lines) {
+    const speed = 16;
+    const lineDelay = 120;
+    if (!containerEl || !lines || !lines.length) return { promise: Promise.resolve(), abort: () => {} };
+    if (cursorEl) cursorEl.style.visibility = 'visible';
+    containerEl.innerHTML = '';
+
+    const textSpans = [];
+    lines.forEach(text => {
+        const lineDiv = document.createElement('div');
+        lineDiv.className = 'typed-line';
+        const promptSpan = document.createElement('span');
+        promptSpan.className = 'prompt-symbol';
+        promptSpan.textContent = '> ';
+        const textSpan = document.createElement('span');
+        textSpan.className = 'typed-line-text';
+        lineDiv.appendChild(promptSpan);
+        lineDiv.appendChild(textSpan);
+        containerEl.appendChild(lineDiv);
+        textSpans.push(textSpan);
+    });
+
+    let intervalId = null;
+    let aborted = false;
+    const abort = () => {
+        aborted = true;
+        if (intervalId) clearInterval(intervalId);
+        if (cursorEl) cursorEl.style.visibility = 'hidden';
+    };
+
+    const promise = new Promise(resolve => {
+        const progress = lines.map(() => 0);
+        const startTime = Date.now();
+        function tick() {
+            if (aborted) return resolve();
+            const elapsed = Date.now() - startTime;
+            let anyProgress = false;
+            for (let i = 0; i < lines.length; i++) {
+                if (elapsed >= i * lineDelay && progress[i] < lines[i].length) {
+                    progress[i]++;
+                    anyProgress = true;
+                }
+                textSpans[i].textContent = lines[i].substring(0, progress[i]);
+            }
+            if (!anyProgress && progress.every((p, i) => p === lines[i].length)) {
+                if (intervalId) clearInterval(intervalId);
+                if (cursorEl) cursorEl.style.visibility = 'hidden';
+                return resolve();
+            }
+        }
+        intervalId = setInterval(tick, speed);
+    });
+    return { promise, abort };
+}
+
+function initSolutionInteraction() {
+    const contentEl = $('#solutionResponseContent');
+    const cursorEl = $('#solutionCursor');
+    const btns = $$('#solutionOptionTitles .option-title-btn');
+    let currentAbort = () => {};
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const key = btn.getAttribute('data-solution');
+            const lines = SOLUTION_CONTENT[key];
+            if (!lines || !contentEl) return;
+
+            currentAbort();
+
+            btns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+
+            const { promise, abort } = typeLinesIntoBox(contentEl, cursorEl, lines);
+            currentAbort = abort;
+            promise.then(() => { currentAbort = () => {}; });
+        });
+    });
 }
 
 // ============ SECTION REVEAL ON SCROLL ============
@@ -543,47 +615,88 @@ function revealSectionItems(section) {
         }, i * 250);
     });
 
-    // Pillar line reveals + slot rotations for solution section
+    // Start pillar slot rotations for solution section
     if (section.id === 'solution') {
-        const pillarLines = section.querySelectorAll('.pillar-line');
-        pillarLines.forEach((line, i) => {
-            setTimeout(() => {
-                line.classList.add('revealed');
-            }, (items.length * 250) + (i * 200));
-        });
-
         setTimeout(() => {
             startPillarRotations();
-        }, (items.length * 250) + 1000);
-    }
-
-    // Solution rotations for proof section
-    if (section.id === 'proof') {
-        setTimeout(() => {
-            startSolutionRotations();
         }, items.length * 250 + 500);
     }
+
 }
 
-// ============ NAV SMOOTH SCROLL ============
-function setupNavLinks() {
-    $$('.nav-section-link').forEach(link => {
+// ============ NAVIGATION (Oz-style) ============
+function initNavigation() {
+    const navLinks = $$('.nav-link, .mobile-link');
+    const sections = $$('section[id]');
+
+    // Smooth scroll for nav links
+    navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const targetId = link.getAttribute('href').substring(1);
-            const targetEl = document.getElementById(targetId);
-            if (targetEl) {
-                targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const target = document.getElementById(targetId);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Close mobile menu
+                const mobileMenu = document.getElementById('mobileMenu');
+                const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+                if (mobileMenu) mobileMenu.classList.remove('active');
+                if (mobileMenuBtn) mobileMenuBtn.classList.remove('active');
             }
         });
+    });
+
+    // Active link tracking on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const sectionId = entry.target.id;
+                navLinks.forEach(link => {
+                    const linkSection = link.getAttribute('data-section');
+                    if (linkSection === sectionId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+        });
+    }, {
+        root: null,
+        rootMargin: '-50% 0px -50% 0px',
+        threshold: 0
+    });
+
+    sections.forEach(section => observer.observe(section));
+}
+
+// ============ MOBILE MENU ============
+function initMobileMenu() {
+    const btn = document.getElementById('mobileMenuBtn');
+    const menu = document.getElementById('mobileMenu');
+    if (!btn || !menu) return;
+
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+        menu.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!btn.contains(e.target) && !menu.contains(e.target)) {
+            btn.classList.remove('active');
+            menu.classList.remove('active');
+        }
     });
 }
 
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', () => {
     initWarp();
-    setupNavLinks();
+    initNavigation();
+    initMobileMenu();
     setupScrollReveal();
+    initLogoRunner();
+    initSolutionInteraction();
 
     // Start hero animation, then arm warp trigger
     setTimeout(() => {
