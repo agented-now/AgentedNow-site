@@ -1,5 +1,5 @@
 /* ============================================
-   agented.now — 1-2-3 Framework Interactive Site
+   agented.now — Interactive Site (Indigo Theme)
    ============================================ */
 
 // ============ DOM HELPERS ============
@@ -122,9 +122,12 @@ async function runHeroRotation() {
 // ============ WARP SPEED ANIMATION ============
 const WARP = {
     STAR_COUNT: 600,
-    BG: '#0a1a10',
-    STAR_COLOR: '#f0d060',
-    GLOW_COLOR: '#f0d060',
+    BG: '#111118',
+    STAR_COLOR: '#5b5fc7',
+    GLOW_COLOR: '#5b5fc7',
+    GLOW_R: 91,
+    GLOW_G: 95,
+    GLOW_B: 199,
     DURATION: 2500,
     FADE_OUT_START: 2000,
     SPREAD: 1600,
@@ -165,6 +168,15 @@ function startWarpAnimation() {
 
     // Stop hero rotation
     heroRotationActive = false;
+
+    // Read current theme bg for fade-out transition
+    const bgHex = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#fafaf8';
+    let bgR = 250, bgG = 250, bgB = 248;
+    if (bgHex.startsWith('#') && bgHex.length >= 7) {
+        bgR = parseInt(bgHex.slice(1, 3), 16) || 250;
+        bgG = parseInt(bgHex.slice(3, 5), 16) || 250;
+        bgB = parseInt(bgHex.slice(5, 7), 16) || 248;
+    }
 
     // Size canvas
     warpCanvas.width = window.innerWidth;
@@ -251,21 +263,21 @@ function startWarpAnimation() {
             drawStarStreak(sx, sy, px, py, star.z, speedFactor);
         }
 
-        // Brand flash near peak (delayed, longer hold)
+        // Brand flash near peak
         if (t > 0.5 && t < 0.94) {
             const flashAlpha = Math.sin((t - 0.5) / 0.44 * Math.PI) * 0.6;
-            warpCtx.fillStyle = `rgba(240, 208, 96, ${flashAlpha})`;
+            warpCtx.fillStyle = `rgba(${WARP.GLOW_R}, ${WARP.GLOW_G}, ${WARP.GLOW_B}, ${flashAlpha})`;
             warpCtx.font = `700 ${28 + speedFactor * 16}px 'JetBrains Mono', monospace`;
             warpCtx.textAlign = 'center';
             warpCtx.textBaseline = 'middle';
             warpCtx.fillText('agented.now', cx, cy);
         }
 
-        // Fade out (last 500ms)
+        // Fade out (last 500ms) — transition to page bg
         if (elapsed >= WARP.FADE_OUT_START) {
             const fadeT = (elapsed - WARP.FADE_OUT_START) / (WARP.DURATION - WARP.FADE_OUT_START);
             const flashAlpha = fadeT < 0.4 ? fadeT / 0.4 : 1.0;
-            warpCtx.fillStyle = `rgba(10, 26, 16, ${flashAlpha * 0.95})`;
+            warpCtx.fillStyle = `rgba(${bgR}, ${bgG}, ${bgB}, ${flashAlpha * 0.95})`;
             warpCtx.fillRect(0, 0, w, h);
         }
 
@@ -345,10 +357,10 @@ function drawCentralGlow(cx, cy, t, speedFactor, w, h) {
     const alpha = 0.12 + 0.3 * speedFactor;
 
     const grad = warpCtx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-    grad.addColorStop(0, `rgba(240, 208, 96, ${alpha})`);
-    grad.addColorStop(0.2, `rgba(240, 208, 96, ${alpha * 0.5})`);
-    grad.addColorStop(0.5, `rgba(240, 208, 96, ${alpha * 0.1})`);
-    grad.addColorStop(1, 'rgba(240, 208, 96, 0)');
+    grad.addColorStop(0, `rgba(${WARP.GLOW_R}, ${WARP.GLOW_G}, ${WARP.GLOW_B}, ${alpha})`);
+    grad.addColorStop(0.2, `rgba(${WARP.GLOW_R}, ${WARP.GLOW_G}, ${WARP.GLOW_B}, ${alpha * 0.5})`);
+    grad.addColorStop(0.5, `rgba(${WARP.GLOW_R}, ${WARP.GLOW_G}, ${WARP.GLOW_B}, ${alpha * 0.1})`);
+    grad.addColorStop(1, `rgba(${WARP.GLOW_R}, ${WARP.GLOW_G}, ${WARP.GLOW_B}, 0)`);
 
     warpCtx.save();
     warpCtx.fillStyle = grad;
@@ -359,7 +371,7 @@ function drawCentralGlow(cx, cy, t, speedFactor, w, h) {
     const coreAlpha = 0.5 + 0.5 * Math.sin(t * Math.PI * 8);
     const coreRadius = 3 + 5 * speedFactor;
     warpCtx.save();
-    warpCtx.fillStyle = `rgba(255, 255, 240, ${coreAlpha})`;
+    warpCtx.fillStyle = `rgba(255, 255, 255, ${coreAlpha})`;
     warpCtx.beginPath();
     warpCtx.arc(cx, cy, coreRadius, 0, Math.PI * 2);
     warpCtx.fill();
