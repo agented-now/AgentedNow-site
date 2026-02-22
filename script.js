@@ -69,7 +69,7 @@ function typewriterSwap(el, newWord, eraseSpeed = 60, typeSpeed = 70) {
 }
 
 // ============ HERO SECTION ============
-const HERO_WORDS = ['product', 'team', 'business'];
+const HERO_WORDS = ['business', 'team', 'product'];
 let heroRotationActive = false;
 
 async function runHeroAnimation() {
@@ -84,7 +84,7 @@ async function runHeroAnimation() {
     if (line1) line1.classList.add('visible');
     await sleep(600);
     if (line2) line2.classList.add('visible');
-    await sleep(600);
+    await sleep(750);
     if (line3) line3.classList.add('visible');
     await sleep(800);
 
@@ -165,9 +165,6 @@ function initWarp() {
 function startWarpAnimation() {
     if (warpTriggered || !warpCanvas) return;
     warpTriggered = true;
-
-    // Stop hero rotation
-    heroRotationActive = false;
 
     // Read current theme bg for fade-out transition
     const bgHex = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#fafaf8';

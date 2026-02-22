@@ -11,8 +11,8 @@
 
 :root {
     /* Light mode (default) */
-    --bg: #fafaf8;
-    --bg-nav: rgba(250, 250, 248, 0.92);
+    --bg: #ffffff;
+    --bg-nav: rgba(255, 255, 255, 0.92);
     --surface: #ffffff;
     --accent: #5b5fc7;
     --accent-dim: rgba(91, 95, 199, 0.08);
@@ -22,7 +22,7 @@
     --text-dim: #8a8a8a;
     --text-bright: #1a1a1a;
     --border: rgba(0, 0, 0, 0.1);
-    --overlay: rgba(250, 250, 248, 0.9);
+    --overlay: rgba(255, 255, 255, 0.9);
     --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
     --section-max: 960px;
     --nav-height: 72px;
@@ -120,7 +120,7 @@ a:hover {
     font-size: 1.25rem;
     font-weight: 700;
     letter-spacing: -0.02em;
-    color: var(--text-bright);
+    color: var(--accent);
 }
 
 .logo .accent, .logo-small .accent {
@@ -338,6 +338,8 @@ a:hover {
     color: var(--accent-contrast);
     font-weight: 700;
     padding: 0.1em 0.35em;
+    min-width: 8.5ch;
+    text-align: center;
     transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                 transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -567,7 +569,7 @@ a:hover {
 .interaction-prompt {
     font-family: var(--font-mono);
     font-size: 1rem;
-    color: var(--text-dim);
+    color: var(--text-bright);
     margin-bottom: 12px;
 }
 
