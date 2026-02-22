@@ -119,16 +119,22 @@ function updateURL(sectionId) {
     }
 }
 
-// Hero section: reveal glide-down elements on load (no typing)
+// Hero section: reveal runner after last slogan line (CTA), then "> continue"
 function initHeroReveal() {
     const hero = document.querySelector('.hero-section');
     if (!hero) return;
     const elements = hero.querySelectorAll('.glide-down-element.hero-glide');
-    const STAGGER_MS = 120;
-    const INITIAL_DELAY = 950; // after hero lines + CTA start
-    elements.forEach((el, i) => {
-        setTimeout(() => el.classList.add('revealed'), INITIAL_DELAY + i * STAGGER_MS);
-    });
+    // CTA (last slogan line) ends at 0.85s delay + 0.5s duration = 1.35s
+    const CTA_END_MS = 1350;
+    const RUNNER_ENTRANCE_MS = 300; // match .glide-down-element transition (hero)
+    // Order: [0] clients-section, [1] logo-runner, [2] scroll-indicator
+    setTimeout(() => {
+        if (elements[0]) elements[0].classList.add('revealed');
+        if (elements[1]) elements[1].classList.add('revealed');
+    }, CTA_END_MS);
+    setTimeout(() => {
+        if (elements[2]) elements[2].classList.add('revealed');
+    }, CTA_END_MS + RUNNER_ENTRANCE_MS);
 }
 
 // Hero slogan: rotate [business|team|product] with glide-down overwrite
