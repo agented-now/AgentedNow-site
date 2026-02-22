@@ -1,18 +1,18 @@
 /* CSS Variables for Theming */
 :root {
-    /* Dark theme (default) */
-    --bg-primary: #0a0a0f;
-    --bg-secondary: #12121a;
-    --bg-tertiary: #1a1a25;
+    /* Dark theme (default) – lighter, softer background */
+    --bg-primary: #14141c;
+    --bg-secondary: #1c1c28;
+    --bg-tertiary: #252532;
     --text-primary: #e0e0e0;
     --text-secondary: #a0a0a0;
     --text-muted: #606060;
-    --accent-primary: #00ff88;
-    --accent-secondary: #00cc6a;
-    --accent-glow: rgba(0, 255, 136, 0.4);
-    --border-color: #2a2a35;
-    --card-bg: #15151f;
-    --card-hover: #1e1e2a;
+    --accent-primary: #00d4ff;
+    --accent-secondary: #00a8cc;
+    --accent-glow: rgba(0, 212, 255, 0.4);
+    --border-color: #32324a;
+    --card-bg: #1a1a26;
+    --card-hover: #242432;
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     --shadow-glow: 0 0 20px var(--accent-glow);
     --logo-box-bg: #4e4e62;
@@ -42,9 +42,9 @@
     --text-primary: #1a1a25;
     --text-secondary: #4a4a5a;
     --text-muted: #8a8a9a;
-    --accent-primary: #00aa55;
-    --accent-secondary: #008844;
-    --accent-glow: rgba(0, 170, 85, 0.3);
+    --accent-primary: #0891b2;
+    --accent-secondary: #0e7490;
+    --accent-glow: rgba(8, 145, 178, 0.3);
     --border-color: #d0d0d8;
     --card-bg: #ffffff;
     --card-hover: #f0f0f5;
@@ -114,13 +114,17 @@ main {
 
 .nav-logo {
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    line-height: 1;
 }
 
 .logo-text {
     font-family: var(--font-mono);
-    font-size: 1.75rem;
-    font-weight: 700;
+    font-size: 1.125rem;
+    font-weight: 600;
     letter-spacing: -0.5px;
+    line-height: inherit;
 }
 
 .logo-text.brand-green {
@@ -360,7 +364,7 @@ main {
     bottom: 0;
     background: 
         radial-gradient(ellipse at 20% 50%, var(--accent-glow) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 50%, rgba(0, 100, 255, 0.1) 0%, transparent 50%);
+        radial-gradient(ellipse at 80% 50%, rgba(0, 212, 255, 0.08) 0%, transparent 50%);
     opacity: 0.3;
     pointer-events: none;
 }
@@ -374,50 +378,92 @@ main {
 
 .hero-title {
     font-family: var(--font-mono);
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-size: clamp(1.75rem, 4.5vw, 2.75rem);
     font-weight: 600;
     line-height: 1.8;
     margin-bottom: 20px;
     color: var(--text-primary);
 }
 
-.typing-line {
+/* Hero lines: gentle glide-down on load (no typing) */
+.hero-line {
     display: block;
-    opacity: 1;
+    opacity: 0;
+    transform: translateY(-18px);
+    animation: heroGlideDown 0.55s ease forwards;
 }
 
-.typing-line.indent {
-    padding-left: 0;
+.hero-line:nth-child(1) { animation-delay: 0.15s; }
+.hero-line:nth-child(2) { animation-delay: 0.35s; }
+.hero-line:nth-child(3) { animation-delay: 0.55s; }
+
+/* Rotating option: pill with theme background, glide-down overwrite */
+.hero-rotating-wrap {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: middle;
+    height: 1.35em;
+    line-height: 1.35;
+}
+.hero-rotating-word {
+    display: inline-block;
+    min-width: 6.2em;
+    text-align: center;
+    padding: 0.12em 0.4em;
+    border-radius: 999px;
+    /* Dark theme: white pill, black text */
+    background: #fff;
+    color: #14141c;
+}
+[data-theme="light"] .hero-rotating-word {
+    /* Light theme: black pill, white text */
+    background: #1a1a25;
+    color: #fff;
+}
+.hero-rotating-word.glide-reset {
+    transform: translateY(-100%);
+}
+.hero-rotating-word.glide-down-in {
+    animation: heroOptionGlideDown 0.4s ease-out forwards;
+}
+@keyframes heroOptionGlideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+.hero-cta {
+    font-weight: 700;
+    margin-top: 0.5rem;
+    animation: heroCtaEnter 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: 0.75s;
+    opacity: 0;
+    transform: translateY(-12px) scale(0.96);
+}
+
+@keyframes heroGlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes heroCtaEnter {
+    from {
+        opacity: 0;
+        transform: translateY(-12px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .slogan-accent {
     color: var(--accent-primary);
-}
-
-/* Hero slogan underlines – same green as #offering */
-.hero-title u {
-    text-decoration: underline;
-    text-decoration-color: var(--accent-primary);
-    text-underline-offset: 4px;
-}
-
-.typing-line.highlight {
-    color: var(--text-primary);
-    font-weight: 700;
-    margin-top: 0.5rem;
-}
-
-.rotating-word {
-    color: var(--accent-primary);
-    position: relative;
-    display: inline-block;
-    min-width: 180px;
-}
-
-.rotating-word::after {
-    content: '|';
-    animation: blink 1s step-end infinite;
-    margin-left: 2px;
 }
 
 @keyframes blink {
@@ -444,12 +490,7 @@ main {
 }
 
 .clients-title {
-    font-family: var(--font-mono);
-    font-size: 1rem;
-    color: var(--text-secondary);
-    text-align: center;
-    margin-bottom: 30px;
-    opacity: 1;
+    display: none;
 }
 
 .rotating-industry {
@@ -728,7 +769,7 @@ main {
     overflow-wrap: break-word;
 }
 
-/* Typed lines: each line has green ">" then text */
+/* Typed lines: each line has accent ">" then text */
 .response-box-content .typed-line {
     display: flex;
     align-items: baseline;
@@ -1298,7 +1339,7 @@ main {
     }
     
     .hero-title {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
     }
     
     .typing-line.indent {
@@ -1370,7 +1411,7 @@ main {
     }
     
     .hero-title {
-        font-size: 1.1rem;
+        font-size: 1.25rem;
     }
     
     .portfolio-grid {

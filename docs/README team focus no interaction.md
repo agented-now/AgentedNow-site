@@ -23,7 +23,7 @@ Brand name & domain: **agented.now**
 3. Runner looping endlessly with png logos of all past clients in this order: Panaya, Kaltura, Natural Intelligence, Stampli, Adam Milo, Ministry of Labor, CBS, Yess.ai, Swish.ai, Storywise.ai.
 * Arrows >>> to invite scrolling down, as arrows in a game. 
 
-## Offering section (/offering)
+## Solutions section (/solutions)
 2. Title: "We're experts in custom "
 
 * There are endless generic GenAI & agentic solutions you can't fully customize, trust, control.

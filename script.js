@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initNavigation();
+    initHeroReveal();
+    initHeroRotatingWord();
     initGlobalTypingAnimation();
     initOfferingInteraction();
     initCustomizationInteraction();
@@ -40,20 +42,32 @@ function initTheme() {
     });
 }
 
+// Path <-> section id mapping (path-based URLs: /solutions, /about-us, etc.)
+function pathToSectionId(pathOrPathname) {
+    const path = (pathOrPathname || window.location.pathname).replace(/^\/+|\/+$/g, '') || 'home';
+    return path === 'home' ? 'home' : path;
+}
+
+function sectionIdToPath(sectionId) {
+    return sectionId === 'home' ? '/' : '/' + sectionId;
+}
+
 // Navigation
 function initNavigation() {
     const navLinks = document.querySelectorAll('.nav-link, .mobile-link');
     const sections = document.querySelectorAll('.section');
     
-    // Smooth scroll for nav links
+    // Smooth scroll for nav links (path-based hrefs: /, /solutions, /about-us, etc.)
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            const targetId = link.getAttribute('href').substring(1);
+            const path = link.getAttribute('href') || '/';
+            const targetId = pathToSectionId(path);
             const targetSection = document.getElementById(targetId);
             
             if (targetSection) {
                 targetSection.scrollIntoView({ behavior: 'smooth' });
+                history.pushState(null, '', path === '/' ? '/' : path);
                 
                 // Close mobile menu if open
                 const mobileMenu = document.getElementById('mobileMenu');
@@ -99,10 +113,52 @@ function updateActiveNavLink(sectionId) {
 }
 
 function updateURL(sectionId) {
-    const newURL = `#${sectionId}`;
-    if (window.location.hash !== newURL) {
-        history.replaceState(null, null, newURL);
+    const newPath = sectionIdToPath(sectionId);
+    if (window.location.pathname !== newPath) {
+        history.replaceState(null, '', newPath);
     }
+}
+
+// Hero section: reveal glide-down elements on load (no typing)
+function initHeroReveal() {
+    const hero = document.querySelector('.hero-section');
+    if (!hero) return;
+    const elements = hero.querySelectorAll('.glide-down-element.hero-glide');
+    const STAGGER_MS = 120;
+    const INITIAL_DELAY = 950; // after hero lines + CTA start
+    elements.forEach((el, i) => {
+        setTimeout(() => el.classList.add('revealed'), INITIAL_DELAY + i * STAGGER_MS);
+    });
+}
+
+// Hero slogan: rotate [business|team|product] with glide-down overwrite
+function initHeroRotatingWord() {
+    const el = document.getElementById('heroRotatingWord');
+    if (!el || el.dataset.rotating) return;
+    el.dataset.rotating = 'true';
+    const words = ['business', 'team', 'product'];
+    let currentIndex = 0;
+    const PAUSE_MS = 2600;
+    const GLIDE_DURATION_MS = 400;
+
+    function showNext() {
+        currentIndex = (currentIndex + 1) % words.length;
+        el.textContent = words[currentIndex];
+        el.classList.remove('glide-down-in');
+        el.classList.add('glide-reset');
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                el.classList.remove('glide-reset');
+                el.classList.add('glide-down-in');
+                setTimeout(() => {
+                    el.classList.remove('glide-down-in');
+                    setTimeout(showNext, PAUSE_MS);
+                }, GLIDE_DURATION_MS);
+            });
+        });
+    }
+
+    setTimeout(showNext, PAUSE_MS);
 }
 
 // Global Typing Animation - Single inline cursor types all lines sequentially
@@ -823,15 +879,20 @@ function initMobileMenu() {
     });
 }
 
-// Handle initial hash in URL
-window.addEventListener('load', () => {
-    const hash = window.location.hash;
-    if (hash) {
-        const targetSection = document.querySelector(hash);
-        if (targetSection) {
-            setTimeout(() => {
-                targetSection.scrollIntoView({ behavior: 'smooth' });
-            }, 100);
-        }
+// Handle initial path and browser back/forward (path-based URLs)
+function scrollToSectionFromPath() {
+    const sectionId = pathToSectionId(window.location.pathname);
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+        updateActiveNavLink(sectionId);
     }
+}
+
+window.addEventListener('load', () => {
+    scrollToSectionFromPath();
+});
+
+window.addEventListener('popstate', () => {
+    scrollToSectionFromPath();
 });
