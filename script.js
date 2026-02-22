@@ -54,7 +54,7 @@ function sectionIdToPath(sectionId) {
 
 // Navigation
 function initNavigation() {
-    const navLinks = document.querySelectorAll('.nav-link, .mobile-link');
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-link, .nav-logo');
     const sections = document.querySelectorAll('.section');
     
     // Smooth scroll for nav links (path hrefs: /home, /solutions, etc.)
@@ -101,7 +101,7 @@ function initNavigation() {
 }
 
 function updateActiveNavLink(sectionId) {
-    const navLinks = document.querySelectorAll('.nav-link, .mobile-link');
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-link, .nav-logo');
     navLinks.forEach(link => {
         const linkSection = link.getAttribute('data-section');
         if (linkSection === sectionId) {

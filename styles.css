@@ -129,6 +129,9 @@ main {
     display: flex;
     align-items: center;
     line-height: 1;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
 }
 
 .logo-text {
