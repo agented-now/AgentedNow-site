@@ -402,8 +402,9 @@ main {
     display: inline-block;
     overflow: hidden;
     vertical-align: middle;
-    height: 1.35em;
+    height: 1.6em;
     line-height: 1.35;
+    padding-bottom: 0.15em;
 }
 .hero-rotating-word {
     display: inline-block;
@@ -504,19 +505,20 @@ main {
     margin-left: 2px;
 }
 
-/* Client logos runner (from OzWiz) */
+/* Client logos runner (from OzWiz) – gentle edge fade so logos aren’t cut */
 .logo-runner {
     overflow: hidden;
     position: relative;
     width: 100%;
+    min-height: 158px; /* top padding + logo height + bottom padding + shadow room */
     background: linear-gradient(to right,
         rgba(128, 128, 128, 0.12) 0%,
         rgba(160, 160, 160, 0.18) 50%,
         rgba(128, 128, 128, 0.12) 100%);
-    padding: 18px 0;
+    padding: 18px 24px 28px;
     border-radius: 12px;
-    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
     opacity: 1;
 }
 
@@ -731,6 +733,16 @@ main {
     color: var(--accent-primary);
     border-color: var(--accent-primary);
     background: var(--card-bg);
+}
+
+/* Light theme: ensure option buttons use theme cyan */
+[data-theme="light"] .option-title-btn,
+[data-theme="light"] .option-title-btn:hover,
+[data-theme="light"] .option-title-btn.active {
+    color: var(--accent-primary);
+}
+[data-theme="light"] .option-title-btn.active {
+    border-color: var(--accent-primary);
 }
 
 .option-title-icon {
@@ -1382,7 +1394,8 @@ main {
     
     /* Logo runner: compact on mobile (from OzWiz) */
     .logo-runner {
-        padding: 8.5px 0;
+        padding: 8.5px 16px 16px;
+        min-height: 0;
         width: 100%;
     }
     .logo-track {

@@ -42,14 +42,14 @@ function initTheme() {
     });
 }
 
-// Path <-> section id mapping (path-based URLs: /solutions, /about-us, etc.)
-function pathToSectionId(pathOrPathname) {
-    const path = (pathOrPathname || window.location.pathname).replace(/^\/+|\/+$/g, '') || 'home';
-    return path === 'home' ? 'home' : path;
+// Path-based section URLs (/solutions, /customization, etc.)
+function pathToSectionId(pathOrHref) {
+    const raw = (pathOrHref != null ? pathOrHref : window.location.pathname).toString().replace(/^\//, '').replace(/\/$/, '');
+    return raw && document.getElementById(raw) ? raw : 'home';
 }
 
 function sectionIdToPath(sectionId) {
-    return sectionId === 'home' ? '/' : '/' + sectionId;
+    return '/' + (sectionId || 'home');
 }
 
 // Navigation
@@ -57,17 +57,17 @@ function initNavigation() {
     const navLinks = document.querySelectorAll('.nav-link, .mobile-link');
     const sections = document.querySelectorAll('.section');
     
-    // Smooth scroll for nav links (path-based hrefs: /, /solutions, /about-us, etc.)
+    // Smooth scroll for nav links (path hrefs: /home, /solutions, etc.)
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            const path = link.getAttribute('href') || '/';
-            const targetId = pathToSectionId(path);
+            const href = link.getAttribute('href') || '/home';
+            const targetId = pathToSectionId(href);
             const targetSection = document.getElementById(targetId);
             
             if (targetSection) {
                 targetSection.scrollIntoView({ behavior: 'smooth' });
-                history.pushState(null, '', path === '/' ? '/' : path);
+                history.pushState(null, '', sectionIdToPath(targetId));
                 
                 // Close mobile menu if open
                 const mobileMenu = document.getElementById('mobileMenu');
@@ -255,10 +255,13 @@ function initGlobalTypingAnimation() {
                 }, delay);
                 delay += STAGGER_DELAY;
                 
-                // If this sibling is also a typeable element, stop here (it will reveal its own siblings)
-                if (sibling.classList.contains('typing-text') || 
-                    sibling.classList.contains('section-title') || 
-                    sibling.classList.contains('interaction-prompt')) {
+                // If this sibling is a typeable element, or a container with typeable content (e.g. interaction-block),
+                // stop here so that content types first, then its completion will reveal the rest (options, then box).
+                const isTypeable = sibling.classList.contains('typing-text') ||
+                    sibling.classList.contains('section-title') ||
+                    sibling.classList.contains('interaction-prompt');
+                const hasTypeableChild = sibling.querySelector('.typing-text, .section-title, .interaction-prompt');
+                if (isTypeable || hasTypeableChild) {
                     break;
                 }
             } else if (!sibling.classList.contains('glide-down-element')) {
@@ -276,11 +279,23 @@ function initGlobalTypingAnimation() {
             sibling = sibling.nextElementSibling;
         }
         
+        // If the typed element is inside a block (e.g. interaction-prompt inside interaction-block),
+        // reveal the parent's next sibling (e.g. response-box) after the in-block siblings (options) are revealed.
+        const parent = typedEl.parentElement;
+        if (parent && !parent.classList.contains('section') && parent.nextElementSibling &&
+            parent.nextElementSibling.classList.contains('glide-down-element') &&
+            !parent.nextElementSibling.classList.contains('revealed')) {
+            const boxEl = parent.nextElementSibling;
+            setTimeout(() => {
+                boxEl.classList.add('revealed');
+            }, delay);
+        }
+        
         // Also check parent's next siblings (walk up the tree in case we're nested, e.g. span > h1 > hero-content)
-        let parent = typedEl.parentElement;
-        while (parent && parent !== document.body) {
-            if (parent.classList.contains('section')) break; // don't reveal next section's elements
-            let parentSibling = parent.nextElementSibling;
+        let parentWalk = typedEl.parentElement;
+        while (parentWalk && parentWalk !== document.body) {
+            if (parentWalk.classList.contains('section')) break; // don't reveal next section's elements
+            let parentSibling = parentWalk.nextElementSibling;
             while (parentSibling) {
                 if (parentSibling.classList.contains('glide-down-element') && !parentSibling.classList.contains('revealed')) {
                     const el = parentSibling;
@@ -289,9 +304,11 @@ function initGlobalTypingAnimation() {
                     }, delay);
                     delay += STAGGER_DELAY;
                     
-                    if (parentSibling.classList.contains('typing-text') ||
+                    const isTypeable = parentSibling.classList.contains('typing-text') ||
                         parentSibling.classList.contains('section-title') ||
-                        parentSibling.classList.contains('interaction-prompt')) {
+                        parentSibling.classList.contains('interaction-prompt');
+                    const hasTypeableChild = parentSibling.querySelector('.typing-text, .section-title, .interaction-prompt');
+                    if (isTypeable || hasTypeableChild) {
                         parentSibling = null;
                         break;
                     }
@@ -308,7 +325,7 @@ function initGlobalTypingAnimation() {
                 }
                 parentSibling = parentSibling.nextElementSibling;
             }
-            parent = parent.parentElement;
+            parentWalk = parentWalk.parentElement;
         }
     }
     
@@ -880,19 +897,26 @@ function initMobileMenu() {
 }
 
 // Handle initial path and browser back/forward (path-based URLs)
-function scrollToSectionFromPath() {
+function scrollToSectionFromPath(options) {
+    const { behavior = 'smooth' } = options || {};
     const sectionId = pathToSectionId(window.location.pathname);
     const targetSection = document.getElementById(sectionId);
     if (targetSection) {
-        targetSection.scrollIntoView({ behavior: 'smooth' });
+        targetSection.scrollIntoView({ behavior });
         updateActiveNavLink(sectionId);
     }
 }
 
-window.addEventListener('load', () => {
-    scrollToSectionFromPath();
-});
+// On initial load: scroll immediately so user lands on the right section
+function initScrollFromUrl() {
+    scrollToSectionFromPath({ behavior: 'auto' });
+}
 
-window.addEventListener('popstate', () => {
-    scrollToSectionFromPath();
-});
+// Run as soon as DOM is ready so we don't show top of page then scroll
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrollFromUrl);
+} else {
+    initScrollFromUrl();
+}
+
+window.addEventListener('popstate', () => scrollToSectionFromPath({ behavior: 'smooth' }));
