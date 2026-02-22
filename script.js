@@ -126,15 +126,17 @@ function initHeroReveal() {
     const elements = hero.querySelectorAll('.glide-down-element.hero-glide');
     // CTA (last slogan line) ends at 0.85s delay + 0.5s duration = 1.35s
     const CTA_END_MS = 1350;
+    const RUNNER_DELAY_MS = 400;   // pause after CTA before showing runner
     const RUNNER_ENTRANCE_MS = 300; // match .glide-down-element transition (hero)
     // Order: [0] clients-section, [1] logo-runner, [2] scroll-indicator
+    const runnerShowAt = CTA_END_MS + RUNNER_DELAY_MS;
     setTimeout(() => {
         if (elements[0]) elements[0].classList.add('revealed');
         if (elements[1]) elements[1].classList.add('revealed');
-    }, CTA_END_MS);
+    }, runnerShowAt);
     setTimeout(() => {
         if (elements[2]) elements[2].classList.add('revealed');
-    }, CTA_END_MS + RUNNER_ENTRANCE_MS);
+    }, runnerShowAt + RUNNER_ENTRANCE_MS);
 }
 
 // Hero slogan: rotate [business|team|product] with glide-down overwrite

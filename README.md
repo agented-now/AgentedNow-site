@@ -90,6 +90,27 @@ Two columns with circle photos (at /visuals/photos) for each:
 
 ---
 
+## Hero animation sequence
+
+All timings are from page load. Each step starts when the previous one finishes (no extra gap unless noted).
+
+| Step | Element | Delay (start) | Duration | End (approx.) |
+|------|---------|----------------|----------|---------------|
+| 0 | Background gradient (`::before`) | 0.15s | 0.7s | 0.85s |
+| 0 | Glow container (rings, core, particles) | 0.25s | 0.7s | 0.95s |
+| 1 | Slogan line 1: “Supercharge your [business]” | 0.05s | 0.4s | 0.45s |
+| 2 | Slogan line 2: “with **tailored** agentic AI.” | 0.45s | 0.4s | 0.85s |
+| 3 | CTA line: “Get **agented.now**” | 0.85s | 0.5s | 1.35s |
+| — | *Pause (delay before runner)* | — | 0.4s | — |
+| 4 | Runner (clients section + logo strip) | 1.75s | 0.3s (transition) | 2.05s |
+| 5 | “> continue” scroll indicator | 2.05s | 0.3s (transition) | 2.35s |
+
+- **CSS:** Slogan lines use `heroGlideDown` (0.4s); CTA uses `heroCtaEnter` (0.5s). Runner and “> continue” use `.glide-down-element.hero-glide` (0.3s transition).
+- **JS:** `initHeroReveal()` (in `script.js`) reveals runner at `CTA_END_MS + RUNNER_DELAY_MS` (1350 + 400 ms), then scroll indicator after `RUNNER_ENTRANCE_MS` (300 ms).
+- **Rotating word:** The pill “[business|team|product]” cycles on a timer; each swap uses `heroOptionGlideDown` (0.25s).
+
+---
+
 ## Running the Site Locally
 
 ### Prerequisites
