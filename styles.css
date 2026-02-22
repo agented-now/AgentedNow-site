@@ -467,6 +467,14 @@ main {
     color: var(--accent-primary);
 }
 
+/* Dark mode: options text on white box (hero rotating word) must be black */
+.hero-rotating-word.slogan-accent {
+    color: #14141c;
+}
+[data-theme="light"] .hero-rotating-word.slogan-accent {
+    color: #fff;
+}
+
 @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
@@ -827,6 +835,8 @@ main {
 /* Offering Section - same line width as other sections regardless of selection */
 .offering-section {
     background: var(--bg-secondary);
+    padding-top: calc(var(--nav-height) + 0.5rem);
+    justify-content: flex-start;
 }
 
 .offering-section .container {
@@ -934,6 +944,8 @@ main {
 /* Customization Section */
 .customization-section {
     background: var(--bg-primary);
+    padding-top: calc(var(--nav-height) + 1.5rem);
+    justify-content: flex-start;
 }
 
 .section-intro {
