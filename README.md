@@ -3,43 +3,77 @@ Brand name & domain: **agented.now**
 
 ## General
 * Site will be node.js (and served locally with `npx serve` for testing), deployed on Vercel, with Vercel analytics.
-* Site must be well-designed and proportioned, mobile-friendly, SEO-friendly, with site icon, social preview, og-image, modern, clean, responsive. og-image should be 1:1.19 and <300Kb to load on WA.
+* Site must be well-designed and proportioned, mobile-friendly.
+* Site must be SEO-optimized, with site icon, social preview, og-image, modern, clean, responsive. og-image should be 1:1.19 and <300Kb to load on WA.
 
 ## Concept
-* Single page site
-* Clear, impressive, techy, minimal
-* Each text (title, paragraphs, buttons etc) should appear in typing animation when their section reveals, one after the other according to order on the section, with a nice delay between elements for convenient reading.
-* Site designed as a CLI/Claude Code style chat for (optional) personalized & interactive user experience. Icons and animations - CLI/Claude Code style.
-* Site should have themes defaulted as user system theme, with a toggle in the top panel (dropdown): dark-blue, light, dark-orange.
+* Single page site (home page)
+* Style: techy, clean, minimal, inspired by CLI chatbot and computer game interfaces.
+* Each text (title, paragraphs, buttons etc) should appear in a typing animation when their section reveals, one > line after the other, with a nice delay between elements for convenient reading.
+* Site should have themes, starting the site in same theme as the user system theme, with a toggle in the top panel (dropdown): dark, light.
 * Show WA and email icon buttons in the top panel, with a glowing animation.
-* Show section buttons in the top panel, to jump to a specific section
-* Make all default texts show for Google and other search engines - even if not presented to the user.
+* Show section buttons in the top panel, to jump to a specific section. Each section should have a url (that should update when scrolling to it), e.g. domain/home, agented.now/about-us, agented.now/contact etc.
 
 # Sections
-## Hero section
-1. Site slogan - big, options rotate by over-writing in an endless loop:
-    Get AI superpowers for your [engineering|marketing|sales|BizDev|product|operations|HR] team.
-    Get agented. Now!
-2. Subtitle: "We build <u>custom</u> <u>GenAI</u> & <u>AI Agent</u> solutions to assist employees or automate workflows."
-3. Runner looping endlessly with png logos of all past clients in this order: Panaya, Natural Intelligence, Kaltura, JOINT, CBS, Ministry of Labor, Yess.ai, Swish.ai, Stampli, Adam Milo, Storywise.ai.
+## Hero section (/home)
+1. Site slogan - big, options rotate by re-typing (don't delete, just overwrite) in an endless loop:
+    Get <u>custom</u> <u>GenAI</u> & <u>AI agent</u> solutions
+    to empower your **[employees|products|business]**.
+    Get **agented**.**now**
+2. Runner title: "We've helped many satisfied clients in [cyber|hi-tech|government|fin-tech|HR-tech|med-tech]"
+3. Runner looping endlessly with png logos of all past clients in this order: Panaya, Kaltura, Natural Intelligence, Stampli, Adam Milo, Ministry of Labor, CBS, Yess.ai, Swish.ai, Storywise.ai.
+4. Arrows >>> to invite scrolling down, as arrows in a game. If clicked - scroll to the next section.
 
-## Offering section
-* There are endless generic GenAI & agentic solutions you can't fully customize, trust, control.
-* Our solutions can be **tailored for your exact needs**:
-* Animation sentences: each sentence is typed with first option, and options rotate by over-writing in an endless loop:
-    * Your [data|systems|integrations|inputs]. Your [rules|terminology|business|policies].
-    * Empowering your [engineers|analysts|sales|marketing|BizDev|HR] in their [workflows|tasks|operations|processes].
-    * Your desired [user experience|UI (frontend)|design|format] for the [product|automation|outputs]. With [user roles|permissions|admin panel|usage logs & reports].
-    * As [safe|secure|compliant] as you need it, [in the cloud|on-prem|air-gapped].
-    * As [performant|cost-effective|fast|efficient|reliable|scalable] as you need it. Your [metrics|evaluation methods|benchmarks|KPIs].
+## Our offering section (/offering)
+1. Title: We're experts in <u>custom</u> <u>GenAI</u> & <u>AI agents</u>.
+2. User interaction: "I'm interested in:" with horizontal options (with a relevant icon for each), clicking each makes it selected and type chatbot answer, but keeps the other options selectable for changing (bullets = boxes with icon and title that expand on hover to show the description):
+    * Empowering our employees/business:
+        * Consulting: Helping you to find teams to empower or workflows to automate with custom GenAI & agentic solutions.
+        * Building custom solutions: Building custom end-to-end GenAI & agentic solutions (internal products or automations) to empower your employees or automate your workflows, tailored to your needs in every aspect.
+        * Customizing/selling existing products: Customizing our existing generic products to fit your needs, or selling them as services. 
+    * Empowering our products/tech:
+        * Consulting: Helping you to plan and implement GenAI & AI agents in your products or tech.
+        * Building custom solutions: Building custom GenAI & agentic solutions to integrate with your products or tech.
+
+## Customization section (/customization)
+1. Title:
+    We offer GenAI & agentic solutions you can **fully customize, control and trust**.
+
+2. User interaction: "I'm interested in customizing:" with list options that keep the others selectable:
+    * Security/compliance:
+        * Our solutions can be served from our/your cloud (any provider you prefer), on-prem, air-gapped.
+        * We can use open-source or proprietary models - any provider you choose.
+        * We can work remotely, on laptops you provide, or on-prem.
+    * Workflows/tasks:
+        * We work closely with our clients to understand their exact needs, workflows, tasks, etc.
+        * We can customize any solution aspect according to client needs.
+    * Data/integrations:
+        * We can process any data type you need.
+        * We can integrate with any system, database, API or MCP you need.
+    * UI/UX/outputs:
+        * We can build products with any UI/UX you need.
+        * We can build headless solutions that simply process inputs and get outputs - APIs, automations (e.g. triggered by email) etc.
+        * We can build any outputs you need, including styled reports, interactive dashboards, etc.
+    * Rules/terminology/policies:
+        * We can define and enforce any business rules, terminology, policies you need.
+        * We can allow you to edit them, e.g. in a custom admin panel.
+    * Roles/permissions/admin panel/stats:
+        * We can allow you to manage users, roles, permissions, etc.
+        * We can build a custom admin panel for you to manage users or settings, see usage stats, etc.
+    * Performance/efficiency/cost:
+        * We can help you define your goals, metrics, benchmarks, evaluation methods.
+        * We can optimize the solution architecture for performance, efficiency, cost.
+    * Solution architecture:
+        * We build the solution architecture (agentic or not) according to client needs.
+        * We are experts in LangChain, LangGraph.
+        * This allows absolute control over the solution architecture, optimizing for performance, efficiency, cost, etc.
 
 ## Portfolio section
-* H2 title: Some of our public products
+* H2 title: Selected public products
     * Our public & live AI outreach product - reach out to thousands of factories in the speed of AI! Add iframe with link to open site in a new tab: https://co-lab.dev/
     * Our agentic BI concept product - allowing business owners to directly interact with their data with no need for analysts! Add YouTube iframe: https://youtu.be/jtmxXnwVknY
 
-* Add client runner from hero section.
-* H2 title: Some of the custom solutions we built for clients
+* H2 title: Selected custom solutions for clients - boxes that can expand on hover to show the description:
     * GenAI & agentic products for [internal research|data analysis], with [RAG|improved RAG|agentic (!)] semantic search over company materials, according to company [ workflows|guidelines|output specs].
     * An agentic product assisting system engineers in a complex internal research - to develop, analyze & troubleshoot the core product.
     * An agentic product assisting sales & marketing in preparing for conferences, presentations etc - based on company materials & guidelines, web-browsing in competitor URLs, roles, admin control etc.

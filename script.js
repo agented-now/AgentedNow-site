@@ -386,9 +386,9 @@ function endWarpAnimation() {
 
     document.body.style.overflow = '';
 
-    const solution = document.getElementById('solution');
-    if (solution) {
-        solution.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const offering = document.getElementById('offering');
+    if (offering) {
+        offering.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     setTimeout(() => {
@@ -447,33 +447,182 @@ function setupWarpTrigger() {
     window.addEventListener('keydown', handleKeyScroll, { capture: true });
 }
 
-// ============ PILLAR SLOT ROTATIONS ============
-const PILLAR_1_WORDS = ['data', 'rules', 'people'];
-const PILLAR_2_WORDS = ['infrastructure', 'security', 'visibility'];
+// ============ SINGLE-LINE TYPE INTO BOX ============
+function typeIntoBox(containerEl, cursorEl, fullText, options) {
+    const speed = (options && options.speed) || 20;
+    if (!containerEl) return { promise: Promise.resolve(), abort: () => {} };
+    if (cursorEl) cursorEl.style.visibility = 'visible';
+    containerEl.innerHTML = '';
+    let timeoutId = null;
+    let aborted = false;
+    const abort = () => {
+        aborted = true;
+        if (timeoutId) clearTimeout(timeoutId);
+        if (cursorEl) cursorEl.style.visibility = 'hidden';
+    };
+    const promise = new Promise((resolve) => {
+        let i = 0;
+        function tick() {
+            if (aborted) return resolve();
+            if (i < fullText.length) {
+                containerEl.textContent = fullText.substring(0, i + 1);
+                i++;
+                timeoutId = setTimeout(tick, speed);
+            } else {
+                if (cursorEl) cursorEl.style.visibility = 'hidden';
+                resolve();
+            }
+        }
+        timeoutId = setTimeout(tick, speed);
+    });
+    return { promise, abort };
+}
 
-function startPillarRotations() {
-    const slot1 = $('#pillar-slot-1');
-    const slot2 = $('#pillar-slot-2');
-    if (!slot1 || !slot2) return;
+// ============ OFFERING SECTION ============
+const OFFERING_INTRO = {
+    employees: "Great, here's how we can help empower your employees/business:",
+    products: "Excellent, here's how we can help empower your products/tech:"
+};
 
-    let idx1 = 1;
-    let idx2 = 1;
+const OFFERING_CARDS = {
+    employees: [
+        { title: "Consulting", description: "Helping you find teams to empower or workflows to automate with custom GenAI & agentic solutions.", icon: "consulting" },
+        { title: "Building custom solutions", description: "Building custom end-to-end GenAI & agentic solutions (internal products or automations) to empower your employees or automate your workflows, tailored to your needs in every aspect.", icon: "build" },
+        { title: "Customizing/selling existing products", description: "Customizing our existing generic products to fit your needs, or selling them as services.", icon: "customize" }
+    ],
+    products: [
+        { title: "Consulting", description: "Helping you plan and implement GenAI & AI agents in your products or tech.", icon: "consulting" },
+        { title: "Building custom solutions", description: "Building custom GenAI & agentic solutions to integrate with your products or tech.", icon: "build" }
+    ]
+};
 
-    setInterval(async () => {
-        slot1.classList.add('fade-out');
-        await sleep(400);
-        slot1.textContent = PILLAR_1_WORDS[idx1];
-        slot1.classList.remove('fade-out');
-        idx1 = (idx1 + 1) % PILLAR_1_WORDS.length;
-    }, 3000);
+const OFFERING_ICONS = {
+    consulting: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-3.3l-.85-.6A4.997 4.997 0 017 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"/></svg>',
+    build: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>',
+    customize: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.04.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>'
+};
 
-    setInterval(async () => {
-        slot2.classList.add('fade-out');
-        await sleep(400);
-        slot2.textContent = PILLAR_2_WORDS[idx2];
-        slot2.classList.remove('fade-out');
-        idx2 = (idx2 + 1) % PILLAR_2_WORDS.length;
-    }, 3000);
+const OFFERING_DESC_PREVIEW_LEN = 50;
+
+function renderOfferingCards(key) {
+    const grid = $('#offeringCardsGrid');
+    const cards = OFFERING_CARDS[key];
+    if (!grid || !cards) return;
+    grid.innerHTML = cards.map(card => {
+        const desc = card.description || '';
+        const preview = desc.length <= OFFERING_DESC_PREVIEW_LEN ? desc : desc.slice(0, OFFERING_DESC_PREVIEW_LEN).trim() + '...';
+        return `<div class="offering-card">
+            <div class="offering-card-header">
+                <div class="offering-card-icon">${OFFERING_ICONS[card.icon] || OFFERING_ICONS.consulting}</div>
+                <h4 class="offering-card-title">${card.title}</h4>
+            </div>
+            <p class="offering-card-desc-preview">${preview}</p>
+        </div>`;
+    }).join('');
+}
+
+function initOfferingInteraction() {
+    const contentEl = $('#offeringResponseContent');
+    const cursorEl = $('#offeringCursor');
+    const btns = $$('#offeringOptionTitles .option-title-btn');
+    let currentAbort = () => {};
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const key = btn.getAttribute('data-offering');
+            const intro = OFFERING_INTRO[key];
+            if (!intro) return;
+
+            currentAbort();
+
+            btns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+
+            renderOfferingCards(key);
+
+            const placeholder = contentEl && contentEl.querySelector('.response-placeholder');
+            if (placeholder) placeholder.remove();
+            if (contentEl) contentEl.textContent = '';
+
+            const { promise, abort } = typeIntoBox(contentEl, cursorEl, intro, { speed: 18 });
+            currentAbort = abort;
+            promise.then(() => { currentAbort = () => {}; });
+        });
+    });
+}
+
+// ============ CUSTOMIZATION SECTION ============
+const CUSTOMIZATION_CONTENT = {
+    security: [
+        "Our solutions can be served from our/your cloud (any provider you prefer), on-prem, air-gapped.",
+        "We can use open-source or proprietary models - any provider you choose.",
+        "We can work remotely, on laptops you provide, or on-prem."
+    ],
+    workflows: [
+        "We work closely with our clients to understand their exact needs, workflows, tasks, etc.",
+        "We can customize any solution aspect according to client needs."
+    ],
+    data: [
+        "We can process any data type you need.",
+        "We can integrate with any system, database, API or MCP you need."
+    ],
+    ui: [
+        "We can build products with any UI/UX you need.",
+        "We can build headless solutions that simply process inputs and get outputs - APIs, automations (e.g. triggered by email) etc.",
+        "We can build any outputs you need, including styled reports, interactive dashboards, etc."
+    ],
+    rules: [
+        "We can define and enforce any business rules, terminology, policies you need.",
+        "We can allow you to edit them, e.g. in a custom admin panel."
+    ],
+    roles: [
+        "We can allow you to manage users, roles, permissions, etc.",
+        "We can build a custom admin panel for you to manage users or settings, see usage stats, etc."
+    ],
+    performance: [
+        "We can help you define your goals, metrics, benchmarks, evaluation methods.",
+        "We can optimize the solution architecture for performance, efficiency, cost."
+    ],
+    architecture: [
+        "We build the solution architecture (agentic or not) according to client needs.",
+        "We are experts in LangChain, LangGraph.",
+        "This allows absolute control over the solution architecture, optimizing for performance, efficiency, cost, etc."
+    ]
+};
+
+function initCustomizationInteraction() {
+    const contentEl = $('#customizationResponseContent');
+    const cursorEl = $('#customizationCursor');
+    const btns = $$('#customizationOptionTitles .option-title-btn');
+    let currentAbort = () => {};
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const key = btn.getAttribute('data-custom');
+            const lines = CUSTOMIZATION_CONTENT[key];
+            if (!lines || !contentEl) return;
+
+            currentAbort();
+
+            const placeholder = contentEl.querySelector('.response-placeholder');
+            if (placeholder) placeholder.remove();
+
+            btns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+
+            const { promise, abort } = typeLinesIntoBox(contentEl, cursorEl, lines);
+            currentAbort = abort;
+            promise.then(() => { currentAbort = () => {}; });
+        });
+    });
 }
 
 // ============ LOGO RUNNER (OZ-STYLE) ============
@@ -497,21 +646,7 @@ function initLogoRunner() {
     });
 }
 
-// ============ SOLUTION INTERACTION ============
-const SOLUTION_CONTENT = {
-    tailored: [
-        "Your data. Your systems. Your integrations.",
-        "Your rules. Your terminology. Your compliance.",
-        "Your teams — engineers, sales, HR, each using it their way."
-    ],
-    managed: [
-        "Cloud, on-prem, or air-gapped.",
-        "Secure & compliant to your standards.",
-        "Admin panel, user roles, permissions.",
-        "Usage monitoring, metrics, KPIs."
-    ]
-};
-
+// ============ TYPE LINES INTO BOX (response box) ============
 function typeLinesIntoBox(containerEl, cursorEl, lines) {
     const speed = 16;
     const lineDelay = 120;
@@ -567,34 +702,6 @@ function typeLinesIntoBox(containerEl, cursorEl, lines) {
     return { promise, abort };
 }
 
-function initSolutionInteraction() {
-    const contentEl = $('#solutionResponseContent');
-    const cursorEl = $('#solutionCursor');
-    const btns = $$('#solutionOptionTitles .option-title-btn');
-    let currentAbort = () => {};
-
-    btns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const key = btn.getAttribute('data-solution');
-            const lines = SOLUTION_CONTENT[key];
-            if (!lines || !contentEl) return;
-
-            currentAbort();
-
-            btns.forEach(b => {
-                b.classList.remove('active');
-                b.setAttribute('aria-pressed', 'false');
-            });
-            btn.classList.add('active');
-            btn.setAttribute('aria-pressed', 'true');
-
-            const { promise, abort } = typeLinesIntoBox(contentEl, cursorEl, lines);
-            currentAbort = abort;
-            promise.then(() => { currentAbort = () => {}; });
-        });
-    });
-}
-
 // ============ SECTION REVEAL ON SCROLL ============
 function setupScrollReveal() {
     const sectionObserver = new IntersectionObserver((entries) => {
@@ -623,13 +730,6 @@ function revealSectionItems(section) {
             item.classList.add('revealed');
         }, i * 250);
     });
-
-    // Start pillar slot rotations for solution section
-    if (section.id === 'solution') {
-        setTimeout(() => {
-            startPillarRotations();
-        }, items.length * 250 + 500);
-    }
 
 }
 
@@ -705,7 +805,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
     setupScrollReveal();
     initLogoRunner();
-    initSolutionInteraction();
+    initOfferingInteraction();
+    initCustomizationInteraction();
 
     // Start hero animation, then arm warp trigger
     setTimeout(() => {

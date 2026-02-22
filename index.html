@@ -38,11 +38,12 @@
     <nav id="navbar" class="top-panel">
         <div class="nav-container">
             <div class="nav-logo">
-                <span class="logo">agented<span class="accent">.now</span></span>
+                <span class="logo">agented<span class="logo-dot">.</span><span class="accent">now</span></span>
             </div>
             <div class="nav-sections" id="nav-sections">
                 <a href="#hero" class="nav-link active" data-section="hero">Home</a>
-                <a href="#solution" class="nav-link" data-section="solution">Solution</a>
+                <a href="#offering" class="nav-link" data-section="offering">Offering</a>
+                <a href="#customization" class="nav-link" data-section="customization">Customization</a>
                 <a href="#portfolio" class="nav-link" data-section="portfolio">Portfolio</a>
                 <a href="#about" class="nav-link" data-section="about">About Us</a>
                 <a href="#contact" class="nav-link" data-section="contact">Contact</a>
@@ -70,7 +71,8 @@
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
         <a href="#hero" class="mobile-link" data-section="hero">Home</a>
-        <a href="#solution" class="mobile-link" data-section="solution">Solution</a>
+        <a href="#offering" class="mobile-link" data-section="offering">Offering</a>
+        <a href="#customization" class="mobile-link" data-section="customization">Customization</a>
         <a href="#portfolio" class="mobile-link" data-section="portfolio">Portfolio</a>
         <a href="#about" class="mobile-link" data-section="about">About Us</a>
         <a href="#contact" class="mobile-link" data-section="contact">Contact</a>
@@ -117,33 +119,65 @@
     <!-- Warp Speed Canvas -->
     <canvas id="warp-canvas"></canvas>
 
-    <!-- ========== SOLUTION ========== -->
-    <section id="solution" class="content-section">
+    <!-- ========== OFFERING ========== -->
+    <section id="offering" class="content-section">
         <div class="section-inner">
-            <p class="solution-intro reveal-item">Most AI tools are black boxes &mdash; no customization, no trust, no control. We build differently.</p>
+            <p class="solution-intro reveal-item">We're experts in <u>custom</u> <u>GenAI</u> &amp; <u>AI agents</u>.</p>
 
             <div class="interaction-block reveal-item">
                 <div class="interaction-prompt">
                     <span class="prompt-symbol">&gt;</span> I'm interested in:<span class="interaction-cursor" aria-hidden="true">_</span>
                 </div>
-                <div class="option-titles" id="solutionOptionTitles">
-                    <button type="button" class="option-title-btn" data-solution="tailored" aria-pressed="false">
-                        <span class="option-btn-header">Tailored to you</span>
-                        <span class="option-btn-sub">Your <span class="pillar-slot" id="pillar-slot-1">data</span>.</span>
+                <div class="option-titles" id="offeringOptionTitles">
+                    <button type="button" class="option-title-btn" data-offering="employees" aria-pressed="false">
+                        <span class="option-btn-header">Empowering our employees/business</span>
                     </button>
-                    <button type="button" class="option-title-btn" data-solution="managed" aria-pressed="false">
-                        <span class="option-btn-header">Managed by you</span>
-                        <span class="option-btn-sub">Your <span class="pillar-slot" id="pillar-slot-2">infrastructure</span>.</span>
+                    <button type="button" class="option-title-btn" data-offering="products" aria-pressed="false">
+                        <span class="option-btn-header">Empowering our products/tech</span>
                     </button>
                 </div>
             </div>
 
-            <div class="response-box reveal-item" id="solutionResponseBox" aria-live="polite">
+            <div class="response-box reveal-item" id="offeringResponseBox" aria-live="polite">
                 <div class="response-box-inner">
-                    <div class="response-box-content" id="solutionResponseContent">
-                        <span class="response-placeholder">Click &#x1F446; for details</span>
+                    <span class="prompt-symbol">&gt;</span>
+                    <div class="response-box-content" id="offeringResponseContent">
+                        <span class="response-placeholder">Click &#x1F446; for an answer</span>
                     </div>
-                    <span class="response-cursor" id="solutionCursor" aria-hidden="true">|</span>
+                    <span class="response-cursor" id="offeringCursor" aria-hidden="true">|</span>
+                </div>
+                <div class="offering-cards-grid" id="offeringCardsGrid" aria-live="polite"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CUSTOMIZATION ========== -->
+    <section id="customization" class="content-section">
+        <div class="section-inner">
+            <p class="solution-intro reveal-item">You can fully <u>customize</u>, <u>control</u> and <u>trust</u> our solutions.</p>
+
+            <div class="interaction-block reveal-item">
+                <div class="interaction-prompt">
+                    <span class="prompt-symbol">&gt;</span> I'm interested in customizing:<span class="interaction-cursor" aria-hidden="true">_</span>
+                </div>
+                <div class="option-titles option-titles-wrap reveal-item" id="customizationOptionTitles">
+                    <button type="button" class="option-title-btn" data-custom="security" aria-pressed="false">Security/compliance</button>
+                    <button type="button" class="option-title-btn" data-custom="workflows" aria-pressed="false">Workflows/tasks</button>
+                    <button type="button" class="option-title-btn" data-custom="data" aria-pressed="false">Data/integrations</button>
+                    <button type="button" class="option-title-btn" data-custom="ui" aria-pressed="false">UI/UX/outputs</button>
+                    <button type="button" class="option-title-btn" data-custom="rules" aria-pressed="false">Rules/terminology/policies</button>
+                    <button type="button" class="option-title-btn" data-custom="roles" aria-pressed="false">Roles/permissions/admin panel/stats</button>
+                    <button type="button" class="option-title-btn" data-custom="performance" aria-pressed="false">Performance/efficiency/cost</button>
+                    <button type="button" class="option-title-btn" data-custom="architecture" aria-pressed="false">Solution architecture</button>
+                </div>
+            </div>
+
+            <div class="response-box reveal-item" id="customizationResponseBox" aria-live="polite">
+                <div class="response-box-inner">
+                    <div class="response-box-content" id="customizationResponseContent">
+                        <span class="response-placeholder">Click &#x1F446; for an answer</span>
+                    </div>
+                    <span class="response-cursor" id="customizationCursor" aria-hidden="true">|</span>
                 </div>
             </div>
         </div>
@@ -310,7 +344,7 @@
 
     <!-- Footer -->
     <footer>
-        <span class="logo-small">agented<span class="accent">.now</span></span>
+        <span class="logo-small">agented<span class="logo-dot">.</span><span class="accent">now</span></span>
         <span class="footer-copy">&copy; 2025</span>
     </footer>
 
