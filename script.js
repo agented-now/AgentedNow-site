@@ -53,6 +53,17 @@ function sectionIdToPath(sectionId) {
     return '/' + (sectionId || 'home');
 }
 
+// Smooth scroll to section with proper offset for fixed navbar
+function smoothScrollToSection(targetSection, behavior = 'smooth') {
+    if (!targetSection) return;
+    const navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 88;
+    const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - navHeight;
+    window.scrollTo({
+        top: targetPosition,
+        behavior: behavior
+    });
+}
+
 // Navigation
 function initNavigation() {
     const navLinks = document.querySelectorAll('.nav-link, .mobile-link, .nav-logo');
@@ -67,7 +78,7 @@ function initNavigation() {
             const targetSection = document.getElementById(targetId);
             
             if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth' });
+                smoothScrollToSection(targetSection, 'smooth');
                 history.pushState(null, '', sectionIdToPath(targetId));
                 
                 // Close mobile menu if open
@@ -1010,7 +1021,7 @@ function initScrollIndicator() {
         scrollIndicator.addEventListener('click', () => {
             const targetId = scrollIndicator.getAttribute('data-scroll-to');
             const target = targetId ? document.getElementById(targetId) : null;
-            if (target) target.scrollIntoView({ behavior: 'smooth' });
+            if (target) smoothScrollToSection(target, 'smooth');
         });
     }
 }
@@ -1065,7 +1076,7 @@ function scrollToSectionFromPath(options) {
     const sectionId = pathToSectionId(window.location.pathname);
     const targetSection = document.getElementById(sectionId);
     if (targetSection) {
-        targetSection.scrollIntoView({ behavior });
+        smoothScrollToSection(targetSection, behavior);
         updateActiveNavLink(sectionId);
     }
 }

@@ -356,6 +356,7 @@ main {
     flex-direction: column;
     justify-content: center;
     box-sizing: border-box;
+    scroll-margin-top: var(--nav-height);
 }
 
 /* All sections except hero: shift content up so center is vertically centered (section height unchanged) */
@@ -2269,7 +2270,7 @@ main {
     @keyframes nodeOrbit4 { from { transform: rotate(0deg) translateX(190px) rotate(0deg); } to { transform: rotate(360deg) translateX(190px) rotate(-360deg); } }
 
     .section:not(.hero-section) {
-        --section-vertical-shift: 20px;
+        --section-vertical-shift: 0;
     }
 
     .nav-actions {
@@ -2316,25 +2317,30 @@ main {
         padding: 6px 10px;
     }
 
-    /* Solutions card buttons: side by side, no icon/subtitle */
+    /* Solutions card buttons: keep icons and subtitles like desktop */
     .option-title-btn--card {
         min-width: 0;
-        padding: 10px 10px;
-        gap: 0;
-        justify-content: center;
+        padding: 14px 16px;
+        gap: 12px;
     }
 
     .option-title-btn--card .option-title-icon {
-        display: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
     }
 
-    .option-title-btn--card .option-title-sub {
-        display: none;
+    .option-title-btn--card .option-title-icon svg {
+        width: 20px;
+        height: 20px;
     }
 
     .option-title-btn--card .option-title-main {
-        font-size: 0.78rem;
-        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    .option-title-btn--card .option-title-sub {
+        font-size: 0.8rem;
     }
 
     /* Response intro text: fit one line */
@@ -2521,7 +2527,7 @@ main {
     @keyframes nodeOrbit4 { from { transform: rotate(0deg) translateX(130px) rotate(0deg); } to { transform: rotate(360deg) translateX(130px) rotate(-360deg); } }
 
     .section:not(.hero-section) {
-        --section-vertical-shift: 12px;
+        --section-vertical-shift: 0;
     }
 
     .logo-text {
@@ -2595,6 +2601,31 @@ main {
         height: 18px;
     }
     
+    /* Solutions card buttons: smaller but keep icons on very small screens */
+    .option-title-btn--card {
+        padding: 12px 14px;
+        gap: 10px;
+    }
+
+    .option-title-btn--card .option-title-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+    }
+
+    .option-title-btn--card .option-title-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .option-title-btn--card .option-title-main {
+        font-size: 0.82rem;
+    }
+
+    .option-title-btn--card .option-title-sub {
+        font-size: 0.75rem;
+    }
+
     /* Offering cards even more compact on small phones */
     .offering-card {
         padding: 12px;
