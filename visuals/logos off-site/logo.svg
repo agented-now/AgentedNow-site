@@ -3,7 +3,7 @@
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600&amp;display=swap');
     .logo-text { font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 48px; font-weight: 600; }
   </style>
-  <text class="logo-text" x="8" y="52">
+  <text class="logo-text" x="190" y="52" text-anchor="middle">
     <tspan fill="#00d4ff">agented</tspan><tspan fill="#e0e0e0">.</tspan><tspan fill="#00d4ff">now</tspan>
   </text>
 </svg>

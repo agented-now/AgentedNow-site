@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 72">
+  <defs>
+    <filter id="cyan-glow" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" result="glow"
+        values="0 0 0 0   0
+                0 0 0 0   0.83
+                0 0 0 0   1
+                0 0 0 0.9 0"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600&amp;display=swap');
+    .logo-text { font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 48px; font-weight: 600; }
+  </style>
+  <text class="logo-text" x="190" y="52" text-anchor="middle" filter="url(#cyan-glow)">
+    <tspan fill="#00d4ff">agented</tspan><tspan fill="#e0e0e0">.</tspan><tspan fill="#00d4ff">now</tspan>
+  </text>
+</svg>
