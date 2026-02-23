@@ -729,20 +729,19 @@ function initOfferingInteraction() {
         if (responseBox) responseBox.classList.add('has-selection');
 
         if (animate) {
-            // Fade out existing content, then type new
+            // Fade out existing content (including placeholder), then type new
             if (responseBox) responseBox.classList.add('response-transitioning');
             setTimeout(() => {
                 renderOfferingCards(key);
-                if (contentEl) contentEl.textContent = '';
+                if (contentEl) contentEl.innerHTML = '';
                 if (responseBox) responseBox.classList.remove('response-transitioning');
                 const { promise, abort } = typeIntoBox(contentEl, cursorEl, intro, { speed: 18 });
                 currentAbort = abort;
                 promise.then(() => { currentAbort = () => {}; });
             }, 200);
         } else {
-            // Instant (for auto-select on reveal)
             renderOfferingCards(key);
-            if (contentEl) contentEl.textContent = '';
+            if (contentEl) contentEl.innerHTML = '';
             const { promise, abort } = typeIntoBox(contentEl, cursorEl, intro, { speed: 18 });
             currentAbort = abort;
             promise.then(() => { currentAbort = () => {}; });
@@ -755,19 +754,6 @@ function initOfferingInteraction() {
             selectOffering(key, true);
         });
     });
-
-    // Auto-select first option when the response box becomes visible
-    if (responseBox) {
-        const autoSelectObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !currentKey) {
-                    selectOffering('employees', false);
-                    autoSelectObserver.disconnect();
-                }
-            });
-        }, { threshold: 0.3 });
-        autoSelectObserver.observe(responseBox);
-    }
 }
 
 // Customization Section: each bullet typed as a new line
@@ -938,6 +924,7 @@ function initCustomizationInteraction() {
         if (animate) {
             if (responseBox) responseBox.classList.add('response-transitioning');
             setTimeout(() => {
+                if (contentEl) contentEl.innerHTML = '';
                 if (responseBox) responseBox.classList.remove('response-transitioning');
                 const { promise, abort } = typeLinesIntoBoxParallel(contentEl, cursorEl, lines, {
                     speed: 16,
@@ -947,6 +934,7 @@ function initCustomizationInteraction() {
                 promise.then(() => { currentAbort = () => {}; });
             }, 200);
         } else {
+            if (contentEl) contentEl.innerHTML = '';
             const { promise, abort } = typeLinesIntoBoxParallel(contentEl, cursorEl, lines, {
                 speed: 16,
                 lineDelay: 120
@@ -962,19 +950,6 @@ function initCustomizationInteraction() {
             selectCustomization(key, true);
         });
     });
-
-    // Auto-select first option when the response box becomes visible
-    if (responseBox) {
-        const autoSelectObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !currentKey) {
-                    selectCustomization('security', false);
-                    autoSelectObserver.disconnect();
-                }
-            });
-        }, { threshold: 0.3 });
-        autoSelectObserver.observe(responseBox);
-    }
 }
 
 // Scroll Indicator
