@@ -2400,9 +2400,10 @@ main {
         line-height: 1.5;
     }
 
-    /* Non-hero sections: allow natural height on mobile instead of forced 100vh */
+    /* All sections on mobile: at least full viewport height (same as hero) */
     .section:not(.hero-section) {
-        min-height: auto;
+        min-height: 100vh;
+        min-height: 100dvh;
     }
 
     .team-grid {
