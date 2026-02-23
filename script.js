@@ -809,6 +809,51 @@ const CUSTOMIZATION_CONTENT = {
     ]
 };
 
+// Mobile-friendly shorter versions
+const CUSTOMIZATION_CONTENT_MOBILE = {
+    security: [
+        "Served from your cloud, on-prem, or air-gapped.",
+        "Open-source or proprietary models - any provider.",
+        "Remote, on your laptops, or on-prem."
+    ],
+    workflows: [
+        "Close collaboration to understand your exact needs, workflows, tasks.",
+        "Any solution aspect customized to your needs."
+    ],
+    data: [
+        "Any data type you need.",
+        "Any system, database, API or MCP integration."
+    ],
+    ui: [
+        "Any UI/UX you need.",
+        "Headless solutions - APIs, automations (e.g. triggered by email).",
+        "Styled reports, interactive dashboards, and more."
+    ],
+    rules: [
+        "Any business rules, terminology, policies enforced.",
+        "Editable via a custom admin panel."
+    ],
+    roles: [
+        "Full user, role, and permission management.",
+        "Custom admin panel with settings and usage stats."
+    ],
+    performance: [
+        "Goals, metrics, benchmarks, evaluation methods defined together.",
+        "Architecture optimized for performance, efficiency, cost."
+    ],
+    architecture: [
+        "Solution architecture (agentic or not) built to your needs.",
+        "Experts in LangChain, LangGraph.",
+        "Absolute control, optimized for performance, efficiency, cost."
+    ]
+};
+
+function getCustomizationContent() {
+    return window.matchMedia('(max-width: 768px)').matches
+        ? CUSTOMIZATION_CONTENT_MOBILE
+        : CUSTOMIZATION_CONTENT;
+}
+
 // Type multiple lines in parallel: each line prefixed with green "> ", lines start with a little delay between each
 function typeLinesIntoBoxParallel(containerEl, cursorEl, rawLines, options) {
     const speed = (options && options.speed) || 16;
@@ -873,7 +918,7 @@ function initCustomizationInteraction() {
     let currentKey = null;
 
     function selectCustomization(key, animate) {
-        const lines = CUSTOMIZATION_CONTENT[key];
+        const lines = getCustomizationContent()[key];
         if (!lines || !contentEl) return;
         if (key === currentKey) return;
         currentAbort();

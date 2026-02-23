@@ -1454,7 +1454,6 @@ main {
 .response-box-content .typed-line {
     display: flex;
     align-items: baseline;
-    flex-wrap: wrap;
     gap: 0 4px;
 }
 
@@ -1513,9 +1512,14 @@ main {
     overflow: hidden;
 }
 
-.offering-card:hover,
 .offering-card.pinned {
     border-color: var(--accent-primary);
+}
+
+@media (hover: hover) {
+    .offering-card:hover {
+        border-color: var(--accent-primary);
+    }
 }
 
 .offering-card-header {
@@ -1561,10 +1565,16 @@ main {
     align-items: center;
 }
 
-.offering-card:hover .offering-card-chevron,
 .offering-card.pinned .offering-card-chevron {
     color: var(--accent-primary);
     transform: rotate(180deg);
+}
+
+@media (hover: hover) {
+    .offering-card:hover .offering-card-chevron {
+        color: var(--accent-primary);
+        transform: rotate(180deg);
+    }
 }
 
 /* Dropdown body — collapsed by default */
@@ -1576,11 +1586,18 @@ main {
     margin-top: 0;
 }
 
-.offering-card:hover .offering-card-body,
 .offering-card.pinned .offering-card-body {
     max-height: 200px;
     opacity: 1;
     margin-top: 12px;
+}
+
+@media (hover: hover) {
+    .offering-card:hover .offering-card-body {
+        max-height: 200px;
+        opacity: 1;
+        margin-top: 12px;
+    }
 }
 
 .offering-card-desc {
@@ -2131,19 +2148,20 @@ main {
     }
     
     .option-titles {
-        gap: 8px 10px;
+        gap: 6px 8px;
     }
 
     .option-title-btn {
-        font-size: 0.85rem;
-        padding: 8px 12px;
+        font-size: 0.75rem;
+        padding: 6px 10px;
     }
 
     /* Solutions card buttons: side by side, no icon/subtitle */
     .option-title-btn--card {
         min-width: 0;
-        padding: 14px 12px;
+        padding: 10px 10px;
         gap: 0;
+        justify-content: center;
     }
 
     .option-title-btn--card .option-title-icon {
@@ -2155,7 +2173,13 @@ main {
     }
 
     .option-title-btn--card .option-title-main {
-        font-size: 0.9rem;
+        font-size: 0.78rem;
+        text-align: center;
+    }
+
+    /* Response intro text: fit one line */
+    .response-box-inner {
+        font-size: 0.82rem;
     }
 
     /* Offering cards grid: compact on mobile */
@@ -2176,7 +2200,45 @@ main {
     .offering-card-desc {
         font-size: 0.82rem;
     }
-    
+
+    /* Compact section layout on mobile */
+    .section-title {
+        margin-bottom: 12px;
+    }
+
+    .interaction-prompt {
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+    }
+
+    .interaction-block {
+        margin-bottom: 8px;
+    }
+
+    .response-box {
+        padding: 14px 16px;
+        min-height: 80px;
+    }
+
+    .response-box--offering {
+        min-height: 160px;
+    }
+
+    .section-intro {
+        margin-bottom: 16px;
+    }
+
+    /* Customization section: response box compact */
+    .response-box--customization .typed-line {
+        font-size: 0.8rem;
+        line-height: 1.5;
+    }
+
+    /* Non-hero sections: allow natural height on mobile instead of forced 100vh */
+    .section:not(.hero-section) {
+        min-height: auto;
+    }
+
     .team-grid {
         grid-template-columns: 1fr;
     }
