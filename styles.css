@@ -951,8 +951,8 @@ main {
 }
 
 .hero-line:nth-child(1) { animation-delay: 0.05s; }
-.hero-line:nth-child(2) { animation-delay: 0.45s; }   /* 0.05 + 0.4 (line 1 end) */
-.hero-line:nth-child(3) { animation-delay: 0.85s; }   /* 0.45 + 0.4 (line 2 end) */
+.hero-line:nth-child(2) { animation-delay: 0.53s; }   /* 0.05 + 0.48 (line 1 end, +20% gap) */
+.hero-line:nth-child(3) { animation-delay: 1.01s; }   /* 0.53 + 0.48 (line 2 end, +20% gap) */
 
 /* Rotating option: pill with theme background, glide-down overwrite */
 .hero-rotating-wrap {
@@ -996,7 +996,7 @@ main {
     opacity: 0;
     transform: translateY(32px) scale(0.78);
     animation: heroCtaEnter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    animation-delay: 0.85s;   /* after line 2 entrance (0.45 + 0.4) */
+    animation-delay: 1.01s;   /* after line 2 entrance (0.53 + 0.48) */
 }
 
 @keyframes heroGlideDown {
@@ -2059,7 +2059,7 @@ main {
 
 @media (max-width: 768px) {
     :root {
-        --section-padding: 48px;
+        --section-padding: 24px;
         --nav-height: 72px;
     }
     
@@ -2092,7 +2092,7 @@ main {
     @keyframes nodeOrbit4 { from { transform: rotate(0deg) translateX(190px) rotate(0deg); } to { transform: rotate(360deg) translateX(190px) rotate(-360deg); } }
 
     .section:not(.hero-section) {
-        --section-vertical-shift: 40px;
+        --section-vertical-shift: 20px;
     }
 
     .nav-actions {
@@ -2131,12 +2131,50 @@ main {
     }
     
     .option-titles {
-        gap: 8px 12px;
+        gap: 8px 10px;
     }
-    
+
     .option-title-btn {
         font-size: 0.85rem;
         padding: 8px 12px;
+    }
+
+    /* Solutions card buttons: side by side, no icon/subtitle */
+    .option-title-btn--card {
+        min-width: 0;
+        padding: 14px 12px;
+        gap: 0;
+    }
+
+    .option-title-btn--card .option-title-icon {
+        display: none;
+    }
+
+    .option-title-btn--card .option-title-sub {
+        display: none;
+    }
+
+    .option-title-btn--card .option-title-main {
+        font-size: 0.9rem;
+    }
+
+    /* Offering cards grid: compact on mobile */
+    .offering-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 12px;
+    }
+
+    .offering-card {
+        padding: 16px;
+    }
+
+    .offering-card-title {
+        font-size: 0.9rem;
+    }
+
+    .offering-card-desc {
+        font-size: 0.82rem;
     }
     
     .team-grid {
@@ -2205,7 +2243,7 @@ main {
 @media (max-width: 480px) {
     :root {
         --content-padding: 16px;
-        --section-padding: 40px;
+        --section-padding: 20px;
     }
     
     .hero-glow-container {
@@ -2234,7 +2272,7 @@ main {
     @keyframes nodeOrbit4 { from { transform: rotate(0deg) translateX(130px) rotate(0deg); } to { transform: rotate(360deg) translateX(130px) rotate(-360deg); } }
 
     .section:not(.hero-section) {
-        --section-vertical-shift: 24px;
+        --section-vertical-shift: 12px;
     }
 
     .logo-text {
@@ -2293,6 +2331,22 @@ main {
         padding: 28px 20px;
     }
     
+    /* Offering cards even more compact on small phones */
+    .offering-card {
+        padding: 12px;
+    }
+
+    .offering-card-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+    }
+
+    .offering-card-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+
     .section-intro {
         margin-bottom: 24px;
     }

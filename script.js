@@ -124,8 +124,8 @@ function initHeroReveal() {
     const hero = document.querySelector('.hero-section');
     if (!hero) return;
     const elements = hero.querySelectorAll('.glide-down-element.hero-glide');
-    // CTA (last slogan line) ends at 0.85s delay + 0.5s duration = 1.35s
-    const CTA_END_MS = 1350;
+    // CTA (last slogan line) ends at 1.01s delay + 0.5s duration = 1.51s
+    const CTA_END_MS = 1510;
     const RUNNER_DELAY_MS = 400;   // pause after CTA before showing runner
     const RUNNER_ENTRANCE_MS = 300; // match .glide-down-element transition (hero)
     // Order: [0] clients-section, [1] logo-runner, [2] scroll-indicator
