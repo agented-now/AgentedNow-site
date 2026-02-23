@@ -135,8 +135,31 @@ function initHeroReveal() {
         if (elements[1]) elements[1].classList.add('revealed');
     }, runnerShowAt);
     setTimeout(() => {
-        if (elements[2]) elements[2].classList.add('revealed');
+        if (elements[2]) {
+            elements[2].classList.add('revealed');
+            typeHeroContinue();
+        }
     }, runnerShowAt + RUNNER_ENTRANCE_MS);
+}
+
+function typeHeroContinue() {
+    const textEl = document.getElementById('heroContinueText');
+    const cursorEl = document.getElementById('heroContinueCursor');
+    if (!textEl) return;
+    const fullText = ' continue';
+    const SPEED_MS = 45;
+    let i = 0;
+    if (cursorEl) cursorEl.style.visibility = 'visible';
+    function tick() {
+        if (i < fullText.length) {
+            textEl.textContent += fullText[i];
+            i++;
+            setTimeout(tick, SPEED_MS);
+        } else if (cursorEl) {
+            cursorEl.style.visibility = '';
+        }
+    }
+    setTimeout(tick, SPEED_MS);
 }
 
 // Hero slogan: rotate [business|team|product] with smooth fade transition
@@ -645,8 +668,8 @@ function typeIntoBox(containerEl, cursorEl, fullText, options) {
 
 // Offering Section: boxes with icon + title that expand on hover
 const OFFERING_INTRO = {
-    employees: "Here's how we supercharge your team:",
-    products: "Here's how we supercharge your product:"
+    employees: "Here's how we can supercharge your team/business:",
+    products: "Here's how we can supercharge your product/tech:"
 };
 
 const OFFERING_CARDS = {

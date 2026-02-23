@@ -1172,6 +1172,10 @@ main {
     font-size: 1.5rem;
 }
 
+.hero-continue-cursor {
+    visibility: hidden; /* shown by JS when typing starts */
+}
+
 .terminal-arrow {
     font-family: var(--font-mono);
     font-size: 1.5rem;
@@ -1658,6 +1662,11 @@ main {
     background: var(--bg-primary);
     min-height: 100vh;
     min-height: 100dvh;
+}
+
+/* Customization response box: placeholder area 3 lines tall (line-height 1.7, font 0.95rem) */
+.response-box--customization {
+    min-height: calc(1.7 * 0.95rem * 3);
 }
 
 .section-intro {
