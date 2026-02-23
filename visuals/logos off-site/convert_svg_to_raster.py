@@ -115,6 +115,20 @@ def convert_png_to_jpg(png_path: Path, jpg_path: Path, bg_white: bool = True) ->
     img.save(jpg_path, "JPEG", quality=95)
 
 
+def ask_skip_or_force_all(count: int) -> bool:
+    """Ask once: skip all existing or force-convert all. Return True to skip existing."""
+    while True:
+        r = input(
+            f"  {count} file(s) already have PNG & JPG. "
+            "[S]kip all or [F]orce convert all? [s/f] (default s): "
+        ).strip().lower() or "s"
+        if r in ("s", "skip"):
+            return True
+        if r in ("f", "force"):
+            return False
+        print("  Enter s (skip all) or f (force convert all).")
+
+
 def main() -> None:
     svg_files = list(FOLDER.glob("*.svg"))
     if not svg_files:
@@ -123,10 +137,28 @@ def main() -> None:
 
     print(f"Converting {len(svg_files)} SVG(s) in: {FOLDER}\n")
 
+    # Which SVGs already have both PNG and JPG?
+    already_have_both = []
+    for svg_path in svg_files:
+        base = svg_path.stem
+        png_path = FOLDER / f"{base}.png"
+        jpg_path = FOLDER / f"{base}.jpg"
+        if png_path.exists() and jpg_path.exists():
+            already_have_both.append(svg_path)
+
+    skip_existing = False
+    if already_have_both:
+        skip_existing = ask_skip_or_force_all(len(already_have_both))
+        print()
+
     for svg_path in sorted(svg_files):
         base = svg_path.stem
         png_path = FOLDER / f"{base}.png"
         jpg_path = FOLDER / f"{base}.jpg"
+
+        if png_path.exists() and jpg_path.exists() and skip_existing:
+            print(f"  Skipping {svg_path.name}")
+            continue
 
         try:
             print(f"  {svg_path.name} -> {png_path.name}, {jpg_path.name}")

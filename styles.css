@@ -1674,6 +1674,15 @@ main {
     transition: opacity 0.2s ease;
 }
 
+/* Sub-boxes glide in only after "> Here's how..." finished typing */
+.offering-cards-grid {
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.offering-cards-grid.cards-glide-pending {
+    opacity: 0;
+    transform: translateY(-14px);
+}
+
 /* Single merged box: ">" answer line + cards grid */
 .response-box--offering {
     min-height: 240px;
@@ -1806,26 +1815,28 @@ main {
     padding: 24px;
     cursor: pointer;
     transition: all var(--transition-normal);
+    overflow: hidden;
 }
 
-.solution-card:hover {
+@media (hover: hover) {
+    .solution-card:hover {
+        border-color: var(--accent-primary);
+        transform: translateY(-4px);
+        box-shadow: var(--shadow);
+    }
+}
+
+.solution-card.pinned {
     border-color: var(--accent-primary);
     transform: translateY(-4px);
-}
-
-.solution-card:hover .solution-details {
-    display: block;
-}
-
-.solution-card:hover .solution-preview {
-    display: none;
+    box-shadow: var(--shadow);
 }
 
 .solution-card-header {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 12px;
+    flex-wrap: nowrap;
 }
 
 .solution-icon {
@@ -1846,15 +1857,53 @@ main {
     color: var(--text-primary);
     margin: 0;
     line-height: 1.3;
+    flex: 1;
+    min-width: 0;
 }
 
+/* Chevron to hint expansion */
+.solution-card-chevron {
+    margin-left: auto;
+    flex-shrink: 0;
+    color: var(--text-muted);
+    transition: transform var(--transition-fast), color var(--transition-fast);
+    display: flex;
+    align-items: center;
+}
+
+.solution-card.pinned .solution-card-chevron {
+    color: var(--accent-primary);
+    transform: rotate(180deg);
+}
+
+@media (hover: hover) {
+    .solution-card:hover .solution-card-chevron {
+        color: var(--accent-primary);
+        transform: rotate(180deg);
+    }
+}
+
+.solution-card-body {
+    margin-top: 12px;
+}
+
+/* Single-line preview with ellipsis (like offering-card-desc) */
 .solution-preview {
     font-size: 0.95rem;
-    color: var(--text-muted);
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: -webkit-line-clamp 0.25s ease;
 }
 
 .solution-details {
     display: none;
+    margin-top: 0;
     animation: fadeInUp 0.3s ease;
 }
 
@@ -1862,6 +1911,25 @@ main {
     font-size: 0.95rem;
     color: var(--text-secondary);
     line-height: 1.6;
+    margin: 0;
+}
+
+/* Expand: show full description on hover or when pinned */
+@media (hover: hover) {
+    .solution-card:hover .solution-preview {
+        display: none;
+    }
+    .solution-card:hover .solution-details {
+        display: block;
+    }
+}
+
+.solution-card.pinned .solution-preview {
+    display: none;
+}
+
+.solution-card.pinned .solution-details {
+    display: block;
 }
 
 /* About Section (includes contact CTA + WA/Email) */

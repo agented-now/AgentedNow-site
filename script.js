@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGlobalTypingAnimation();
     initOfferingInteraction();
     initCustomizationInteraction();
+    initSolutionCards();
     initScrollIndicator();
     initLogoRunner();
     initMobileMenu();
@@ -751,23 +752,36 @@ function initOfferingInteraction() {
         }
         if (responseBox) responseBox.classList.add('has-selection');
 
+        const grid = document.getElementById('offeringCardsGrid');
+        const showCardsAfterTyping = () => {
+            if (grid) grid.classList.remove('cards-glide-pending');
+        };
+
         if (animate) {
             // Fade out existing content (including placeholder), then type new
             if (responseBox) responseBox.classList.add('response-transitioning');
             setTimeout(() => {
                 renderOfferingCards(key);
+                if (grid) grid.classList.add('cards-glide-pending');
                 if (contentEl) contentEl.innerHTML = '';
                 if (responseBox) responseBox.classList.remove('response-transitioning');
                 const { promise, abort } = typeIntoBox(contentEl, cursorEl, intro, { speed: 18 });
                 currentAbort = abort;
-                promise.then(() => { currentAbort = () => {}; });
+                promise.then(() => {
+                    currentAbort = () => {};
+                    if (currentKey === key) showCardsAfterTyping();
+                });
             }, 200);
         } else {
             renderOfferingCards(key);
+            if (grid) grid.classList.add('cards-glide-pending');
             if (contentEl) contentEl.innerHTML = '';
             const { promise, abort } = typeIntoBox(contentEl, cursorEl, intro, { speed: 18 });
             currentAbort = abort;
-            promise.then(() => { currentAbort = () => {}; });
+            promise.then(() => {
+                currentAbort = () => {};
+                if (currentKey === key) showCardsAfterTyping();
+            });
         }
     }
 
@@ -976,6 +990,15 @@ function initCustomizationInteraction() {
         btn.addEventListener('click', () => {
             const key = btn.getAttribute('data-custom');
             selectCustomization(key, true);
+        });
+    });
+}
+
+// Portfolio solution cards: click to pin/expand (like offering cards)
+function initSolutionCards() {
+    document.querySelectorAll('.solution-card').forEach(card => {
+        card.addEventListener('click', () => {
+            card.classList.toggle('pinned');
         });
     });
 }

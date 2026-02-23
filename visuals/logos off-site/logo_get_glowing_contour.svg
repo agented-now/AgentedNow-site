@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 72">
+  <defs>
+    <filter id="cyan-glow" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" result="glow"
+        values="0 0 0 0   0
+                0 0 0 0   0.83
+                0 0 0 0   1
+                0 0 0 0.9 0"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Stronger glow for white text/dot on light backgrounds -->
+    <filter id="cyan-glow-strong" x="-40%" y="-40%" width="180%" height="180%" filterUnits="objectBoundingBox">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" result="glow"
+        values="0 0 0 0   0
+                0 0 0 0   0.83
+                0 0 0 0   1
+                0 0 0 1   0"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600&amp;display=swap');
+    .logo-text { font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 48px; font-weight: 600; }
+    .logo-text-contour { stroke: #000000; stroke-width: 2px; paint-order: stroke fill; }
+  </style>
+  <text class="logo-text logo-text-contour" x="260" y="52" text-anchor="middle">
+    <tspan filter="url(#cyan-glow-strong)" fill="#ffffff">Get </tspan><tspan filter="url(#cyan-glow)" fill="#00d4ff">agented</tspan><tspan filter="url(#cyan-glow-strong)" fill="#ffffff">.</tspan><tspan filter="url(#cyan-glow)" fill="#00d4ff">now</tspan>
+  </text>
+</svg>
