@@ -139,7 +139,7 @@ function initHeroReveal() {
     }, runnerShowAt + RUNNER_ENTRANCE_MS);
 }
 
-// Hero slogan: rotate [business|team|product] with glide-down overwrite
+// Hero slogan: rotate [business|team|product] with smooth fade transition
 function initHeroRotatingWord() {
     const el = document.getElementById('heroRotatingWord');
     if (!el || el.dataset.rotating) return;
@@ -147,23 +147,23 @@ function initHeroRotatingWord() {
     const words = ['business', 'team', 'product'];
     let currentIndex = 0;
     const PAUSE_MS = 2600;
-    const GLIDE_DURATION_MS = 400;
+    const FADE_MS = 400;
 
     function showNext() {
-        currentIndex = (currentIndex + 1) % words.length;
-        el.textContent = words[currentIndex];
-        el.classList.remove('glide-down-in');
-        el.classList.add('glide-reset');
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                el.classList.remove('glide-reset');
-                el.classList.add('glide-down-in');
-                setTimeout(() => {
-                    el.classList.remove('glide-down-in');
-                    setTimeout(showNext, PAUSE_MS);
-                }, GLIDE_DURATION_MS);
-            });
-        });
+        // Fade out current word
+        el.classList.add('word-fade-out');
+        setTimeout(() => {
+            // Swap text while hidden, position for fade-in
+            currentIndex = (currentIndex + 1) % words.length;
+            el.textContent = words[currentIndex];
+            el.classList.remove('word-fade-out');
+            el.classList.add('word-fade-in');
+            // Trigger reflow so the transition picks up the change
+            void el.offsetWidth;
+            el.classList.remove('word-fade-in');
+            // Schedule next rotation
+            setTimeout(showNext, PAUSE_MS);
+        }, FADE_MS);
     }
 
     setTimeout(showNext, PAUSE_MS);
@@ -645,19 +645,19 @@ function typeIntoBox(containerEl, cursorEl, fullText, options) {
 
 // Offering Section: boxes with icon + title that expand on hover
 const OFFERING_INTRO = {
-    employees: "Great, here's how we can help empower your employees/business:",
-    products: "Excellent, here's how we can help empower your products/tech:"
+    employees: "Here's how we supercharge your team:",
+    products: "Here's how we supercharge your product:"
 };
 
 const OFFERING_CARDS = {
     employees: [
         { title: "Consulting", description: "Helping you find teams to empower or workflows to automate with custom GenAI & agentic solutions.", icon: "consulting" },
-        { title: "Building custom solutions", description: "Building custom end-to-end GenAI & agentic solutions (internal products or automations) to empower your employees or automate your workflows, tailored to your needs in every aspect.", icon: "build" },
-        { title: "Customizing/selling existing products", description: "Customizing our existing generic products to fit your needs, or selling them as services.", icon: "customize" }
+        { title: "Custom solutions", description: "Building custom end-to-end GenAI & agentic solutions (internal products or automations) to empower your employees or automate your workflows, tailored to your needs in every aspect.", icon: "build" },
+        { title: "Existing products", description: "Customizing our existing generic products to fit your needs, or selling them as services.", icon: "customize" }
     ],
     products: [
         { title: "Consulting", description: "Helping you plan and implement GenAI & AI agents in your products or tech.", icon: "consulting" },
-        { title: "Building custom solutions", description: "Building custom GenAI & agentic solutions to integrate with your products or tech.", icon: "build" }
+        { title: "Custom solutions", description: "Building custom GenAI & agentic solutions to integrate with your products or tech.", icon: "build" }
     ]
 };
 
@@ -669,12 +669,8 @@ const OFFERING_ICONS = {
 
 function renderOfferingPlaceholder() {
     const grid = document.getElementById('offeringCardsGrid');
-    const responseBox = document.getElementById('offeringResponseBox');
-    if (responseBox) responseBox.classList.add('is-placeholder');
     if (grid) grid.innerHTML = '';
 }
-
-const OFFERING_DESC_PREVIEW_LEN = 50;
 
 function renderOfferingCards(key) {
     const grid = document.getElementById('offeringCardsGrid');
@@ -682,18 +678,28 @@ function renderOfferingCards(key) {
     if (!grid || !cards) return;
     grid.innerHTML = cards.map(card => {
         const desc = card.description || '';
-        const preview = desc.length <= OFFERING_DESC_PREVIEW_LEN ? desc : desc.slice(0, OFFERING_DESC_PREVIEW_LEN).trim() + '...';
         return `
         <div class="offering-card">
             <div class="offering-card-header">
                 <div class="offering-card-icon">${OFFERING_ICONS[card.icon] || OFFERING_ICONS.consulting}</div>
                 <h4 class="offering-card-title">${card.title}</h4>
+                <span class="offering-card-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+                </span>
             </div>
-            <p class="offering-card-desc-preview">${preview}</p>
-            <p class="offering-card-desc-full" title="${desc.replace(/"/g, '&quot;')}">${desc}</p>
+            <div class="offering-card-body">
+                <p class="offering-card-desc">${desc}</p>
+            </div>
         </div>
         `;
     }).join('');
+
+    // Add click-to-pin behavior
+    grid.querySelectorAll('.offering-card').forEach(card => {
+        card.addEventListener('click', () => {
+            card.classList.toggle('pinned');
+        });
+    });
 }
 
 function initOfferingInteraction() {
@@ -702,27 +708,66 @@ function initOfferingInteraction() {
     const responseBox = document.getElementById('offeringResponseBox');
     const btns = document.querySelectorAll('#offeringOptionTitles .option-title-btn');
     let currentAbort = () => {};
-    renderOfferingPlaceholder();
-    btns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const key = btn.getAttribute('data-offering');
-            const intro = OFFERING_INTRO[key];
-            if (!intro) return;
-            currentAbort();
-            if (responseBox) responseBox.classList.remove('is-placeholder');
-            btns.forEach(b => {
-                b.classList.remove('active');
-                b.setAttribute('aria-pressed', 'false');
-            });
-            btn.classList.add('active');
-            btn.setAttribute('aria-pressed', 'true');
+    let currentKey = null;
+
+    function selectOffering(key, animate) {
+        const intro = OFFERING_INTRO[key];
+        if (!intro) return;
+        if (key === currentKey) return;
+        currentAbort();
+        currentKey = key;
+
+        btns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+        });
+        const activeBtn = document.querySelector(`#offeringOptionTitles .option-title-btn[data-offering="${key}"]`);
+        if (activeBtn) {
+            activeBtn.classList.add('active');
+            activeBtn.setAttribute('aria-pressed', 'true');
+        }
+        if (responseBox) responseBox.classList.add('has-selection');
+
+        if (animate) {
+            // Fade out existing content, then type new
+            if (responseBox) responseBox.classList.add('response-transitioning');
+            setTimeout(() => {
+                renderOfferingCards(key);
+                if (contentEl) contentEl.textContent = '';
+                if (responseBox) responseBox.classList.remove('response-transitioning');
+                const { promise, abort } = typeIntoBox(contentEl, cursorEl, intro, { speed: 18 });
+                currentAbort = abort;
+                promise.then(() => { currentAbort = () => {}; });
+            }, 200);
+        } else {
+            // Instant (for auto-select on reveal)
             renderOfferingCards(key);
             if (contentEl) contentEl.textContent = '';
             const { promise, abort } = typeIntoBox(contentEl, cursorEl, intro, { speed: 18 });
             currentAbort = abort;
             promise.then(() => { currentAbort = () => {}; });
+        }
+    }
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const key = btn.getAttribute('data-offering');
+            selectOffering(key, true);
         });
     });
+
+    // Auto-select first option when the response box becomes visible
+    if (responseBox) {
+        const autoSelectObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !currentKey) {
+                    selectOffering('employees', false);
+                    autoSelectObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.3 });
+        autoSelectObserver.observe(responseBox);
+    }
 }
 
 // Customization Section: each bullet typed as a new line
@@ -825,27 +870,66 @@ function initCustomizationInteraction() {
     const responseBox = document.getElementById('customizationResponseBox');
     const btns = document.querySelectorAll('#customizationOptionTitles .option-title-btn');
     let currentAbort = () => {};
-    btns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const key = btn.getAttribute('data-custom');
-            const lines = CUSTOMIZATION_CONTENT[key];
-            if (!lines || !contentEl) return;
-            currentAbort();
-            if (responseBox) responseBox.classList.remove('response-box--empty');
-            btns.forEach(b => {
-                b.classList.remove('active');
-                b.setAttribute('aria-pressed', 'false');
-            });
-            btn.classList.add('active');
-            btn.setAttribute('aria-pressed', 'true');
+    let currentKey = null;
+
+    function selectCustomization(key, animate) {
+        const lines = CUSTOMIZATION_CONTENT[key];
+        if (!lines || !contentEl) return;
+        if (key === currentKey) return;
+        currentAbort();
+        currentKey = key;
+
+        btns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+        });
+        const activeBtn = document.querySelector(`#customizationOptionTitles .option-title-btn[data-custom="${key}"]`);
+        if (activeBtn) {
+            activeBtn.classList.add('active');
+            activeBtn.setAttribute('aria-pressed', 'true');
+        }
+        if (responseBox) responseBox.classList.add('has-selection');
+
+        if (animate) {
+            if (responseBox) responseBox.classList.add('response-transitioning');
+            setTimeout(() => {
+                if (responseBox) responseBox.classList.remove('response-transitioning');
+                const { promise, abort } = typeLinesIntoBoxParallel(contentEl, cursorEl, lines, {
+                    speed: 16,
+                    lineDelay: 120
+                });
+                currentAbort = abort;
+                promise.then(() => { currentAbort = () => {}; });
+            }, 200);
+        } else {
             const { promise, abort } = typeLinesIntoBoxParallel(contentEl, cursorEl, lines, {
                 speed: 16,
                 lineDelay: 120
             });
             currentAbort = abort;
             promise.then(() => { currentAbort = () => {}; });
+        }
+    }
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const key = btn.getAttribute('data-custom');
+            selectCustomization(key, true);
         });
     });
+
+    // Auto-select first option when the response box becomes visible
+    if (responseBox) {
+        const autoSelectObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !currentKey) {
+                    selectCustomization('security', false);
+                    autoSelectObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.3 });
+        autoSelectObserver.observe(responseBox);
+    }
 }
 
 // Scroll Indicator
