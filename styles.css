@@ -1466,6 +1466,12 @@ main {
     flex-shrink: 0;
 }
 
+/* Single cursor inside typed line: same line height, no shrink */
+.response-box-content .typed-line .response-cursor {
+    flex-shrink: 0;
+    line-height: inherit;
+}
+
 .response-cursor {
     color: var(--accent-primary);
     animation: blink 1s step-end infinite;
@@ -1520,13 +1526,14 @@ main {
     min-width: 0; /* stay within container width */
 }
 
+/* Solutions sub-boxes: styled like Portfolio solution cards – preview + "..." by default, full text on hover/pinned */
 .offering-card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 24px;
     cursor: pointer;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    transition: all var(--transition-normal);
     overflow: hidden;
 }
 
@@ -1537,7 +1544,14 @@ main {
 @media (hover: hover) {
     .offering-card:hover {
         border-color: var(--accent-primary);
+        transform: translateY(-4px);
+        box-shadow: var(--shadow);
     }
+}
+
+.offering-card.pinned {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
 }
 
 .offering-card-header {
@@ -1595,34 +1609,38 @@ main {
     }
 }
 
-/* Dropdown body — collapsed by default */
+/* Body always visible; desc truncated to a few words + "..." so visitor knows to hover */
 .offering-card-body {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: max-height 0.35s ease, opacity 0.25s ease, margin-top 0.25s ease;
-    margin-top: 0;
-}
-
-.offering-card.pinned .offering-card-body {
-    max-height: 200px;
-    opacity: 1;
     margin-top: 12px;
-}
-
-@media (hover: hover) {
-    .offering-card:hover .offering-card-body {
-        max-height: 200px;
-        opacity: 1;
-        margin-top: 12px;
-    }
+    transition: margin-top 0.25s ease;
 }
 
 .offering-card-desc {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--text-secondary);
     line-height: 1.5;
     margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: -webkit-line-clamp 0.25s ease;
+}
+
+/* Full description on hover or when pinned (click on touch) */
+.offering-card.pinned .offering-card-desc {
+    -webkit-line-clamp: unset;
+    overflow: visible;
+    display: block;
+}
+
+@media (hover: hover) {
+    .offering-card:hover .offering-card-desc {
+        -webkit-line-clamp: unset;
+        overflow: visible;
+        display: block;
+    }
 }
 
 .offering-card--placeholder .offering-card-title {
@@ -1664,9 +1682,9 @@ main {
     min-height: 100dvh;
 }
 
-/* Customization response box: placeholder area 3 lines tall (line-height 1.7, font 0.95rem) */
+/* Customization response box: placeholder area 9 lines tall (3x previous; line-height 1.7, font 0.95rem) */
 .response-box--customization {
-    min-height: calc(1.7 * 0.95rem * 3);
+    min-height: calc(1.7 * 0.95rem * 9);
 }
 
 .section-intro {

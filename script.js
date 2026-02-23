@@ -674,7 +674,7 @@ const OFFERING_INTRO = {
 
 const OFFERING_CARDS = {
     employees: [
-        { title: "Consulting", description: "Helping you find teams to empower or workflows to automate with custom GenAI & agentic solutions.", icon: "consulting" },
+        { title: "Consulting", description: "Helping you find teams to empower or workflows to automate with custom agentic AI solutions.", icon: "consulting" },
         { title: "Custom solutions", description: "Building custom end-to-end GenAI & agentic solutions (internal products or automations) to empower your employees or automate your workflows, tailored to your needs in every aspect.", icon: "build" },
         { title: "Existing products", description: "Customizing our existing generic products to fit your needs, or selling them as services.", icon: "customize" }
     ],
@@ -863,15 +863,14 @@ function getCustomizationContent() {
         : CUSTOMIZATION_CONTENT;
 }
 
-// Type multiple lines in parallel: each line prefixed with green "> ", lines start with a little delay between each
+// Type multiple lines sequentially with a single cursor at the current line height
 function typeLinesIntoBoxParallel(containerEl, cursorEl, rawLines, options) {
     const speed = (options && options.speed) || 16;
-    const lineDelay = (options && options.lineDelay) ?? 120;
     const onComplete = (options && options.onComplete) || (() => {});
     if (!containerEl || !rawLines || !rawLines.length) return { promise: Promise.resolve(), abort: () => {} };
     if (cursorEl) cursorEl.style.visibility = 'visible';
     containerEl.innerHTML = '';
-    const textSpans = [];
+    const lineDivs = [];
     rawLines.forEach((text) => {
         const lineDiv = document.createElement('div');
         lineDiv.className = 'typed-line';
@@ -883,7 +882,7 @@ function typeLinesIntoBoxParallel(containerEl, cursorEl, rawLines, options) {
         lineDiv.appendChild(promptSpan);
         lineDiv.appendChild(textSpan);
         containerEl.appendChild(lineDiv);
-        textSpans.push(textSpan);
+        lineDivs.push({ lineDiv, textSpan, text });
     });
     let intervalId = null;
     let aborted = false;
@@ -893,22 +892,27 @@ function typeLinesIntoBoxParallel(containerEl, cursorEl, rawLines, options) {
         if (cursorEl) cursorEl.style.visibility = 'hidden';
     };
     const promise = new Promise((resolve) => {
-        const progress = rawLines.map(() => 0);
-        const startTime = Date.now();
+        let lineIndex = 0;
+        let charIndex = 0;
         function tick() {
             if (aborted) return resolve();
-            const elapsed = Date.now() - startTime;
-            let anyProgress = false;
-            for (let i = 0; i < rawLines.length; i++) {
-                if (elapsed >= i * lineDelay && progress[i] < rawLines[i].length) {
-                    progress[i]++;
-                    anyProgress = true;
-                }
-                textSpans[i].textContent = rawLines[i].substring(0, progress[i]);
-            }
-            if (!anyProgress && progress.every((p, i) => p === rawLines[i].length)) {
+            const line = lineDivs[lineIndex];
+            if (!line) {
                 if (intervalId) clearInterval(intervalId);
-                if (cursorEl) cursorEl.style.visibility = 'hidden';
+                onComplete();
+                return resolve();
+            }
+            // Place cursor in current line so it sits at line height
+            if (cursorEl.parentNode !== line.lineDiv) line.lineDiv.appendChild(cursorEl);
+            if (charIndex < line.text.length) {
+                line.textSpan.textContent = line.text.substring(0, charIndex + 1);
+                charIndex++;
+            } else {
+                lineIndex++;
+                charIndex = 0;
+            }
+            if (lineIndex >= lineDivs.length && (lineIndex > 0 || charIndex >= (lineDivs[0]?.text.length ?? 0))) {
+                if (intervalId) clearInterval(intervalId);
                 onComplete();
                 return resolve();
             }
@@ -944,14 +948,16 @@ function initCustomizationInteraction() {
         }
         if (responseBox) responseBox.classList.add('has-selection');
 
+        // Ensure cursor is in response-box-inner before clearing content (it may be inside a typed line)
+        const inner = responseBox?.querySelector('.response-box-inner');
+        if (cursorEl && inner && cursorEl.parentNode !== inner) inner.appendChild(cursorEl);
         if (animate) {
             if (responseBox) responseBox.classList.add('response-transitioning');
             setTimeout(() => {
                 if (contentEl) contentEl.innerHTML = '';
                 if (responseBox) responseBox.classList.remove('response-transitioning');
                 const { promise, abort } = typeLinesIntoBoxParallel(contentEl, cursorEl, lines, {
-                    speed: 16,
-                    lineDelay: 120
+                    speed: 16
                 });
                 currentAbort = abort;
                 promise.then(() => { currentAbort = () => {}; });
@@ -959,8 +965,7 @@ function initCustomizationInteraction() {
         } else {
             if (contentEl) contentEl.innerHTML = '';
             const { promise, abort } = typeLinesIntoBoxParallel(contentEl, cursorEl, lines, {
-                speed: 16,
-                lineDelay: 120
+                speed: 16
             });
             currentAbort = abort;
             promise.then(() => { currentAbort = () => {}; });
