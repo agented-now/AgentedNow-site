@@ -56,8 +56,8 @@ function sectionIdToPath(sectionId) {
 // Smooth scroll to section with proper offset for fixed navbar
 function smoothScrollToSection(targetSection, behavior = 'smooth') {
     if (!targetSection) return;
-    const navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 88;
-    const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - navHeight;
+    // Scroll to the absolute top of the section element (which already has padding-top including nav height)
+    const targetPosition = targetSection.offsetTop;
     window.scrollTo({
         top: targetPosition,
         behavior: behavior
