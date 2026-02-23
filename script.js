@@ -674,13 +674,13 @@ const OFFERING_INTRO = {
 
 const OFFERING_CARDS = {
     employees: [
-        { title: "Consulting", description: "Helping you find teams to empower or workflows to automate with custom agentic AI solutions.", icon: "consulting" },
-        { title: "Custom solutions", description: "Building custom end-to-end GenAI & agentic solutions (internal products or automations) to empower your employees or automate your workflows, tailored to your needs in every aspect.", icon: "build" },
-        { title: "Existing products", description: "Customizing our existing generic products to fit your needs, or selling them as services.", icon: "customize" }
+        { title: "Consulting", description: "Helping you in finding teams to empower or workflows to automate with custom agentic AI solutions.", icon: "consulting" },
+        { title: "Custom solutions", description: "Building custom end-to-end agentic AI solutions – internal products or automations – to empower your employees or automate your workflows, tailored exactly to your needs.", icon: "build" },
+        { title: "Existing products", description: "Customizing our existing products to fit your needs, or selling them as services or integrations.", icon: "customize" }
     ],
     products: [
-        { title: "Consulting", description: "Helping you plan and implement GenAI & AI agents in your products or tech.", icon: "consulting" },
-        { title: "Custom solutions", description: "Building custom GenAI & agentic solutions to integrate with your products or tech.", icon: "build" }
+        { title: "Consulting", description: "Helping you plan and implement agentic AI solutions in your products or tech.", icon: "consulting" },
+        { title: "Custom solutions", description: "Building custom agentic AI solutions to integrate with your products or tech.", icon: "build" }
     ]
 };
 
