@@ -805,7 +805,7 @@ function initOfferingInteraction() {
 }
 
 // Customization Section: each bullet typed as a new line
-const CUSTOMIZATION_CONTENT = {
+const CUSTOMIZATION_CONTENT_FULL = {
     security: [
         "Our solutions can be served from our/your cloud (any provider you prefer), on-prem, air-gapped.",
         "We can use open-source or proprietary models - any provider you choose.",
@@ -843,11 +843,11 @@ const CUSTOMIZATION_CONTENT = {
     ]
 };
 
-// Mobile-friendly shorter versions
-const CUSTOMIZATION_CONTENT_MOBILE = {
+// Shorter versions used for both desktop and mobile
+const CUSTOMIZATION_CONTENT = {
     security: [
-        "Served from your cloud, on-prem, or air-gapped.",
-        "Open-source or proprietary models - any provider.",
+        "Served from our/your cloud, on-prem, or air-gapped.",
+        "Open-source or proprietary models of any provider.",
         "Remote, on your laptops, or on-prem."
     ],
     workflows: [
@@ -859,7 +859,7 @@ const CUSTOMIZATION_CONTENT_MOBILE = {
         "Any system, database, API or MCP integration."
     ],
     ui: [
-        "Any UI/UX you need.",
+        "Any product UI/UX you need.",
         "Headless solutions - APIs, automations (e.g. triggered by email).",
         "Styled reports, interactive dashboards, and more."
     ],
@@ -878,14 +878,12 @@ const CUSTOMIZATION_CONTENT_MOBILE = {
     architecture: [
         "Solution architecture (agentic or not) built to your needs.",
         "Experts in LangChain, LangGraph.",
-        "Absolute control, optimized for performance, efficiency, cost."
+        "Absolute control, optimized for performance, efficiency, cost & speed."
     ]
 };
 
 function getCustomizationContent() {
-    return window.matchMedia('(max-width: 768px)').matches
-        ? CUSTOMIZATION_CONTENT_MOBILE
-        : CUSTOMIZATION_CONTENT;
+    return CUSTOMIZATION_CONTENT;
 }
 
 // Type multiple lines sequentially with a single cursor at the current line height
