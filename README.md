@@ -128,3 +128,9 @@ npx serve
 ```
 
 The site will be available at `http://localhost:3000` (or the port shown in terminal).
+
+# TO-DOs
+* improve sub-boxes
+* add Understand better box
+* is all our git public through vercel?
+* faster typing for answer, with cursor
